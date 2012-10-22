@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/276/trunk/src/main/java/com/google/code/geocoder
+END
+GeoAddressService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/276/trunk/src/main/java/com/google/code/geocoder/GeoAddressService.java
+END
+GeocoderRequestBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/271/trunk/src/main/java/com/google/code/geocoder/GeocoderRequestBuilder.java
+END
+Geocoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/272/trunk/src/main/java/com/google/code/geocoder/Geocoder.java
+END
+GeoSearchableAddress.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/276/trunk/src/main/java/com/google/code/geocoder/GeoSearchableAddress.java
+END
+AdvancedGeoCoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/226/trunk/src/main/java/com/google/code/geocoder/AdvancedGeoCoder.java
+END

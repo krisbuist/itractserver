@@ -10,114 +10,114 @@ import play.db.ebean.Model;
 @MappedSuperclass
 public abstract class Trip extends Model {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 4984810188329781545L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private int profileId;
-    private double originLong;
-    private double originLat;
-    private double destinationLong;
-    private double destinationLat;
-    private long startTimeMin;
-    private long startTimeMax;
-    private long endTimeMin;
-    private long endTimeMax;
+	private static final long serialVersionUID = 4984810188329781545L;
 
-    public long getStartTimeMin() {
-	return startTimeMin;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	private int profileId;
+	private double originLong;
+	private double originLat;
+	private double destinationLong;
+	private double destinationLat;
+	private long startTimeMin;
+	private long startTimeMax;
+	private long endTimeMin;
+	private long endTimeMax;
 
-    public void setStartTimeMin(long startTimeMin) {
-	this.startTimeMin = startTimeMin;
-    }
+	public long getStartTimeMin() {
+		return startTimeMin;
+	}
 
-    public long getStartTimeMax() {
-	return startTimeMax;
-    }
+	public void setStartTimeMin(long startTimeMin) {
+		this.startTimeMin = startTimeMin;
+	}
 
-    public void setStartTimeMax(long startTimeMax) {
-	this.startTimeMax = startTimeMax;
-    }
+	public long getStartTimeMax() {
+		return startTimeMax;
+	}
 
-    public long getEndTimeMin() {
-	return endTimeMin;
-    }
+	public void setStartTimeMax(long startTimeMax) {
+		this.startTimeMax = startTimeMax;
+	}
 
-    public void setEndTimeMin(long endTimeMin) {
-	this.endTimeMin = endTimeMin;
-    }
+	public long getEndTimeMin() {
+		return endTimeMin;
+	}
 
-    public long getEndTimeMax() {
-	return endTimeMax;
-    }
+	public void setEndTimeMin(long endTimeMin) {
+		this.endTimeMin = endTimeMin;
+	}
 
-    public void setEndTimeMax(long endTimeMax) {
-	this.endTimeMax = endTimeMax;
-    }
+	public long getEndTimeMax() {
+		return endTimeMax;
+	}
 
-    private int numberOfSeats;
+	public void setEndTimeMax(long endTimeMax) {
+		this.endTimeMax = endTimeMax;
+	}
 
-    public Trip() {
-    }
+	private int numberOfSeats;
 
-    public int getId() {
-	return id;
-    }
+	public Trip() {
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public int getProfileId() {
-	return profileId;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setProfileId(int profileId) {
-	this.profileId = profileId;
-    }
+	public int getProfileId() {
+		return profileId;
+	}
 
-    public double getOriginLong() {
-	return originLong;
-    }
+	public void setProfileId(int profileId) {
+		this.profileId = profileId;
+	}
 
-    public void setOriginLong(double originLong) {
-	this.originLong = originLong;
-    }
+	public double getOriginLong() {
+		return originLong;
+	}
 
-    public double getOriginLat() {
-	return originLat;
-    }
+	public void setOriginLong(double originLong) {
+		this.originLong = originLong;
+	}
 
-    public void setOriginLat(double originLat) {
-	this.originLat = originLat;
-    }
+	public double getOriginLat() {
+		return originLat;
+	}
 
-    public double getDestinationLong() {
-	return destinationLong;
-    }
+	public void setOriginLat(double originLat) {
+		this.originLat = originLat;
+	}
 
-    public void setDestinationLong(double destinationLong) {
-	this.destinationLong = destinationLong;
-    }
+	public double getDestinationLong() {
+		return destinationLong;
+	}
 
-    public double getDestinationLat() {
-	return destinationLat;
-    }
+	public void setDestinationLong(double destinationLong) {
+		this.destinationLong = destinationLong;
+	}
 
-    public void setDestinationLat(double destinationLat) {
-	this.destinationLat = destinationLat;
-    }
+	public double getDestinationLat() {
+		return destinationLat;
+	}
 
-    public int getNumberOfSeats() {
-	return numberOfSeats;
-    }
+	public void setDestinationLat(double destinationLat) {
+		this.destinationLat = destinationLat;
+	}
 
-    public void setNumberOfSeats(int numberOfSeats) {
-	this.numberOfSeats = numberOfSeats;
-    }
+	public int getNumberOfSeats() {
+		return numberOfSeats;
+	}
+
+	public void setNumberOfSeats(int numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
+	}
 }

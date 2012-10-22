@@ -18,12 +18,10 @@ public class Directions {
 	route.add(loc);
     }
 
-    public long getTotalDistance() {
+    public long getTotalDirectionDistance() {
 	String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
 		getDestinationLocation(), getWaypointsLocations());
 
-	System.out.println(requestURL);
-	
 	HttpRequest req = new HttpRequest(requestURL);
 	JsonNode result = req.getResult();
 
@@ -40,6 +38,32 @@ public class Directions {
 	    }
 	}
 	return distance;
+    }
+
+    public float getTotalLinearDistance() {
+	float distance = 0;
+	for (int i = 0; i < route.size() - 1; i++) {
+	    distance += distFrom(route.get(i), route.get(i + 1));
+	}
+	return distance;
+    }
+
+    private float distFrom(Location origin, Location destination) {
+	return distFrom(origin.getLongitude(), origin.getLatitude(), destination.getLongitude(), destination.getLatitude());
+    }
+
+    private float distFrom(double lat1, double lng1, double lat2, double lng2) {
+	double earthRadius = 3958.75;
+	double dLat = Math.toRadians(lat2 - lat1);
+	double dLng = Math.toRadians(lng2 - lng1);
+	double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2)
+		* Math.sin(dLng / 2);
+	double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	double dist = earthRadius * c;
+
+	int meterConversion = 1609;
+
+	return new Float(dist * meterConversion).floatValue();
     }
 
     private String getWaypointsLocations() {

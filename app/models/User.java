@@ -9,11 +9,13 @@ import play.data.validation.Constraints;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class User extends Model {
 
     private static final long serialVersionUID = -4929261798604562211L;
+    public static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

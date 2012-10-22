@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import play.data.validation.Constraints;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
 import play.db.ebean.Model;
 
 @Entity
@@ -17,6 +19,8 @@ public class User extends Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
     @Constraints.Required
+    @MinLength(5)
+    @MaxLength(20)
     private String userName;
 
     public User() {

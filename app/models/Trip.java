@@ -8,6 +8,10 @@ import javax.persistence.MappedSuperclass;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import validators.ItractDataException;
+import validators.Validator;
+
+import com.avaje.ebean.validation.Range;
 
 @MappedSuperclass
 public abstract class Trip extends Model {
@@ -37,6 +41,8 @@ public abstract class Trip extends Model {
     @Required
     protected long endTimeMax;
     @Required
+    @Range(min = 1, max = 7)
+    // inclusive
     private int numberOfSeats;
 
     public Trip() {
@@ -124,5 +130,19 @@ public abstract class Trip extends Model {
 
     public void setNumberOfSeats(int numberOfSeats) {
 	this.numberOfSeats = numberOfSeats;
+    }
+
+    @Override
+    public void save() {
+	try {
+	    Validator.validateLongitude(originLong);
+	    Validator.validateLatitude(originLat);
+	    Validator.validateLongitude(destinationLong);
+	    Validator.validateLatitude(destinationLat);
+	    Validator.validateNumberofSeats(numberOfSeats);
+	} catch (ItractDataException e) {
+	    return;
+	}
+	super.save();
     }
 }

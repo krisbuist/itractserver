@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -20,6 +21,7 @@ public class TripMatch extends Model {
     private int matchId;
     @ManyToOne
     private TripOffer tripOffer;
+    @Required
     @Enumerated(EnumType.STRING)
     private TripMatchState matchState;
 

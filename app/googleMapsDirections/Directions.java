@@ -19,24 +19,22 @@ public class Directions {
     }
 
     public long getTotalDistance() {
-	String requestURL = String
-		.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s",
-			apiServer, getOriginLocation(),
-			getDestinationLocation(), getWaypointsLocations());
+	String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
+		getDestinationLocation(), getWaypointsLocations());
 
 	HttpRequest req = new HttpRequest(requestURL);
 	JsonNode result = req.getResult();
 
 	long distance = 0;
 
-	Iterator<JsonNode> it = result.getElements();
-	while (it.hasNext()) {
-	    JsonNode node = it.next();
-	    System.out.println(node);
-	    if (node.findValue("legs") != null) {
-		JsonNode distanceValue = node.findValue("legs").findValue("distance").findValue("value");
-		System.out.println(distanceValue.asLong());
-		distance += distanceValue.asLong();
+	if (result.findValue("routes") != null && result.findValue("routes").findValue("legs") != null) {
+	    Iterator<JsonNode> it = result.findValue("routes").findValue("legs").getElements();
+	    while (it.hasNext()) {
+		JsonNode node = it.next();
+		if (node.findValue("distance") != null && node.findValue("distance").findValue("value") != null) {
+		    JsonNode distanceValue = node.findValue("distance").findValue("value");
+		    distance += distanceValue.asLong();
+		}
 	    }
 	}
 	return distance;

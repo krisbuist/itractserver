@@ -8,13 +8,17 @@ import javax.persistence.Entity;
 @Entity
 public class TripRequest extends Trip {
 
-	public TripRequest() {
-		super();
-	}
-	
-	public List<TripOffer> getMatchingOffers()
-	{
-		return new ArrayList<TripOffer>();
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7829362116641187593L;
+
+    public TripRequest() {
+	super();
+    }
+
+    public List<TripOffer> getMatchingOffers() {
+	return new ArrayList<TripOffer>();
+    }
 
 }

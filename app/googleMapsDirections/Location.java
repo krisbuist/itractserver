@@ -45,4 +45,9 @@ public class Location {
     public void setAddress(String address) {
         this.address = address;
     }
+    
+    public String getLongLatString()
+    {
+	return longitude + "," + latitude;
+    }
 }

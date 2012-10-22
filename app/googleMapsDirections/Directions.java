@@ -22,6 +22,8 @@ public class Directions {
 	String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
 		getDestinationLocation(), getWaypointsLocations());
 
+	System.out.println(requestURL);
+	
 	HttpRequest req = new HttpRequest(requestURL);
 	JsonNode result = req.getResult();
 
@@ -44,6 +46,7 @@ public class Directions {
 	StringBuilder res = new StringBuilder();
 	for (Location loc : route.subList(1, route.size() - 1)) {
 	    res.append(loc.getLongLatString());
+	    res.append("|");
 	}
 	return res.toString();
     }

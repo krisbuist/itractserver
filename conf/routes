@@ -8,6 +8,24 @@ GET     /                           controllers.Application.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-GET     /trip_offer                  controllers.Application.tripOffers()
-POST    /trip_offer                  controllers.Application.newTripOffer()
-POST    /trip_offer/:id/delete       controllers.Application.deleteTripOffer(id: Long)
+# Routers for the trip offers
+GET     /trip_offer                 controllers.TripOffer.getTripOffers()
+POST    /trip_offer                 controllers.TripOffer.setTripOffer()
+GET     /trip_offer/:id             controllers.TripOffer.getTripOffer(id: Integer)
+PUT     /trip_offer/:id             controllers.TripOffer.updateTripOffer(id: Integer)
+
+# Routers for the trip request
+GET     /trip_request               controllers.TripRequest.getTripRequests()
+POST    /trip_request               controllers.TripRequest.setTripRequest()
+GET     /trip_request/:id           controllers.TripRequest.getTripRequest(id: Integer)
+PUT     /trip_request/:id           controllers.TripRequest.updateTripRequest(id: Integer)
+
+# Routers for The matches
+GET     /match/:id                  controllers.Match.getMatch(id: Integer)
+PUT     /match/:id                  controllers.Match.updateMatch(id: Integer)
+
+# Routers for the trip request
+GET     /user                       controllers.User.getUsers()
+POST    /user                       controllers.User.setUser()
+GET     /user/:id                   controllers.User.getUser(id: Integer)
+PUT     /user/:id                   controllers.User.updateUser(id: Integer)

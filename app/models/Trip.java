@@ -3,30 +3,39 @@ package models;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @MappedSuperclass
 public abstract class Trip extends Model {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4984810188329781545L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private int profileId;
-    private double originLong;
-    private double originLat;
-    private double destinationLong;
-    private double destinationLat;
-    private long startTimeMin;
-    private long startTimeMax;
-    private long endTimeMin;
-    private long endTimeMax;
+    protected int id;
+
+    @ManyToOne
+    protected User user;
+    @Required
+    protected double originLong;
+    @Required
+    protected double originLat;
+    @Required
+    protected double destinationLong;
+    @Required
+    protected double destinationLat;
+    @Required
+    protected long startTimeMin;
+    @Required
+    protected long startTimeMax;
+    @Required
+    protected long endTimeMin;
+    @Required
+    protected long endTimeMax;
 
     public long getStartTimeMin() {
 	return startTimeMin;
@@ -69,16 +78,12 @@ public abstract class Trip extends Model {
 	return id;
     }
 
-    public void setId(int id) {
-	this.id = id;
+    public User getUser() {
+	return user;
     }
 
-    public int getProfileId() {
-	return profileId;
-    }
-
-    public void setProfileId(int profileId) {
-	this.profileId = profileId;
+    public void setUser(User user) {
+	this.user = user;
     }
 
     public double getOriginLong() {

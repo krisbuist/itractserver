@@ -19,6 +19,7 @@ public class ModelFactory {
     private ArrayList<Location> cities;
 
     private ModelFactory() {
+	cities = new ArrayList<Location>();
 	loadCityDataFromCsv();
 	user = getRandomUser();
 	user.save();
@@ -71,7 +72,7 @@ public class ModelFactory {
     public void loadCityDataFromCsv() {
 	BufferedReader reader;
 	try {
-	    reader = new BufferedReader(new FileReader("cities.csv"));
+	    reader = new BufferedReader(new FileReader("public/cities.csv"));
 
 	    String[] headerRow = reader.readLine().split(",");
 	    if (headerRow.length != 5) {

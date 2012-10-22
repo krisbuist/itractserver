@@ -1,18 +1,34 @@
 package models;
 
-public abstract class Trip {
-    private int id;
+import java.util.*;
+
+import play.db.ebean.*;
+import play.data.validation.Constraints.*;
+
+import javax.persistence.*;
+
+public abstract class Trip extends Model {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7138432153074898081L;
+
+	@Id
+	private int id;
+	
+	@Required
     private int profileId;
+	
+	@Required
     private double originLong;
     private double originLat;
-    private int originWindow;
     private double destinationLong;
     private double destinationLat;
-    private int destinationWindow;
     private long startTimeMin;
     private long startTimeMax;
     private long endTimeMin;
     private long endTimeMax;
+    private int numberOfSeats;
 
     public long getStartTimeMin() {
         return startTimeMin;
@@ -46,7 +62,6 @@ public abstract class Trip {
         this.endTimeMax = endTimeMax;
     }
 
-    private int numberOfSeats;
 
     public Trip() {
     }
@@ -106,4 +121,19 @@ public abstract class Trip {
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
+    
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Finder<Long, Trip> find = new Finder(Long.class, Trip.class);
+
+	public static List<Trip> all() {
+		return find.all();
+	}
+
+	public static void create(TripOffer offer) {
+		offer.save();
+	}
+
+	public static void delete(Long id) {
+		find.ref(id).delete();
+	}
 }

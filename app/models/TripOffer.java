@@ -1,21 +1,13 @@
 package models;
 
-import java.util.*;
-
 public class TripOffer extends Trip {
 
-    public TripOffer() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -645407159428059867L;
+
+	public TripOffer() {
         super();
     }
-
-    public static List<TripOffer> all() {
-        return new ArrayList<TripOffer>();
-    }
-
-    public static void create(TripOffer task) {
-    }
-
-    public static void delete(Long id) {
-    }
-
 }

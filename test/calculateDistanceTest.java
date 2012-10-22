@@ -23,7 +23,8 @@ public class calculateDistanceTest {
 
 	assertEquals(105414, totalRouteDistance, delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f", totalRouteDistance, lineairDistance));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance)));
     }
 
     @Test
@@ -42,7 +43,8 @@ public class calculateDistanceTest {
 
 	assertEquals(304207, totalRouteDistance, delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f", totalRouteDistance, lineairDistance));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance)));
     }
 
     @Test
@@ -63,7 +65,8 @@ public class calculateDistanceTest {
 
 	assertEquals((186127 + 190279 + 77662), directions.getTotalDirectionDistance(), delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f", totalRouteDistance, lineairDistance));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance)));
     }
 
 }

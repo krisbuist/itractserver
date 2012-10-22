@@ -63,7 +63,7 @@ public class Directions {
 
 	int meterConversion = 1609;
 
-	return new Float(dist * meterConversion).floatValue();
+	return (float) (dist * meterConversion);
     }
 
     private String getWaypointsLocations() {

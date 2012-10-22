@@ -2,17 +2,16 @@ package controllers;
 
 import static play.libs.Json.toJson;
 
-import models.TripOffer;
-import play.db.jpa.JPA;
-import play.mvc.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import models.TripOffer;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class TripOfferController extends Controller {
 
-
+    //TODO: Valid specification JSON implementation (http://www.playframework.org/documentation/2.0/JavaJsonRequests)
+    
     public static Result getTripOffers() {
         List<TripOffer> trips = TripOffer.find.all();
 

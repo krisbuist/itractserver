@@ -11,21 +11,21 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 # Routers for the trip offers
 GET     /trip_offer                 controllers.TripOffer.getTripOffers()
 POST    /trip_offer                 controllers.TripOffer.setTripOffer()
-GET     /trip_offer/:id             controllers.TripOffer.getTripOffer(id: int)
-PUT     /trip_offer/:id             controllers.TripOffer.updateTripOffer(id: int)
+GET     /trip_offer/:id             controllers.TripOffer.getTripOffer(id: Integer)
+PUT     /trip_offer/:id             controllers.TripOffer.updateTripOffer(id: Integer)
 
 # Routers for the trip request
 GET     /trip_request               controllers.TripRequest.getTripRequests()
 POST    /trip_request               controllers.TripRequest.setTripRequest()
-GET     /trip_request/:id           controllers.TripRequest.getTripRequest(id: int)
-PUT     /trip_request/:id           controllers.TripRequest.updateTripRequest(id: int)
+GET     /trip_request/:id           controllers.TripRequest.getTripRequest(id: Integer)
+PUT     /trip_request/:id           controllers.TripRequest.updateTripRequest(id: Integer)
 
 # Routers for The matches
-GET     /match/:id                  controllers.Match.getMatch(id: int)
-PUT     /match/:id                  controllers.Match.updateMatch(id: int)
+GET     /match/:id                  controllers.Match.getMatch(id: Integer)
+PUT     /match/:id                  controllers.Match.updateMatch(id: Integer)
 
 # Routers for the trip request
 GET     /user                       controllers.User.getUsers()
 POST    /user                       controllers.User.setUser()
-GET     /user/:id                   controllers.User.getUser(id: int)
-PUT     /user/:id                   controllers.User.updateUser(id: int)
+GET     /user/:id                   controllers.User.getUser(id: Integer)
+PUT     /user/:id                   controllers.User.updateUser(id: Integer)

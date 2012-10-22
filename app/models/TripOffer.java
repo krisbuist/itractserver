@@ -1,7 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -9,19 +7,12 @@ import javax.persistence.Entity;
 public class TripOffer extends Trip {
 
     private static final long serialVersionUID = -386674185196292407L;
+    public static Finder<Integer, TripOffer> find = new Finder<>(Integer.class, TripOffer.class);
+
 
     public TripOffer() {
-	super();
+        super();
     }
 
-    public static List<TripOffer> all() {
-	return new ArrayList<TripOffer>();
-    }
-
-    public static void create(TripOffer task) {
-    }
-
-    public static void delete(Long id) {
-    }
 
 }

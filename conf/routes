@@ -8,24 +8,24 @@ GET     /                           controllers.Application.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-# Routers for the trip offers
-GET     /trip_offer                 controllers.TripOffer.getTripOffers()
-POST    /trip_offer                 controllers.TripOffer.setTripOffer()
-GET     /trip_offer/:id             controllers.TripOffer.getTripOffer(id: Integer)
-PUT     /trip_offer/:id             controllers.TripOffer.updateTripOffer(id: Integer)
+# Routers for the trip offers                                                          
+GET     /trip_offer                 controllers.TripOfferController.getTripOffers()
+POST    /trip_offer                 controllers.TripOfferController.setTripOffer()
+GET     /trip_offer/:id             controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
+PUT     /trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
 
 # Routers for the trip request
-GET     /trip_request               controllers.TripRequest.getTripRequests()
-POST    /trip_request               controllers.TripRequest.setTripRequest()
-GET     /trip_request/:id           controllers.TripRequest.getTripRequest(id: Integer)
-PUT     /trip_request/:id           controllers.TripRequest.updateTripRequest(id: Integer)
+GET     /trip_request               controllers.TripRequestController.getTripRequests()
+POST    /trip_request               controllers.TripRequestController.setTripRequest()
+GET     /trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
+PUT     /trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 
 # Routers for The matches
-GET     /match/:id                  controllers.Match.getMatch(id: Integer)
-PUT     /match/:id                  controllers.Match.updateMatch(id: Integer)
+GET     /match/:id                  controllers.MatchController.getMatch(id: java.lang.Integer)
+PUT     /match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 # Routers for the trip request
-GET     /user                       controllers.User.getUsers()
-POST    /user                       controllers.User.setUser()
-GET     /user/:id                   controllers.User.getUser(id: Integer)
-PUT     /user/:id                   controllers.User.updateUser(id: Integer)
+GET     /user                       controllers.UserController.getUsers()
+POST    /user                       controllers.UserController.setUser()
+GET     /user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
+PUT     /user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)

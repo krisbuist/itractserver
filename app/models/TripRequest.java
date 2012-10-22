@@ -16,4 +16,5 @@ public class TripRequest extends Trip {
 	{
 		return new ArrayList<TripOffer>();
 	}
+
 }

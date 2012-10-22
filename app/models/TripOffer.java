@@ -1,8 +1,17 @@
 package models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+
+@Entity
 public class TripOffer extends Trip {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -386674185196292407L;
 
     public TripOffer() {
         super();

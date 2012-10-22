@@ -35,7 +35,8 @@ public abstract class Trip extends Model {
     protected long endTimeMin;
     @Required
     protected long endTimeMax;
-
+    @Required
+    private int numberOfSeats;
 
     public long getStartTimeMin() {
         return startTimeMin;
@@ -68,8 +69,6 @@ public abstract class Trip extends Model {
     public void setEndTimeMax(long endTimeMax) {
         this.endTimeMax = endTimeMax;
     }
-
-    private int numberOfSeats;
 
     public Trip() {
     }

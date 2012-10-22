@@ -1,4 +1,4 @@
-package googleMapsDirections;
+package models;
 
 /**
  * Created with IntelliJ IDEA.

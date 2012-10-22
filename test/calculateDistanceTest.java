@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 import googleMapsDirections.Directions;
-import googleMapsDirections.Location;
+
+import models.Location;
 
 import org.junit.Test;
 

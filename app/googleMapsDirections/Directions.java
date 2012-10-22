@@ -3,6 +3,8 @@ package googleMapsDirections;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import models.Location;
+
 import org.codehaus.jackson.JsonNode;
 
 public class Directions {

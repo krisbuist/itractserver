@@ -6,7 +6,7 @@ import play.mvc.Result;
 
 public class UserController extends Controller {
 
-    public static Result getUser(int id) {
+    public static Result getUser(Integer id) {
         return TODO;
     }
 
@@ -18,7 +18,7 @@ public class UserController extends Controller {
         return TODO;
     }
 
-    public static Result updateUser(int id) {
+    public static Result updateUser(Integer id) {
         return TODO;
     }
 }

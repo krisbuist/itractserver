@@ -31,6 +31,5 @@ GET     /user/:id                   controllers.UserController.getUser(id: java.
 PUT     /user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
 
 # Routes for the data generator
-GET		/generate					controllers.GeneratorController.index()
-GET		/generateOffers				controllers.GeneratorController.generateTripOffers()
-GET		/generateRequests			controllers.GeneratorController.generateTripRequests()
+GET		/generate/offers/:number	controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
+GET		/generate/requests/:number	controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)

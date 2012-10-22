@@ -20,11 +20,11 @@ public class TripRequestController extends Controller {
         return TODO;
     }
 
-    public static Result getTripRequest(int id) {
+    public static Result getTripRequest(Integer id) {
         return TODO;
     }
 
-    public static Result updateTripRequest(int id) {
+    public static Result updateTripRequest(Integer id) {
         return TODO;
     }
 

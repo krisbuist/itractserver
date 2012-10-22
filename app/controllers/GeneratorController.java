@@ -12,18 +12,17 @@ public class GeneratorController extends Controller {
 	return TODO;
     }
     
-    public static Result generateTripOffers() {
-	for (int i = 0; i < 10000; i++) {
+    public static Result generateTripOffers(Integer number) {
+	for (int i = 0; i < number; i++) {
 	    modelFactory.getRandomTripOffer().save();
 	}
 	return redirect(routes.TripOfferController.getTripOffers());
     }
 
-    public static Result generateTripRequests() {
-	for (int i = 0; i < 10000; i++) {
+    public static Result generateTripRequests(Integer number) {
+	for (int i = 0; i < number; i++) {
 	    modelFactory.getRandomTripRequest().save();
 	}
 	return redirect(routes.TripRequestController.getTripRequests());
     }
-
 }

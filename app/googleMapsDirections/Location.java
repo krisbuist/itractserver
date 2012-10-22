@@ -7,34 +7,34 @@ package googleMapsDirections;
  * Time: 3:36 PM
  */
 public class Location {
-    private long longitude;
-    private long latitude;
+    private double longitude;
+    private double latitude;
     private String address;
 
-    public Location(long longitude, long latitude, String address) {
+    public Location(double longitude, double latitude, String address) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.address = address;
     }
 
-    public Location(long longitude, long latitude) {
+    public Location(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

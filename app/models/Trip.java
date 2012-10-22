@@ -14,21 +14,21 @@ public abstract class Trip extends Model {
 	private static final long serialVersionUID = -7138432153074898081L;
 
 	@Id
-	private int id;
+    protected int id;
 	
 	@Required
-    private int profileId;
+    protected int profileId;
 	
 	@Required
-    private double originLong;
-    private double originLat;
-    private double destinationLong;
-    private double destinationLat;
-    private long startTimeMin;
-    private long startTimeMax;
-    private long endTimeMin;
-    private long endTimeMax;
-    private int numberOfSeats;
+    protected double originLong;
+    protected double originLat;
+    protected double destinationLong;
+    protected double destinationLat;
+    protected long startTimeMin;
+    protected long startTimeMax;
+    protected long endTimeMin;
+    protected long endTimeMax;
+    protected int numberOfSeats;
 
     public long getStartTimeMin() {
         return startTimeMin;

@@ -14,3 +14,7 @@ dist
 /RUNNING_PID
 /.target
 /.settings
+
+app/.DS_Store
+
+test/.DS_Store

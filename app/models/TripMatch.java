@@ -1,44 +1,36 @@
 package models;
 
-public class TripMatch
-{
+public class TripMatch {
 
-    private int match_id;
+    private int matchId;
     private TripOffer tripOffer;
-    private TripMatchState match_state;
+    private TripMatchState matchState;
 
-    public TripMatch()
-    {
+    public TripMatch() {
 
     }
 
-    public int getMatch_id()
-    {
-        return match_id;
+    public int getMatchId() {
+        return matchId;
     }
 
-    public void setMatch_id(int match_id)
-    {
-        this.match_id = match_id;
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
     }
 
-    public TripOffer getTripOffer()
-    {
+    public TripOffer getTripOffer() {
         return tripOffer;
     }
 
-    public void setTripOffer(TripOffer tripOffer)
-    {
+    public void setTripOffer(TripOffer tripOffer) {
         this.tripOffer = tripOffer;
     }
 
-    public TripMatchState getMatch_state()
-    {
-        return match_state;
+    public TripMatchState getMatchState() {
+        return matchState;
     }
 
-    public void setMatch_state(TripMatchState match_state)
-    {
-        this.match_state = match_state;
+    public void setMatchState(TripMatchState matchState) {
+        this.matchState = matchState;
     }
 }

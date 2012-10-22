@@ -1,11 +1,9 @@
 package models;
 
 
-public class TripRequest extends Trip
-{
+public class TripRequest extends Trip {
 
-    public TripRequest()
-    {
+    public TripRequest() {
         super();
     }
 }

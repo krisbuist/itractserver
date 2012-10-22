@@ -1,5 +1,8 @@
 package controllers;
 
+import org.codehaus.jackson.JsonNode;
+
+import googleMapsDirections.HttpRequest;
 import models.TripMatch;
 import models.TripMatchState;
 import models.TripOffer;
@@ -28,7 +31,9 @@ public class Application extends Controller {
     }
 
     public static Result tripOffers() {
-	return TODO;
+	HttpRequest req = new HttpRequest("");
+	JsonNode result = req.getBody("http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&sensor=false");
+	return ok(result.get("routes").findValue("legs").findValue("distance").findValue("value"));
     }
 
     public static Result newTripOffer() {

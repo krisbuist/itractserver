@@ -16,13 +16,13 @@ public class GeneratorController extends Controller {
 	for (int i = 0; i < number; i++) {
 	    modelFactory.getRandomTripOffer().save();
 	}
-	return redirect(routes.TripOfferController.getTripOffers());
+	return redirect(routes.TripOfferController.getTripOffer(1));
     }
 
     public static Result generateTripRequests(Integer number) {
 	for (int i = 0; i < number; i++) {
 	    modelFactory.getRandomTripRequest().save();
 	}
-	return redirect(routes.TripRequestController.getTripRequests());
+	return redirect(routes.TripRequestController.getTripRequest(1));
     }
 }

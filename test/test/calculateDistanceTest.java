@@ -23,11 +23,12 @@ public class calculateDistanceTest {
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();
 	float lineairDistance = directions.getTotalLinearDistance();
+	long tripDuration = directions.getCalculatedTravelTimeInSeconds();
 
 	assertEquals(105414, totalRouteDistance, delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
-		(totalRouteDistance / lineairDistance)));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f, Duration: %d", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance), tripDuration));
     }
 
     @Test

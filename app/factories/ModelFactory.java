@@ -49,7 +49,7 @@ public class ModelFactory {
 	trip.setStartTimeMax(0);
 	trip.setEndTimeMin(0);
 	trip.setEndTimeMax(0);
-	trip.setNumberOfSeats((int) (Math.random() * 8));
+	trip.setNumberOfSeats((int) (Math.random() * 6) + 1);
 	trip.setUser(user);
     }
 

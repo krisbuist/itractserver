@@ -1,6 +1,6 @@
 package models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -17,8 +17,13 @@ public class TripRequest extends Trip {
 	super();
     }
 
-    public ArrayList<TripOffer> getMatchingOffers() {
-	return new ArrayList<TripOffer>();
+    public List<TripOffer> getMatchingOffers() {
+	return TripOffer.find.where()
+		.eq("origin_long", getOriginLong())
+		.eq("origin_lat", getOriginLat())
+		.eq("destination_lat", getDestinationLat())
+		.eq("destination_long", getDestinationLong())
+		.findList();
     }
 
 }

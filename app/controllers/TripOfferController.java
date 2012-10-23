@@ -32,8 +32,6 @@ public class TripOfferController extends Controller {
 
     public static Result updateTripOffer(Integer id) {
         TripOffer trip = TripOffer.find.byId(id);
-
-
         trip.save();
         return ok(toJson(trip));
     }

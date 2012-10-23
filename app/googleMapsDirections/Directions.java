@@ -11,6 +11,7 @@ public class Directions {
 
     ArrayList<Location> route;
     final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
+    long duration;
 
     public Directions() {
 	route = new ArrayList<Location>();
@@ -23,25 +24,42 @@ public class Directions {
     public long getTotalDirectionDistance() {
 	String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
 		getDestinationLocation(), getWaypointsLocations());
-
+	
 	HttpRequest req = new HttpRequest(requestURL);
 	JsonNode result = req.getResult();
 
 	long distance = 0;
+	duration = 0;
 
 	if (result.findValue("routes") != null && result.findValue("routes").findValue("legs") != null) {
 	    Iterator<JsonNode> it = result.findValue("routes").findValue("legs").getElements();
 	    while (it.hasNext()) {
 		JsonNode node = it.next();
+		
 		if (node.findValue("distance") != null && node.findValue("distance").findValue("value") != null) {
 		    JsonNode distanceValue = node.findValue("distance").findValue("value");
 		    distance += distanceValue.asLong();
+		}
+		
+		if (node.findValue("duration") != null && node.findValue("duration").findValue("value") != null) {
+		    JsonNode durationValue = node.findValue("duration").findValue("value");
+		    duration += durationValue.asLong();
 		}
 	    }
 	}
 	return distance;
     }
 
+    public long getCalculatedTravelTimeInSeconds()
+    {
+	return duration;
+    }
+    
+    public long getApproximateTravelTimeInSeconds()
+    {
+	return 0;
+    }
+    
     public float getTotalLinearDistance() {
 	float distance = 0;
 	for (int i = 0; i < route.size() - 1; i++) {

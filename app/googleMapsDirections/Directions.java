@@ -14,8 +14,8 @@ public class Directions {
     long duration = 0;
     long distance = 0;
 
-    public Directions() {
-        route = new ArrayList<Location>();
+    public Directions(ArrayList<Location> route) {
+        this.route = route;
         parseGoogleAPI();
     }
 
@@ -101,6 +101,14 @@ public class Directions {
 
     private String getOriginLocation() {
         return route.get(0).getLongLatString();
+    }
+
+    public Location getDirectionsCenter() {
+        Location startPoint = new Location(route.get(0).getLatitude(), route.get(0).getLongitude());
+        Location endPoint = new Location(route.get(route.size()-1).getLatitude(), route.get(route.size()-1).getLongitude());
+        double centerLatitude = (startPoint.getLatitude() + endPoint.getLatitude()) / 2;
+        double centerLongitude = (startPoint.getLongitude() + endPoint.getLongitude()) /2;
+        return new Location(centerLatitude, centerLongitude);
     }
 
 }

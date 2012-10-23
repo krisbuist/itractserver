@@ -27,28 +27,6 @@ public class TripRequestTest {
     }
 
     @Test
-    public void testMatchOnLocation() {
-	TripOffer offerToMatch = new TripOffer();
-	offerToMatch.setOriginLat(50.0);
-	offerToMatch.setOriginLong(10.0);
-	offerToMatch.setDestinationLat(55.0);
-	offerToMatch.setDestinationLong(15.0);
-	offerToMatch.setNumberOfSeats(1);
-	offerToMatch.save();
-
-	TripRequest request = new TripRequest();
-	request.setOriginLat(50.0);
-	request.setOriginLong(10.0);
-	request.setDestinationLat(55.0);
-	request.setDestinationLong(15.0);
-	request.setNumberOfSeats(1);
-	request.save();
-
-	List<TripOffer> matchingOffers = request.getMatchingOffers();
-	assert (matchingOffers.contains(offerToMatch));
-    }
-
-    @Test
     public void testMismatchOnLocation() {
 	TripOffer offerToMatch = new TripOffer();
 	offerToMatch.setOriginLat(50.0);

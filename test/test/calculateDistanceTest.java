@@ -27,8 +27,8 @@ public class calculateDistanceTest {
 
 	assertEquals(105414, totalRouteDistance, delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f, Duration: %d", totalRouteDistance, lineairDistance,
-		(totalRouteDistance / lineairDistance), tripDuration));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f, Duration: %d, LinearDistance/Duration: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance), tripDuration, (lineairDistance / tripDuration)));
     }
 
     @Test
@@ -44,11 +44,12 @@ public class calculateDistanceTest {
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();
 	float lineairDistance = directions.getTotalLinearDistance();
+	long tripDuration = directions.getCalculatedTravelTimeInSeconds();
 
 	assertEquals(304207, totalRouteDistance, delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
-		(totalRouteDistance / lineairDistance)));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f, Duration: %d, LinearDistance/Duration: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance), tripDuration, (lineairDistance / tripDuration)));
     }
 
     @Test
@@ -66,11 +67,12 @@ public class calculateDistanceTest {
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();
 	float lineairDistance = directions.getTotalLinearDistance();
+	long tripDuration = directions.getCalculatedTravelTimeInSeconds();
 
 	assertEquals((186127 + 190279 + 77662), directions.getTotalDirectionDistance(), delta);
 	assert (lineairDistance < totalRouteDistance);
-	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f", totalRouteDistance, lineairDistance,
-		(totalRouteDistance / lineairDistance)));
+	System.out.println(String.format("Route: %d, Lineair: %f, Overhead: %f, Duration: %d, LinearDistance/Duration: %f", totalRouteDistance, lineairDistance,
+		(totalRouteDistance / lineairDistance), tripDuration, (lineairDistance / tripDuration)));
     }
 
 }

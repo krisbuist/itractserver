@@ -43,9 +43,10 @@ public class ModelFactory {
     private void fillTripWithRandomData(Trip trip) {
         Location origin = getRandomCity();
         Location destination = getRandomCity();
-        Directions directions = new Directions();
-        directions.addRoutePoint(origin);
-        directions.addRoutePoint(destination);
+        ArrayList<Location> locations = new ArrayList<Location>();
+        locations.add(origin);
+        locations.add(destination);
+        Directions directions = new Directions(locations);
         long currentTime = System.currentTimeMillis() / 1000L;
 
         trip.setOriginLat(origin.getLatitude());

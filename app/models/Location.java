@@ -48,6 +48,16 @@ public class Location {
     
     public String getLongLatString()
     {
-	return longitude + "," + latitude;
+	    return longitude + "," + latitude;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(object instanceof Location) {
+            if (((Location) object).getLongitude() == this.getLongitude() && ((Location) object).getLatitude() == this.getLatitude()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

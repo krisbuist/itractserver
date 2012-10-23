@@ -11,7 +11,7 @@ import play.mvc.Result;
 public class TripOfferController extends Controller {
 
     //TODO: Valid specification JSON implementation (http://www.playframework.org/documentation/2.0/JavaJsonRequests)
-    
+
     public static Result getTripOffers() {
         List<TripOffer> trips = TripOffer.find.all();
 

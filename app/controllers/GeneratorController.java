@@ -9,20 +9,20 @@ public class GeneratorController extends Controller {
     protected static ModelFactory modelFactory = ModelFactory.getInstance();
 
     public static Result index() {
-	return TODO;
+        return TODO;
     }
-    
+
     public static Result generateTripOffers(Integer number) {
-	for (int i = 0; i < number; i++) {
-	    modelFactory.getRandomTripOffer().save();
-	}
-	return redirect(routes.TripOfferController.getTripOffers());
+        for (int i = 0; i < number; i++) {
+            modelFactory.getRandomTripOffer().save();
+        }
+        return redirect(routes.TripOfferController.getTripOffers());
     }
 
     public static Result generateTripRequests(Integer number) {
-	for (int i = 0; i < number; i++) {
-	    modelFactory.getRandomTripRequest().save();
-	}
-	return redirect(routes.TripRequestController.getTripRequests());
+        for (int i = 0; i < number; i++) {
+            modelFactory.getRandomTripRequest().save();
+        }
+        return redirect(routes.TripRequestController.getTripRequests());
     }
 }

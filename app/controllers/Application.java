@@ -20,9 +20,8 @@ public class Application extends Controller {
 //	tripMatch.setMatchState(TripMatchState.MATCHED);
 //	tripMatch.setTripOffer(tripOffer);
 //	tripMatch.save();
-	return ok(index.render("Your new application is ready."));
+        return ok(index.render("Your new application is ready."));
     }
 
-  
 
 }

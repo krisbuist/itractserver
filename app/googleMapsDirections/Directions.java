@@ -13,76 +13,76 @@ public class Directions {
     final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
 
     public Directions() {
-	route = new ArrayList<Location>();
+        route = new ArrayList<Location>();
     }
 
     public void addRoutePoint(Location loc) {
-	route.add(loc);
+        route.add(loc);
     }
 
     public long getTotalDirectionDistance() {
-	String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
-		getDestinationLocation(), getWaypointsLocations());
+        String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
+                getDestinationLocation(), getWaypointsLocations());
 
-	HttpRequest req = new HttpRequest(requestURL);
-	JsonNode result = req.getResult();
+        HttpRequest req = new HttpRequest(requestURL);
+        JsonNode result = req.getResult();
 
-	long distance = 0;
+        long distance = 0;
 
-	if (result.findValue("routes") != null && result.findValue("routes").findValue("legs") != null) {
-	    Iterator<JsonNode> it = result.findValue("routes").findValue("legs").getElements();
-	    while (it.hasNext()) {
-		JsonNode node = it.next();
-		if (node.findValue("distance") != null && node.findValue("distance").findValue("value") != null) {
-		    JsonNode distanceValue = node.findValue("distance").findValue("value");
-		    distance += distanceValue.asLong();
-		}
-	    }
-	}
-	return distance;
+        if (result.findValue("routes") != null && result.findValue("routes").findValue("legs") != null) {
+            Iterator<JsonNode> it = result.findValue("routes").findValue("legs").getElements();
+            while (it.hasNext()) {
+                JsonNode node = it.next();
+                if (node.findValue("distance") != null && node.findValue("distance").findValue("value") != null) {
+                    JsonNode distanceValue = node.findValue("distance").findValue("value");
+                    distance += distanceValue.asLong();
+                }
+            }
+        }
+        return distance;
     }
 
     public float getTotalLinearDistance() {
-	float distance = 0;
-	for (int i = 0; i < route.size() - 1; i++) {
-	    distance += distFrom(route.get(i), route.get(i + 1));
-	}
-	return distance;
+        float distance = 0;
+        for (int i = 0; i < route.size() - 1; i++) {
+            distance += distFrom(route.get(i), route.get(i + 1));
+        }
+        return distance;
     }
 
     private float distFrom(Location origin, Location destination) {
-	return distFrom(origin.getLongitude(), origin.getLatitude(), destination.getLongitude(), destination.getLatitude());
+        return distFrom(origin.getLongitude(), origin.getLatitude(), destination.getLongitude(), destination.getLatitude());
     }
 
     private float distFrom(double lat1, double lng1, double lat2, double lng2) {
-	double earthRadius = 3958.75;
-	double dLat = Math.toRadians(lat2 - lat1);
-	double dLng = Math.toRadians(lng2 - lng1);
-	double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2)
-		* Math.sin(dLng / 2);
-	double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	double dist = earthRadius * c;
+        double earthRadius = 3958.75;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2)
+                * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double dist = earthRadius * c;
 
-	int meterConversion = 1609;
+        int meterConversion = 1609;
 
-	return (float) (dist * meterConversion);
+        return (float) (dist * meterConversion);
     }
 
     private String getWaypointsLocations() {
-	StringBuilder res = new StringBuilder();
-	for (Location loc : route.subList(1, route.size() - 1)) {
-	    res.append(loc.getLongLatString());
-	    res.append("|");
-	}
-	return res.toString();
+        StringBuilder res = new StringBuilder();
+        for (Location loc : route.subList(1, route.size() - 1)) {
+            res.append(loc.getLongLatString());
+            res.append("|");
+        }
+        return res.toString();
     }
 
     private String getDestinationLocation() {
-	return route.get(route.size() - 1).getLongLatString();
+        return route.get(route.size() - 1).getLongLatString();
     }
 
     private String getOriginLocation() {
-	return route.get(0).getLongLatString();
+        return route.get(0).getLongLatString();
     }
 
 }

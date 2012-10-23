@@ -5,6 +5,7 @@ import models.Location;
 
 import org.junit.Test;
 
+
 /**
  * Created with IntelliJ IDEA. User: jurrestender Date: 10/23/12 Time: 1:47 PM
  */
@@ -28,10 +29,9 @@ public class DirectionsTest {
         Location northWestBounds = new Location(53.29128768290621, 5.903958274442637);
         Location southEastBounds = new Location(52.43901231709379, 6.7510417255573625);
 
-        ArrayList<Location> locations = new ArrayList<Location>();
-        locations.add(groningen);
-        locations.add(zwolle);
-        Directions directions = new Directions(locations);
+        Directions directions = new Directions();
+        directions.addRoutePoint(groningen);
+        directions.addRoutePoint(zwolle);
 
         assert(northWestBounds.equals(directions.getNorthWestBounds()));
         assert(southEastBounds.equals(directions.getSouthEastBounds()));

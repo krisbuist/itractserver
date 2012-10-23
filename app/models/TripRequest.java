@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @Entity
 public class TripRequest extends Trip {
 
-    private static final double searchSensitvity = 0.05;
+    private static final double searchSensitvity = 0.25;
 
     /**
      *

@@ -9,26 +9,26 @@ GET     /                           controllers.Application.index()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Routers for the trip offers                                                          
-GET     /trip_offer                 controllers.TripOfferController.getTripOffers()
-POST    /trip_offer                 controllers.TripOfferController.setTripOffer()
-GET     /trip_offer/:id             controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
-PUT     /trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
+GET     /trip_offer.json                   controllers.TripOfferController.getTripOffers()
+POST    /trip_offer.json                   controllers.TripOfferController.setTripOffer()
+GET     /trip_offer/:id.json               controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
+PUT     /trip_offer/:id.json               controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
 
 # Routers for the trip request
-GET     /trip_request               controllers.TripRequestController.getTripRequests()
-POST    /trip_request               controllers.TripRequestController.setTripRequest()
-GET     /trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
-PUT     /trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
+GET     /trip_request.json                 controllers.TripRequestController.getTripRequests()
+POST    /trip_request.json                 controllers.TripRequestController.setTripRequest()
+GET     /trip_request/:id.json             controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
+PUT     /trip_request/:id.json             controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 
 # Routers for The matches
-GET     /match/:id                  controllers.MatchController.getMatch(id: java.lang.Integer)
-PUT     /match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
+GET     /match/:id.json             	   controllers.MatchController.getMatch(id: java.lang.Integer)
+PUT     /match/:id.json                    controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 # Routers for the trip request
-GET     /user                       controllers.UserController.getUsers()
-POST    /user                       controllers.UserController.setUser()
-GET     /user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
-PUT     /user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
+GET     /user.json                         controllers.UserController.getUsers()
+POST    /user.json                         controllers.UserController.setUser()
+GET     /user/:id.json                     controllers.UserController.getUser(id: java.lang.Integer)
+PUT     /user/:id.json                     controllers.UserController.updateUser(id: java.lang.Integer)
 
 # Routes for the data generator
 GET		/generate/offers/:number	controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)

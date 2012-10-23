@@ -1,10 +1,13 @@
 package models;
 
+import googleMapsDirections.Directions;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -42,7 +45,9 @@ public abstract class Trip extends Model {
     @Required
     @Range(min = 1, max = 7)
     // inclusive
-    private int numberOfSeats;
+    protected int numberOfSeats;
+    @OneToOne
+    protected TripMetaData metaData;
 
     public Trip() {
     }
@@ -131,6 +136,10 @@ public abstract class Trip extends Model {
         this.numberOfSeats = numberOfSeats;
     }
 
+    public TripMetaData getMetaData() {
+        return metaData;
+    }
+
     @Override
     public void save() {
 	try {
@@ -139,9 +148,22 @@ public abstract class Trip extends Model {
 	    Validator.validateLongitude(destinationLong);
 	    Validator.validateLatitude(destinationLat);
 	    Validator.validateNumberofSeats(numberOfSeats);
+	    this.calculateMetaData();
 	} catch (ItractDataException e) {
 	    return;
 	}
 	super.save();
+    }
+
+    private void calculateMetaData() {
+	metaData = new TripMetaData();
+	Directions dir = new Directions();
+	dir.addRoutePoint(new Location(getOriginLong(), getOriginLat()));
+	dir.addRoutePoint(new Location(getDestinationLong(), getDestinationLat()));
+	metaData.setApproximateDuration(dir.getApproximateTravelTimeInSeconds());
+	metaData.setCrowFliesDistance((long)dir.getTotalLinearDistance());
+	metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
+	metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
+	metaData.save();
     }
 }

@@ -14,9 +14,8 @@ public class Directions {
     long duration = 0;
     long distance = 0;
 
-    public Directions(ArrayList<Location> route) {
-        this.route = route;
-        parseGoogleAPI();
+    public Directions() {
+        this.route = new ArrayList<Location>();
     }
 
     public void addRoutePoint(Location loc) {
@@ -27,7 +26,7 @@ public class Directions {
         return distance;
     }
 
-    private void parseGoogleAPI() {
+    public void retrieveGoogleAPICalculations() {
         String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
                 getDestinationLocation(), getWaypointsLocations());
 
@@ -57,7 +56,8 @@ public class Directions {
     }
 
     public long getApproximateTravelTimeInSeconds() {
-        return (long) getTotalLinearDistance() * 20;
+        return (long) getTotalLinearDistance() / 20;
+        //TODO: Replace 20 with machine learned value
     }
 
     public float getTotalLinearDistance() {
@@ -66,6 +66,12 @@ public class Directions {
             distance += distFrom(route.get(i), route.get(i + 1));
         }
         return distance;
+    }
+    
+    public long getApproximateRouteDistance()
+    {
+	return (long)(getTotalLinearDistance() * 1.3);
+	//TODO: Replace 1.3 with machine learned value
     }
 
     private float distFrom(Location origin, Location destination) {

@@ -2,11 +2,10 @@ package test;
 
 import org.junit.Test;
 
-public class TripOfferTest  {
+public class TripOfferTest {
 
     @Test
-    public void callGetTripOffers()
-    {
+    public void callGetTripOffers() {
 
     }
 }

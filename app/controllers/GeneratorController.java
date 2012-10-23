@@ -8,10 +8,6 @@ public class GeneratorController extends Controller {
 
     protected static ModelFactory modelFactory = ModelFactory.getInstance();
 
-    public static Result index() {
-        return TODO;
-    }
-
     public static Result generateTripOffers(Integer number) {
         for (int i = 0; i < number; i++) {
             modelFactory.getRandomTripOffer().save();

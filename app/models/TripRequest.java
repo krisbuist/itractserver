@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 @Entity
 public class TripRequest extends Trip {
 
+    private static final double searchSensitvity = 0.05;
+    
     /**
      * 
      */
@@ -19,10 +21,13 @@ public class TripRequest extends Trip {
 
     public List<TripOffer> getMatchingOffers() {
 	return TripOffer.find.where()
-		.eq("origin_long", getOriginLong())
-		.eq("origin_lat", getOriginLat())
-		.eq("destination_lat", getDestinationLat())
-		.eq("destination_long", getDestinationLong())
+		.between("origin_long", getOriginLong() - searchSensitvity, getOriginLong() + searchSensitvity)
+		.between("origin_lat", getOriginLat() - searchSensitvity, getOriginLat() + searchSensitvity)
+		.between("destination_lat", getDestinationLat() - searchSensitvity, getDestinationLat() + searchSensitvity)
+		.between("destination_long", getDestinationLong() - searchSensitvity, getDestinationLong() + searchSensitvity)
+		.le("start_time_min", getStartTimeMax())
+		.ge("start_time_max", getEndTimeMin())
+		.ge("number_of_seats", getNumberOfSeats())
 		.findList();
     }
 

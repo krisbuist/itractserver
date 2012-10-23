@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import googleMapsDirections.Directions;
 import models.Location;
 import models.Trip;
 import models.TripOffer;
@@ -17,6 +18,7 @@ public class ModelFactory {
     private User user;
     private static ModelFactory instance;
     private ArrayList<Location> cities;
+    private final long THREE_HOURS = (long) (Math.random() * 60 * 60 * 3);
 
     private ModelFactory() {
         cities = new ArrayList<Location>();
@@ -41,16 +43,20 @@ public class ModelFactory {
     private void fillTripWithRandomData(Trip trip) {
         Location origin = getRandomCity();
         Location destination = getRandomCity();
+        Directions directions = new Directions();
+        directions.addRoutePoint(origin);
+        directions.addRoutePoint(destination);
         long currentTime = System.currentTimeMillis() / 1000L;
+
         trip.setOriginLat(origin.getLatitude());
         trip.setOriginLong(origin.getLongitude());
         trip.setDestinationLat(destination.getLatitude());
         trip.setDestinationLong(destination.getLongitude());
         trip.setStartTimeMin(currentTime + (long)(Math.random() * 60 * 60 * 24 * 2));
-        trip.setStartTimeMax(0);
-        trip.setEndTimeMin(0);
-        trip.setEndTimeMax(0);
-        trip.setNumberOfSeats((int) (Math.random() * 8));
+        trip.setStartTimeMax(trip.getStartTimeMin() + THREE_HOURS );
+        trip.setEndTimeMin(trip.getStartTimeMin() + directions.getApproximateTravelTimeInSeconds());
+        trip.setEndTimeMax(trip.getEndTimeMin() + THREE_HOURS);
+        trip.setNumberOfSeats((int) (Math.random() * 6) + 1);
         trip.setUser(user);
     }
 

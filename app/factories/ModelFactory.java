@@ -39,18 +39,19 @@ public class ModelFactory {
     }
 
     private void fillTripWithRandomData(Trip trip) {
-	Location origin = getRandomCity();
-	Location destination = getRandomCity();
-	trip.setOriginLat(origin.getLatitude());
-	trip.setOriginLong(origin.getLongitude());
-	trip.setDestinationLat(destination.getLatitude());
-	trip.setDestinationLong(destination.getLongitude());
-	trip.setStartTimeMax(0);
-	trip.setStartTimeMax(0);
-	trip.setEndTimeMin(0);
-	trip.setEndTimeMax(0);
-	trip.setNumberOfSeats((int) (Math.random() * 6) + 1);
-	trip.setUser(user);
+        Location origin = getRandomCity();
+        Location destination = getRandomCity();
+        long currentTime = System.currentTimeMillis() / 1000L;
+        trip.setOriginLat(origin.getLatitude());
+        trip.setOriginLong(origin.getLongitude());
+        trip.setDestinationLat(destination.getLatitude());
+        trip.setDestinationLong(destination.getLongitude());
+        trip.setStartTimeMin(currentTime + (long)(Math.random() * 60 * 60 * 24 * 2));
+        trip.setStartTimeMax(0);
+        trip.setEndTimeMin(0);
+        trip.setEndTimeMax(0);
+        trip.setNumberOfSeats((int) (Math.random() * 8));
+        trip.setUser(user);
     }
 
     private Location getRandomCity() {

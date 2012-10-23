@@ -111,10 +111,56 @@ public class Directions {
 
     public Location getDirectionsCenter() {
         Location startPoint = new Location(route.get(0).getLatitude(), route.get(0).getLongitude());
-        Location endPoint = new Location(route.get(route.size()-1).getLatitude(), route.get(route.size()-1).getLongitude());
+        Location endPoint = new Location(route.get(route.size() - 1).getLatitude(), route.get(route.size() - 1).getLongitude());
         double centerLatitude = (startPoint.getLatitude() + endPoint.getLatitude()) / 2;
-        double centerLongitude = (startPoint.getLongitude() + endPoint.getLongitude()) /2;
+        double centerLongitude = (startPoint.getLongitude() + endPoint.getLongitude()) / 2;
         return new Location(centerLatitude, centerLongitude);
+    }
+
+    public Location getSouthEastBounds() {
+        //offsets in meters
+        double offsetNorth = Math.sqrt(Math.pow(distFrom(route.get(0).getLatitude(),
+                route.get(0).getLongitude(),
+                this.getDirectionsCenter().getLatitude(),
+                this.getDirectionsCenter().getLongitude()),
+                2));
+        double offsetEast = offsetNorth * -1;
+
+        return getBounds(offsetEast, offsetNorth);
+    }
+
+    public Location getNorthWestBounds() {
+        //offsets in meters
+        double offsetEast = Math.sqrt(Math.pow(distFrom(route.get(0).getLatitude(),
+                route.get(0).getLongitude(),
+                this.getDirectionsCenter().getLatitude(),
+                this.getDirectionsCenter().getLongitude()),
+                2));
+        double offsetNorth = offsetEast * -1;
+
+        return getBounds(offsetEast, offsetNorth);
+    }
+
+    // This method returns a very crude calculation of a new Location
+    // with a specific offset. It basically treats the earth as flat
+    // but it should serve our purpose.
+    private Location getBounds(double offsetEast, double offsetNorth) {
+        //Position, decimal degrees
+        double lat = this.getDirectionsCenter().getLatitude();
+        double lon = this.getDirectionsCenter().getLongitude();
+
+        //Earth’s radius, sphere
+        final double EARTH_RADIUS = 6378137d;
+
+        //Coordinate offsets in radians
+        double deltaLatitude = offsetNorth / EARTH_RADIUS;
+        double deltaLongitude = offsetEast / (EARTH_RADIUS * Math.cos(Math.PI * lat / 180));
+
+        //OffsetPosition, decimal degrees
+        double latitudeOffset = lat + deltaLatitude * 180 / Math.PI;
+        double longitudeOffset = lon + deltaLongitude * 180 / Math.PI;
+
+        return new Location(longitudeOffset, latitudeOffset);
     }
 
 }

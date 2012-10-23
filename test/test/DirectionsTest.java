@@ -20,4 +20,20 @@ public class DirectionsTest {
 
 	assert (center.equals(directions.getDirectionsCenter()));
     }
+
+    @Test
+    public void testGetNorthWestBounds() {
+        Location groningen = new Location(53.217800, 6.566400);
+        Location zwolle = new Location(52.5125, 6.0886);
+        Location northWestBounds = new Location(53.29128768290621, 5.903958274442637);
+        Location southEastBounds = new Location(52.43901231709379, 6.7510417255573625);
+
+        ArrayList<Location> locations = new ArrayList<Location>();
+        locations.add(groningen);
+        locations.add(zwolle);
+        Directions directions = new Directions(locations);
+
+        assert(northWestBounds.equals(directions.getNorthWestBounds()));
+        assert(southEastBounds.equals(directions.getSouthEastBounds()));
+    }
 }

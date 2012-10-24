@@ -8,6 +8,7 @@ import models.TripOffer;
 import models.TripRequest;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.tripmatches;
 
 public class MatchController extends Controller {
 
@@ -20,7 +21,8 @@ public class MatchController extends Controller {
 		//Update metaData
 	    }
 	}
-	return ok(toJson(trips));
+	return ok(tripmatches.render(TripRequest.find.byId(id), trips));
+	//return ok(toJson(trips));
     }
 
     public static Result updateMatch(Integer id) {

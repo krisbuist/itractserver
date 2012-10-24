@@ -33,6 +33,8 @@ create table trip_offer (
   end_time_max              bigint,
   number_of_seats           integer,
   meta_data_id              bigint,
+  origin_address            varchar(255),
+  destination_address       varchar(255),
   constraint pk_trip_offer primary key (id))
 ;
 
@@ -49,6 +51,8 @@ create table trip_request (
   end_time_max              bigint,
   number_of_seats           integer,
   meta_data_id              bigint,
+  origin_address            varchar(255),
+  destination_address       varchar(255),
   constraint pk_trip_request primary key (id))
 ;
 

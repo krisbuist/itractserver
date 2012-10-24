@@ -48,6 +48,8 @@ public class ModelFactory {
         directions.addRoutePoint(destination);
         long currentTime = System.currentTimeMillis() / 1000L;
 
+        trip.setOriginAddress(origin.getAddress());
+        trip.setDestinationAddress(destination.getAddress());
         trip.setOriginLat(origin.getLatitude());
         trip.setOriginLong(origin.getLongitude());
         trip.setDestinationLat(destination.getLatitude());

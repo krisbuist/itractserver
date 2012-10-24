@@ -25,8 +25,11 @@ public class TripRequest extends Trip {
     public List<TripOffer> getMatchingOffers() {
 
 	// Reduce to matching offers in time window
-	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("end_time_max", getEndTimeMin())
-		.ge("number_of_seats", getNumberOfSeats()).findList();
+	List<TripOffer> matchesInTimeWindow = TripOffer.find.where()
+		.le("start_time_min", getStartTimeMax())
+		.ge("end_time_max", getEndTimeMin())
+		.ge("number_of_seats", getNumberOfSeats())
+		.findList();
 
 	System.out.println("Offers in time window: " + matchesInTimeWindow.size());
 

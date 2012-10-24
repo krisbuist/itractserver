@@ -9,10 +9,10 @@ import org.codehaus.jackson.JsonNode;
 
 public class Directions {
 
-    ArrayList<Location> route;
-    final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
-    long duration = 0;
-    long distance = 0;
+    private ArrayList<Location> route;
+    private final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
+    private long duration = 0;
+    private long distance = 0;
 
     public Directions() {
         this.route = new ArrayList<Location>();
@@ -118,49 +118,35 @@ public class Directions {
     }
 
     public Location getSouthEastBounds() {
-        //offsets in meters
-        double offsetNorth = Math.sqrt(Math.pow(distFrom(route.get(0).getLatitude(),
-                route.get(0).getLongitude(),
-                this.getDirectionsCenter().getLatitude(),
-                this.getDirectionsCenter().getLongitude()),
-                2));
-        double offsetEast = offsetNorth * -1;
-
-        return getBounds(offsetEast, offsetNorth);
+        return getBounds(2.35619449);
     }
 
     public Location getNorthWestBounds() {
-        //offsets in meters
-        double offsetEast = Math.sqrt(Math.pow(distFrom(route.get(0).getLatitude(),
-                route.get(0).getLongitude(),
-                this.getDirectionsCenter().getLatitude(),
-                this.getDirectionsCenter().getLongitude()),
-                2));
-        double offsetNorth = offsetEast * -1;
-
-        return getBounds(offsetEast, offsetNorth);
+        return getBounds(5.49778714);
     }
+
 
     // This method returns a very crude calculation of a new Location
     // with a specific offset. It basically treats the earth as flat
     // but it should serve our purpose.
-    private Location getBounds(double offsetEast, double offsetNorth) {
-        //Position, decimal degrees
-        double lat = this.getDirectionsCenter().getLatitude();
-        double lon = this.getDirectionsCenter().getLongitude();
+    private Location getBounds(double bearing) {
+        double distance = Math.sqrt(Math.pow(distFrom(route.get(0).getLatitude(),
+                route.get(0).getLongitude(),
+                this.getDirectionsCenter().getLatitude(),
+                this.getDirectionsCenter().getLongitude()) ,2) * 2) * 1.1;
 
-        //Earth’s radius, sphere
-        final double EARTH_RADIUS = 6378137d;
+        double dx = distance * Math.cos(bearing);
+        double dy = distance * Math.sin(bearing);
 
-        //Coordinate offsets in radians
-        double deltaLatitude = offsetNorth / EARTH_RADIUS;
-        double deltaLongitude = offsetEast / (EARTH_RADIUS * Math.cos(Math.PI * lat / 180));
+        double delta_longitude = dx / (111320 * Math.cos(getDirectionsCenter().getLatitude()));
+        double delta_latitude = dy / 110540;
 
-        //OffsetPosition, decimal degrees
-        double latitudeOffset = lat + deltaLatitude * 180 / Math.PI;
-        double longitudeOffset = lon + deltaLongitude * 180 / Math.PI;
+        double latitude = getDirectionsCenter().getLatitude() + delta_latitude;
+        double longitude = getDirectionsCenter().getLongitude() + delta_longitude;
 
-        return new Location(longitudeOffset, latitudeOffset);
+//        double latitude = this.getDirectionsCenter().getLatitude() + distance * deltaLatitude;
+//        double longitude = this.getDirectionsCenter().getLongitude() + distance * deltaLongitude;
+        return new Location(longitude, latitude);
     }
 
 }

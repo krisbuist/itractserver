@@ -23,15 +23,36 @@ public class DirectionsTest {
     }
 
     @Test
-    public void testGetNorthWestBounds() {
-        Location groningen = new Location(53.217800, 6.566400);
-        Location zwolle = new Location(52.5125, 6.0886);
-        Location northWestBounds = new Location(53.29128768290621, 5.903958274442637);
-        Location southEastBounds = new Location(52.43901231709379, 6.7510417255573625);
+    public void testVerticalAlignedStartAndEndpoint() {
+        Location north = new Location(53.217800, 6.566400);
+        Location south = new Location(52.5125, 6.566400);
+        Location northWestBounds = new Location(53.2659723719725, 6.178829919970966);
+        Location southEastBounds = new Location(52.46432762658863, 6.953970078637736);
 
         Directions directions = new Directions();
-        directions.addRoutePoint(groningen);
-        directions.addRoutePoint(zwolle);
+        directions.addRoutePoint(north);
+        directions.addRoutePoint(south);
+
+//        System.out.println(directions.getNorthWestBounds().getLongLatString());
+//        System.out.println(directions.getSouthEastBounds().getLongLatString());
+
+        assert(northWestBounds.equals(directions.getNorthWestBounds()));
+        assert(southEastBounds.equals(directions.getSouthEastBounds()));
+    }
+
+    @Test
+    public void testHorizontallAlignedStartAndEndpoint() {
+        Location north = new Location(53.217800, 6.566400);
+        Location south = new Location(53.217800, 6.266400);
+        Location northWestBounds = new Location(53.38405212178819, 6.2504581386771605);
+        Location southEastBounds = new Location(53.051547877615, 6.582341860727141);
+
+        Directions directions = new Directions();
+        directions.addRoutePoint(north);
+        directions.addRoutePoint(south);
+
+//        System.out.println(directions.getNorthWestBounds().getLongLatString());
+//        System.out.println(directions.getSouthEastBounds().getLongLatString());
 
         assert(northWestBounds.equals(directions.getNorthWestBounds()));
         assert(southEastBounds.equals(directions.getSouthEastBounds()));

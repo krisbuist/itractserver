@@ -7,6 +7,9 @@ import models.Location;
 
 import org.codehaus.jackson.JsonNode;
 
+import workers.StatisticsGenerator;
+
+
 public class Directions {
 
     private ArrayList<Location> route;
@@ -52,12 +55,11 @@ public class Directions {
     }
 
     public long getCalculatedTravelTimeInSeconds() {
-        return duration == 0 ? getApproximateTravelTimeInSeconds() : duration;
+        return duration;
     }
 
     public long getApproximateTravelTimeInSeconds() {
-        return (long) getTotalLinearDistance() / 20;
-        //TODO: Replace 20 with machine learned value
+        return (long) (getTotalLinearDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio());
     }
 
     public float getTotalLinearDistance() {
@@ -70,8 +72,7 @@ public class Directions {
     
     public long getApproximateRouteDistance()
     {
-	return (long)(getTotalLinearDistance() * 1.3);
-	//TODO: Replace 1.3 with machine learned value
+	return (long)(getTotalLinearDistance() * StatisticsGenerator.getCrowFlyDistanceOverhead());
     }
 
     private float distFrom(Location origin, Location destination) {

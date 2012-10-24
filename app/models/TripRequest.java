@@ -25,17 +25,13 @@ public class TripRequest extends Trip {
     public List<TripOffer> getMatchingOffers() {
 
 	List<TripOffer> matches = new ArrayList<TripOffer>();
-	
-	// Reduce to matching offers in time window
-	List<TripOffer> matchesInTimeWindow = TripOffer.find.where()
-		.le("start_time_min", getStartTimeMax())
-		.ge("start_time_max", getStartTimeMin())
-		.ge("end_time_max", getEndTimeMin())
-		.le("end_time_min", getEndTimeMax())
-		.ge("number_of_seats", getNumberOfSeats())
-		.findList();
 
-	// Reduce matching offer to matching offers in boundary box and travelDistance
+	// Reduce to matching offers in time window
+	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
+		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
+
+	// Reduce matching offer to matching offers in boundary box and
+	// travelDistance
 	Directions d;
 	for (TripOffer t : matchesInTimeWindow) {
 	    d = new Directions();
@@ -66,10 +62,21 @@ public class TripRequest extends Trip {
 	offerIncludingRequest.addRoutePoint(offerDestination);
 
 	if (originalOffer.getApproximateRouteDistance() * tripOverhead >= offerIncludingRequest.getApproximateRouteDistance()) {
-	    return true;
-	} else {
-	    return false;
+
+	    if (!t.getMetaData().hasResultsFromAPI()) {
+		originalOffer.retrieveGoogleAPICalculations();
+		offerIncludingRequest.retrieveGoogleAPICalculations();
+
+		t.getMetaData().setCalculatedDuration(originalOffer.getCalculatedTravelTimeInSeconds());
+		t.getMetaData().setDirectionsDistance(originalOffer.getTotalDirectionDistance());
+		t.getMetaData().save();
+	    }
+
+	    if (t.getMetaData().hasResultsFromAPI() && originalOffer.getTotalDirectionDistance() * tripOverhead >= offerIncludingRequest.getTotalDirectionDistance()) {
+		return true;
+	    }
 	}
+	return false;
     }
 
     private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {

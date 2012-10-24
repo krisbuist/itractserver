@@ -13,7 +13,6 @@ create table trip_match (
 
 create table trip_meta_data (
   id                        bigint auto_increment not null,
-  approximate_duration      bigint,
   crow_flies_distance       bigint,
   calculated_duration       bigint,
   directions_distance       bigint,

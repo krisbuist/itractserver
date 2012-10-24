@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
+import workers.StatisticsGenerator;
 
 
 @Entity
@@ -16,13 +18,12 @@ public class TripMetaData extends Model{
      * 
      */
     private static final long serialVersionUID = 3091163212158817944L;
+    public static Finder<Integer, TripMetaData> find = new Finder<Integer, TripMetaData>(Integer.class, TripMetaData.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
     
-    @Constraints.Required
-    protected long approximateDuration;
     @Constraints.Required
     protected long crowFliesDistance;
 
@@ -30,11 +31,7 @@ public class TripMetaData extends Model{
     protected long directionsDistance;
 
     public long getApproximateDuration() {
-	return approximateDuration;
-    }
-
-    public void setApproximateDuration(long approximateDuration) {
-	this.approximateDuration = approximateDuration;
+	return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio());
     }
 
     public long getCalculatedDuration() {
@@ -52,6 +49,11 @@ public class TripMetaData extends Model{
     public void setCrowFliesDistance(long crowFliesDistance) {
 	this.crowFliesDistance = crowFliesDistance;
     }
+    
+    public long getApproximateDirectionsDistance()
+    {
+	return (long)(crowFliesDistance * StatisticsGenerator.getCrowFlyDistanceOverhead());
+    }
 
     public long getDirectionsDistance() {
 	return directionsDistance;
@@ -63,6 +65,10 @@ public class TripMetaData extends Model{
 
     public long getId() {
 	return id;
+    }
+
+    public boolean hasResultsFromAPI() {
+	return calculatedDuration != 0 && directionsDistance != 0;
     }
     
 }

@@ -1,6 +1,9 @@
 package models;
 
-public enum TripMatchState {
+import com.avaje.ebean.annotation.EnumValue;
 
-    MATCHED, OPEN;
+public enum TripMatchState {
+    @EnumValue("MATCHED")
+    MATCHED, @EnumValue("OPEN")
+    OPEN
 }

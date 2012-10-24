@@ -1,34 +1,62 @@
 package models;
 
-import java.util.*;
+import googleMapsDirections.Directions;
 
-import play.db.ebean.*;
-import play.data.validation.Constraints.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
+import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
+import validators.ItractDataException;
+import validators.Validator;
+
+import com.avaje.ebean.validation.Range;
+
+@MappedSuperclass
 public abstract class Trip extends Model {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7138432153074898081L;
+    private static final long serialVersionUID = 4984810188329781545L;
 
-	@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
-	
-	@Required
-    protected int profileId;
-	
-	@Required
+
+    @ManyToOne
+    protected User user;
+    @Required
     protected double originLong;
+    @Required
     protected double originLat;
+    @Required
     protected double destinationLong;
+    @Required
     protected double destinationLat;
+    @Required
     protected long startTimeMin;
+    @Required
     protected long startTimeMax;
+    @Required
     protected long endTimeMin;
+    @Required
     protected long endTimeMax;
+    @Required
+    @Range(min = 1, max = 7)
+    // inclusive
     protected int numberOfSeats;
+    @OneToOne
+    protected TripMetaData metaData;
+
+    protected String originAddress;
+    protected String destinationAddress;
+
+    public Trip() {
+    }
 
     public long getStartTimeMin() {
         return startTimeMin;
@@ -62,24 +90,16 @@ public abstract class Trip extends Model {
         this.endTimeMax = endTimeMax;
     }
 
-
-    public Trip() {
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public User getUser() {
+        return user;
     }
 
-    public int getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getOriginLong() {
@@ -121,19 +141,73 @@ public abstract class Trip extends Model {
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
-    
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Finder<Long, Trip> find = new Finder(Long.class, Trip.class);
 
-	public static List<Trip> all() {
-		return find.all();
-	}
+    public TripMetaData getMetaData() {
+        return metaData;
+    }
 
-	public static void create(TripOffer offer) {
-		offer.save();
-	}
+    public String getOriginAddress() {
+        if (originAddress.isEmpty()) {
+            return String.format("%f, %f", getOriginLat(), getOriginLong());
+        } else {
+            return originAddress;
+        }
+    }
 
-	public static void delete(Long id) {
-		find.ref(id).delete();
-	}
+    public String getDestinationAddress() {
+        if (destinationAddress.isEmpty()) {
+            return String.format("%f, %f", getDestinationLat(), getDestinationLong());
+        } else {
+            return destinationAddress;
+        }
+    }
+
+    public void setOriginAddress(String originAddress) {
+        this.originAddress = originAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
+    }
+
+    public String getStartTimeWindow() {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date begin = new Date(getStartTimeMin() * 1000);
+        Date end = new Date(getStartTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
+    }
+
+    public String getEndTimeWindow() {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date begin = new Date(getEndTimeMin() * 1000);
+        Date end = new Date(getEndTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
+    }
+
+    @Override
+    public void save() {
+        try {
+            Validator.validateLongitude(originLong);
+            Validator.validateLatitude(originLat);
+            Validator.validateLongitude(destinationLong);
+            Validator.validateLatitude(destinationLat);
+            Validator.validateNumberofSeats(numberOfSeats);
+            this.calculateMetaData();
+        } catch (ItractDataException e) {
+            return;
+        }
+        super.save();
+    }
+
+    private void calculateMetaData() {
+        metaData = new TripMetaData();
+        Directions dir = new Directions();
+        dir.addRoutePoint(new Location(getOriginLong(), getOriginLat()));
+        dir.addRoutePoint(new Location(getDestinationLong(), getDestinationLat()));
+        metaData.setApproximateDuration(dir.getApproximateTravelTimeInSeconds());
+        metaData.setCrowFliesDistance((long) dir.getTotalLinearDistance());
+        metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
+        metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
+        metaData.save();
+    }
 }

@@ -1,0 +1,43 @@
+@(tripRequest: TripRequest)(tripMatches: List[TripOffer])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Matches</title>
+    </head>
+    <body>
+    <table border=1>
+    	<thead>
+    		<tr>
+	    		<th>From</th>
+	    		<th>To</th>
+	    		<th>Start time</th>
+	    		<th>End time</th>
+	    		<th>Distance</th>
+	    		<th>Duration</th>
+    		</tr>
+    		<tr>
+    			<th>@tripRequest.getOriginAddress()</th>
+    			<th>@tripRequest.getDestinationAddress()</th>
+    			<th>@tripRequest.getStartTimeWindow()</th>
+    			<th>@tripRequest.getEndTimeWindow()</th>
+    			<th>@(tripRequest.getMetaData.getCrowFliesDistance()/1000.0) km</th>
+    			<th>@(tripRequest.getMetaData.getApproximateDuration()/3600.0) hour</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+	    		@for(m <- tripMatches) {
+    		<tr>
+				    <td>@m.getOriginAddress()</td>
+	    			<td>@m.getDestinationAddress()</td>
+	    			<td>@m.getStartTimeWindow()</td>
+	    			<td>@m.getEndTimeWindow()</td>
+	    			<td>@(m.getMetaData().getCrowFliesDistance()/1000.0) km</td>
+	    			<td>@(m.getMetaData().getApproximateDuration()/(60.0*60.0)) hours</td>
+    		</tr>
+				}
+    	</tbody>
+    </table>
+    </body>
+</html>

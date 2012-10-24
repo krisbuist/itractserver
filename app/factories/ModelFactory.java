@@ -99,8 +99,8 @@ public class ModelFactory {
                 String[] cityValues = line.split(",");
                 if (cityValues.length == 5) {
                     String address = String.format("%s, %s, %s", cityValues[0], cityValues[1], cityValues[2]);
-                    double latitude = Double.parseDouble(cityValues[3]);
-                    double longitude = Double.parseDouble(cityValues[4]);
+                    double longitude = Double.parseDouble(cityValues[3]);
+                    double latitude = Double.parseDouble(cityValues[4]);
                     Location loc = new Location(longitude, latitude, address);
                     cities.add(loc);
                 }

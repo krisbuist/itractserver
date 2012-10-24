@@ -33,8 +33,8 @@ public class DirectionsTest {
         directions.addRoutePoint(north);
         directions.addRoutePoint(south);
 
-//        System.out.println(directions.getNorthWestBounds().getLongLatString());
-//        System.out.println(directions.getSouthEastBounds().getLongLatString());
+        System.out.println(directions.getNorthWestBounds().getLongLatString());
+        System.out.println(directions.getSouthEastBounds().getLongLatString());
 
         assert(northWestBounds.equals(directions.getNorthWestBounds()));
         assert(southEastBounds.equals(directions.getSouthEastBounds()));
@@ -42,17 +42,17 @@ public class DirectionsTest {
 
     @Test
     public void testHorizontallAlignedStartAndEndpoint() {
-        Location north = new Location(53.217800, 6.566400);
-        Location south = new Location(53.217800, 6.266400);
+        Location east = new Location(53.217800, 6.566400);
+        Location west = new Location(53.217800, 6.266400);
         Location northWestBounds = new Location(53.38405212178819, 6.2504581386771605);
         Location southEastBounds = new Location(53.051547877615, 6.582341860727141);
 
         Directions directions = new Directions();
-        directions.addRoutePoint(north);
-        directions.addRoutePoint(south);
+        directions.addRoutePoint(east);
+        directions.addRoutePoint(west);
 
-//        System.out.println(directions.getNorthWestBounds().getLongLatString());
-//        System.out.println(directions.getSouthEastBounds().getLongLatString());
+        System.out.println(directions.getNorthWestBounds().getLongLatString());
+        System.out.println(directions.getSouthEastBounds().getLongLatString());
 
         assert(northWestBounds.equals(directions.getNorthWestBounds()));
         assert(southEastBounds.equals(directions.getSouthEastBounds()));

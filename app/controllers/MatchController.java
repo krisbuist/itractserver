@@ -14,13 +14,6 @@ public class MatchController extends Controller {
 
     public static Result getMatch(Integer id) {
 	List<TripOffer> trips = TripRequest.find.byId(id).getMatchingOffers();
-	for (TripOffer t : trips)
-	{
-	    if(t.getMetaData().getDirectionsDistance() == 0)
-	    {
-		//Update metaData
-	    }
-	}
 	return ok(tripmatches.render(TripRequest.find.byId(id), trips));
 	//return ok(toJson(trips));
     }

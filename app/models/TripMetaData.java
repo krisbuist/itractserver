@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 import workers.StatisticsGenerator;
 
 
@@ -31,7 +30,7 @@ public class TripMetaData extends Model{
     protected long directionsDistance;
 
     public long getApproximateDuration() {
-	return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio());
+	return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio(crowFliesDistance));
     }
 
     public long getCalculatedDuration() {
@@ -42,7 +41,7 @@ public class TripMetaData extends Model{
 	this.calculatedDuration = calculatedDuration;
     }
 
-    public long getCrowFliesDistance() {
+    public long getCrowFlyDistance() {
 	return crowFliesDistance;
     }
 
@@ -52,7 +51,7 @@ public class TripMetaData extends Model{
     
     public long getApproximateDirectionsDistance()
     {
-	return (long)(crowFliesDistance * StatisticsGenerator.getCrowFlyDistanceOverhead());
+	return (long)(crowFliesDistance * StatisticsGenerator.getCrowFlyDistanceOverhead(crowFliesDistance));
     }
 
     public long getDirectionsDistance() {

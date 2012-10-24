@@ -59,20 +59,22 @@ public class Directions {
     }
 
     public long getApproximateTravelTimeInSeconds() {
-        return (long) (getTotalLinearDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio());
+	long distance = getTotalLinearDistance();
+        return (long) (distance / StatisticsGenerator.getDistanceToTravelTimeRatio(distance));
     }
 
-    public float getTotalLinearDistance() {
+    public long getTotalLinearDistance() {
         float distance = 0;
         for (int i = 0; i < route.size() - 1; i++) {
             distance += distFrom(route.get(i), route.get(i + 1));
         }
-        return distance;
+        return (long)distance;
     }
     
     public long getApproximateRouteDistance()
     {
-	return (long)(getTotalLinearDistance() * StatisticsGenerator.getCrowFlyDistanceOverhead());
+	long distance = getTotalLinearDistance();
+	return (long)(distance * StatisticsGenerator.getCrowFlyDistanceOverhead(distance));
     }
 
     private float distFrom(Location origin, Location destination) {

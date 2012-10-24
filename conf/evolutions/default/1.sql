@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table trip_match (
-  match_id                  integer auto_increment not null,
+  match_id                  integer not null,
   trip_offer_id             integer,
   match_state               varchar(7),
   constraint ck_trip_match_match_state check (match_state in ('OPEN','MATCHED')),
@@ -12,7 +12,7 @@ create table trip_match (
 ;
 
 create table trip_meta_data (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   crow_flies_distance       bigint,
   calculated_duration       bigint,
   directions_distance       bigint,
@@ -20,7 +20,7 @@ create table trip_meta_data (
 ;
 
 create table trip_offer (
-  id                        integer auto_increment not null,
+  id                        integer not null,
   user_user_id              integer,
   origin_long               double,
   origin_lat                double,
@@ -38,7 +38,7 @@ create table trip_offer (
 ;
 
 create table trip_request (
-  id                        integer auto_increment not null,
+  id                        integer not null,
   user_user_id              integer,
   origin_long               double,
   origin_lat                double,
@@ -56,10 +56,20 @@ create table trip_request (
 ;
 
 create table user (
-  user_id                   integer auto_increment not null,
+  user_id                   integer not null,
   user_name                 varchar(255),
   constraint pk_user primary key (user_id))
 ;
+
+create sequence trip_match_seq;
+
+create sequence trip_meta_data_seq;
+
+create sequence trip_offer_seq;
+
+create sequence trip_request_seq;
+
+create sequence user_seq;
 
 alter table trip_match add constraint fk_trip_match_tripOffer_1 foreign key (trip_offer_id) references trip_offer (id) on delete restrict on update restrict;
 create index ix_trip_match_tripOffer_1 on trip_match (trip_offer_id);
@@ -76,17 +86,27 @@ create index ix_trip_request_metaData_5 on trip_request (meta_data_id);
 
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table trip_match;
+drop table if exists trip_match;
 
-drop table trip_meta_data;
+drop table if exists trip_meta_data;
 
-drop table trip_offer;
+drop table if exists trip_offer;
 
-drop table trip_request;
+drop table if exists trip_request;
 
-drop table user;
+drop table if exists user;
 
-SET FOREIGN_KEY_CHECKS=1;
+SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists trip_match_seq;
+
+drop sequence if exists trip_meta_data_seq;
+
+drop sequence if exists trip_offer_seq;
+
+drop sequence if exists trip_request_seq;
+
+drop sequence if exists user_seq;
 

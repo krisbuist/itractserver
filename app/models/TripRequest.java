@@ -65,11 +65,7 @@ public class TripRequest extends Trip {
         offerIncludingRequest.addRoutePoint(requestDestination);
         offerIncludingRequest.addRoutePoint(offerDestination);
 
-        if (originalOffer.getApproximateRouteDistance() * tripOverhead >= offerIncludingRequest.getApproximateRouteDistance()) {
-            return true;
-        } else {
-            return false;
-        }
+        return originalOffer.getApproximateRouteDistance() * tripOverhead >= offerIncludingRequest.getApproximateRouteDistance();
     }
 
     private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {

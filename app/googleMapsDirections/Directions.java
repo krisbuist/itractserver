@@ -118,11 +118,11 @@ public class Directions {
     }
 
     public Location getSouthEastBounds() {
-        return getBounds(2.35619449);
+        return getBounds(2.35619449); // 135 degrees in radians
     }
 
     public Location getNorthWestBounds() {
-        return getBounds(5.49778714);
+        return getBounds(5.49778714); // 315 degrees in radians
     }
 
 

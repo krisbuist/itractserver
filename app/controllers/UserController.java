@@ -21,4 +21,10 @@ public class UserController extends Controller {
     public static Result updateUser(Integer id) {
         return TODO;
     }
+    
+    public static Result deleteUser(Integer id) {
+	return TODO;
+    }
 }
+
+

@@ -12,7 +12,7 @@ import workers.StatisticsGenerator;
 
 public class Directions {
 
-    private ArrayList<Location> route;
+    private final ArrayList<Location> route;
     private final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
     private long duration = 0;
     private long distance = 0;

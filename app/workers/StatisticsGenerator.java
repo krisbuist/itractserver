@@ -10,15 +10,20 @@ import models.TripMetaData;
 
 public class StatisticsGenerator {
 
-    private static int nrOfBlocks = 4;
-    private static double[] ratio = new double[nrOfBlocks];
-    private static double[] overhead = new double[nrOfBlocks];
-    private static long[] distribution = new long[nrOfBlocks];
+    private static final int minimumBlockSize = 100;
+
+    private static int nrOfBlocks;
+    private static int blockSize;
+    private static double[] ratio;
+    private static double[] overhead;
+    private static long[] distribution;
 
     public static void updateStatistics() {
+
 	List<TripMetaData> elements = TripMetaData.find.where().ne("calculated_duration", 0).findList();
 	int totalElements = elements.size();
-	int blockSize = (int) Math.ceil(((double) totalElements) / nrOfBlocks);
+	calculateBlocksize(totalElements);
+
 	Collections.sort(elements, new TripMetaDataComparator());
 
 	double totalCrowFlyDistance;
@@ -42,6 +47,14 @@ public class StatisticsGenerator {
 	    Logger.info(String.format("Block end: %d\tRatio: %03f\tOverhead: %03f", distribution[i], ratio[i], overhead[i]));
 
 	}
+    }
+
+    private static void calculateBlocksize(int totalElements) {
+	nrOfBlocks = (int) Math.floor(totalElements / minimumBlockSize);
+	blockSize = (int) Math.ceil(((double) totalElements) / nrOfBlocks);
+	ratio = new double[nrOfBlocks];
+	overhead = new double[nrOfBlocks];
+	distribution = new long[nrOfBlocks];
     }
 
     public static double getCrowFlyDistanceOverhead(double crowFlyDistance) {

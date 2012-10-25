@@ -1,6 +1,7 @@
 package models;
 
 import googleMapsDirections.Directions;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,6 @@ public class TripRequest extends Trip {
     }
 
     public List<TripOffer> getMatchingOffers() {
-
 	List<TripOffer> matches = new ArrayList<TripOffer>();
 
 	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
@@ -108,9 +108,9 @@ public class TripRequest extends Trip {
     }
 
     private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
-	boolean inBoundaries = true;
+	boolean inBoundaries;
 
-	inBoundaries = inBoundaries && (northWestBounds.getLongitude() >= getOriginLong());
+	inBoundaries = (northWestBounds.getLongitude() >= getOriginLong());
 	inBoundaries = inBoundaries && (northWestBounds.getLongitude() >= getDestinationLong());
 	inBoundaries = inBoundaries && (northWestBounds.getLatitude() <= getOriginLat());
 	inBoundaries = inBoundaries && (northWestBounds.getLatitude() <= getDestinationLat());

@@ -17,7 +17,7 @@ DELETE	/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: ja
 
 # Routers for the trip request
 GET     /trip_request               controllers.TripRequestController.getTripRequests()
-POST    /trip_request               controllers.TripRequestController.setTripRequest()
+POST    /trip_request               controllers.TripRequestController.newTripRequest()
 GET     /trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
 PUT     /trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 DELETE	/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
@@ -28,7 +28,7 @@ PUT     /match/:id                  controllers.MatchController.updateMatch(id: 
 
 # Routers for the trip request
 GET     /user                       controllers.UserController.getUsers()
-POST    /user                       controllers.UserController.setUser()
+POST    /user                       controllers.UserController.newUser()
 GET     /user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
 PUT     /user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
 DELETE	/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer)

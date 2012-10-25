@@ -63,7 +63,7 @@ public class TripOfferController extends Controller {
 	return ok(toJson(details));
     }
 
-    public static Result setTripOffer() {
+    public static Result newTripOffer() {
 	List<TripOffer> trips = TripOffer.find.all();
 
 	return ok(toJson(trips));

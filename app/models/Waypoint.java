@@ -8,17 +8,21 @@ package models;
  */
 
 //A waypoint represents a single node in a trip
-public class Waypoint {
-    private Location location;
+public class Waypoint extends Location {
     private long minimumArrivalTime;
     private long maximumDepartureTime;
 
-    public Location getLocation() {
-        return location;
+    public Waypoint(double longitude, double latitude, String address, long minimumArrivalTime, long maximumDepartureTime) {
+        super(longitude, latitude, address);
+        this.minimumArrivalTime = minimumArrivalTime;
+        this.maximumDepartureTime = maximumDepartureTime;
+
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public Waypoint(double longitude, double latitude, long minimumArrivalTime, long maximumDepartureTime) {
+        super(longitude, latitude);
+        this.minimumArrivalTime = minimumArrivalTime;
+        this.maximumDepartureTime = maximumDepartureTime;
     }
 
     public long getMinimumArrivalTime() {

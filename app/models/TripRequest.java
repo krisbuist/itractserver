@@ -85,9 +85,9 @@ public class TripRequest extends Trip {
     }
 
     private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
-	boolean inBoundaries = true;
+	boolean inBoundaries;
 
-	inBoundaries = inBoundaries && (northWestBounds.getLongitude() >= getOriginLong());
+	inBoundaries = (northWestBounds.getLongitude() >= getOriginLong());
 	inBoundaries = inBoundaries && (northWestBounds.getLongitude() >= getDestinationLong());
 	inBoundaries = inBoundaries && (northWestBounds.getLatitude() <= getOriginLat());
 	inBoundaries = inBoundaries && (northWestBounds.getLatitude() <= getDestinationLat());

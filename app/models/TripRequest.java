@@ -29,13 +29,14 @@ public class TripRequest extends Trip {
 	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
 		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
 
-	
 	Directions originalDirections, directionsIncludingRequest;
-	
+
 	for (TripOffer matchingOffer : matchesInTimeWindow) {
 
-	    Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(), matchingOffer.getStartTimeMax());
-	    Waypoint offerDestination = new Waypoint(matchingOffer.getDestinationLong(), matchingOffer.getDestinationLat(), matchingOffer.getEndTimeMin(), matchingOffer.getEndTimeMax());
+	    Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(),
+		    matchingOffer.getStartTimeMax());
+	    Waypoint offerDestination = new Waypoint(matchingOffer.getDestinationLong(), matchingOffer.getDestinationLat(),
+		    matchingOffer.getEndTimeMin(), matchingOffer.getEndTimeMax());
 	    Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
 	    Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
 
@@ -49,9 +50,9 @@ public class TripRequest extends Trip {
 	    directionsIncludingRequest.addWaypoint(requestDestination);
 	    directionsIncludingRequest.addWaypoint(offerDestination);
 
-	    if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds()) 
-		    && isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)
-		    && !isPossibleMatchOnTravelTime(directionsIncludingRequest)) {
+	    if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
+		    && isPossibleMatchOnTravelTime(directionsIncludingRequest)
+		    && isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)) {
 		matches.add(matchingOffer);
 	    }
 	}
@@ -63,7 +64,7 @@ public class TripRequest extends Trip {
     }
 
     private boolean isPossibleMatchOnTravelDistance(TripOffer tripOffer, Directions originalDirections, Directions newDirections) {
-	
+
 	if (originalDirections.getApproximateRouteDistance() * tripOverhead >= newDirections.getApproximateRouteDistance()) {
 
 	    newDirections.retrieveGoogleAPICalculations();
@@ -76,16 +77,28 @@ public class TripRequest extends Trip {
 		tripOffer.getMetaData().setCalculatedDuration(originalDirections.getCalculatedTravelTimeInSeconds());
 		tripOffer.getMetaData().setDirectionsDistance(originalDirections.getTotalDirectionDistance());
 		tripOffer.getMetaData().save();
-
-		//Sleep is for not sending too many requests to the Google API per second
+		// Sleep is for not sending too many requests to the Google API
+		// per second
 		try {
-		    Thread.sleep(100);
+		    Thread.sleep(150);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
 	    }
 
+	    // Sleep is for not sending too many requests to the Google API
+	    // per second
+	    try {
+		Thread.sleep(150);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+
 	    long originalDistance = tripOffer.getMetaData().getDirectionsDistance();
+
+	    System.out.println(originalDistance);
+	    System.out.println(offerIncludingRequestDistance);
+	    System.out.println();
 
 	    if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
 		return true;

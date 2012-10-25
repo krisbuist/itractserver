@@ -6,6 +6,8 @@ package models;
  * Date: 10/25/12
  * Time: 12:05 PM
  */
+
+//A waypoint represents a single node in a trip
 public class Waypoint {
     private Location location;
     private long minimumArrivalTime;

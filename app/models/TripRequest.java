@@ -1,6 +1,7 @@
 package models;
 
 import googleMapsDirections.Directions;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class TripRequest extends Trip {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.error(e.getMessage());
                 }
             }
 

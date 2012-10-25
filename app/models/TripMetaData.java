@@ -14,7 +14,7 @@ import workers.StatisticsGenerator;
 public class TripMetaData extends Model{
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3091163212158817944L;
     public static Finder<Integer, TripMetaData> find = new Finder<Integer, TripMetaData>(Integer.class, TripMetaData.class);
@@ -22,7 +22,7 @@ public class TripMetaData extends Model{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
-    
+
     @Constraints.Required
     protected long crowFliesDistance;
 
@@ -30,44 +30,44 @@ public class TripMetaData extends Model{
     protected long directionsDistance;
 
     public long getApproximateDuration() {
-	return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio(crowFliesDistance));
+        return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio(crowFliesDistance));
     }
 
     public long getCalculatedDuration() {
-	return calculatedDuration;
+        return calculatedDuration;
     }
 
     public void setCalculatedDuration(long calculatedDuration) {
-	this.calculatedDuration = calculatedDuration;
+        this.calculatedDuration = calculatedDuration;
     }
 
     public long getCrowFlyDistance() {
-	return crowFliesDistance;
+        return crowFliesDistance;
     }
 
     public void setCrowFliesDistance(long crowFliesDistance) {
-	this.crowFliesDistance = crowFliesDistance;
+        this.crowFliesDistance = crowFliesDistance;
     }
-    
+
     public long getApproximateDirectionsDistance()
     {
-	return (long)(crowFliesDistance * StatisticsGenerator.getCrowFlyDistanceOverhead(crowFliesDistance));
+        return (long)(crowFliesDistance * StatisticsGenerator.getCrowFlyDistanceOverhead(crowFliesDistance));
     }
 
     public long getDirectionsDistance() {
-	return directionsDistance;
+        return directionsDistance;
     }
 
     public void setDirectionsDistance(long directionsDistance) {
-	this.directionsDistance = directionsDistance;
+        this.directionsDistance = directionsDistance;
     }
 
     public long getId() {
-	return id;
+        return id;
     }
 
     public boolean hasResultsFromAPI() {
-	return calculatedDuration != 0 && directionsDistance != 0;
+        return calculatedDuration != 0 && directionsDistance != 0;
     }
-    
+
 }

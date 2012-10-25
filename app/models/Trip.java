@@ -59,156 +59,155 @@ public abstract class Trip extends Model {
     }
 
     public long getStartTimeMin() {
-	return startTimeMin;
+        return startTimeMin;
     }
 
     public void setStartTimeMin(long startTimeMin) {
-	this.startTimeMin = startTimeMin;
+        this.startTimeMin = startTimeMin;
     }
 
     public long getStartTimeMax() {
-	return startTimeMax;
+        return startTimeMax;
     }
 
     public void setStartTimeMax(long startTimeMax) {
-	this.startTimeMax = startTimeMax;
+        this.startTimeMax = startTimeMax;
     }
 
     public long getEndTimeMin() {
-	return endTimeMin;
+        return endTimeMin;
     }
 
     public void setEndTimeMin(long endTimeMin) {
-	this.endTimeMin = endTimeMin;
+        this.endTimeMin = endTimeMin;
     }
 
     public long getEndTimeMax() {
-	return endTimeMax;
+        return endTimeMax;
     }
 
     public void setEndTimeMax(long endTimeMax) {
-	this.endTimeMax = endTimeMax;
+        this.endTimeMax = endTimeMax;
     }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public double getOriginLong() {
-	return originLong;
+        return originLong;
     }
 
     public void setOriginLong(double originLong) {
-	this.originLong = originLong;
+        this.originLong = originLong;
     }
 
     public double getOriginLat() {
-	return originLat;
+        return originLat;
     }
 
     public void setOriginLat(double originLat) {
-	this.originLat = originLat;
+        this.originLat = originLat;
     }
 
     public double getDestinationLong() {
-	return destinationLong;
+        return destinationLong;
     }
 
     public void setDestinationLong(double destinationLong) {
-	this.destinationLong = destinationLong;
+        this.destinationLong = destinationLong;
     }
 
     public double getDestinationLat() {
-	return destinationLat;
+        return destinationLat;
     }
 
     public void setDestinationLat(double destinationLat) {
-	this.destinationLat = destinationLat;
+        this.destinationLat = destinationLat;
     }
 
     public int getNumberOfSeats() {
-	return numberOfSeats;
+        return numberOfSeats;
     }
 
     public void setNumberOfSeats(int numberOfSeats) {
-	this.numberOfSeats = numberOfSeats;
+        this.numberOfSeats = numberOfSeats;
     }
 
     public TripMetaData getMetaData() {
-	return metaData;
+        return metaData;
     }
 
     public String getOriginAddress() {
-	if (originAddress.isEmpty()) {
-	    return String.format("%f, %f", getOriginLat(), getOriginLong());
-	} else {
-	    return originAddress;
-	}
+        if (originAddress.isEmpty()) {
+            return String.format("%f, %f", getOriginLat(), getOriginLong());
+        } else {
+            return originAddress;
+        }
     }
 
     public String getDestinationAddress() {
-	if (destinationAddress.isEmpty()) {
-	    return String.format("%f, %f", getDestinationLat(), getDestinationLong());
-	} else {
-	    return destinationAddress;
-	}
+        if (destinationAddress.isEmpty()) {
+            return String.format("%f, %f", getDestinationLat(), getDestinationLong());
+        } else {
+            return destinationAddress;
+        }
     }
 
     public void setOriginAddress(String originAddress) {
-	this.originAddress = originAddress;
+        this.originAddress = originAddress;
     }
 
     public void setDestinationAddress(String destinationAddress) {
-	this.destinationAddress = destinationAddress;
+        this.destinationAddress = destinationAddress;
     }
-    
-    public String getStartTimeWindow()
-    {
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-	Date begin = new Date( getStartTimeMin() * 1000 );
-	Date end = new Date( getStartTimeMax() * 1000 );
-	return format.format(begin) + " - " + format.format(end);
+
+    public String getStartTimeWindow() {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date begin = new Date(getStartTimeMin() * 1000);
+        Date end = new Date(getStartTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
     }
-    
-    public String getEndTimeWindow()
-    {
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-	Date begin = new Date( getEndTimeMin() * 1000 );
-	Date end = new Date( getEndTimeMax() * 1000 );
-	return format.format(begin) + " - " + format.format(end);
+
+    public String getEndTimeWindow() {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date begin = new Date(getEndTimeMin() * 1000);
+        Date end = new Date(getEndTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
     }
 
     @Override
     public void save() {
-	try {
-	    Validator.validateLongitude(originLong);
-	    Validator.validateLatitude(originLat);
-	    Validator.validateLongitude(destinationLong);
-	    Validator.validateLatitude(destinationLat);
-	    Validator.validateNumberofSeats(numberOfSeats);
-	    this.calculateMetaData();
-	} catch (ItractDataException e) {
-	    return;
-	}
-	super.save();
+        try {
+            Validator.validateLongitude(originLong);
+            Validator.validateLatitude(originLat);
+            Validator.validateLongitude(destinationLong);
+            Validator.validateLatitude(destinationLat);
+            Validator.validateNumberofSeats(numberOfSeats);
+            this.calculateMetaData();
+        } catch (ItractDataException e) {
+            return;
+        }
+        super.save();
     }
 
     private void calculateMetaData() {
-	metaData = new TripMetaData();
-	Directions dir = new Directions();
-	dir.addRoutePoint(new Location(getOriginLong(), getOriginLat()));
-	dir.addRoutePoint(new Location(getDestinationLong(), getDestinationLat()));
-	metaData.setCrowFliesDistance((long) dir.getTotalLinearDistance());
-	metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
-	metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
-	metaData.save();
+        metaData = new TripMetaData();
+        Directions dir = new Directions();
+        dir.addRoutePoint(new Location(getOriginLong(), getOriginLat()));
+        dir.addRoutePoint(new Location(getDestinationLong(), getDestinationLat()));
+        metaData.setApproximateDuration(dir.getApproximateTravelTimeInSeconds());
+        metaData.setCrowFliesDistance((long) dir.getTotalLinearDistance());
+        metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
+        metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
+        metaData.save();
     }
 }

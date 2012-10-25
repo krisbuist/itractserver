@@ -20,8 +20,8 @@
     	</thead>
     	<tbody>
     		<tr>
-    			<td>@tripRequest.getOriginAddress()</td>
-    			<td>@tripRequest.getDestinationAddress()</td>
+    			<td>@tripRequest.getOriginAddress()<br/>@tripRequest.getOriginLong(), @tripRequest.getOriginLat()</td>
+    			<td>@tripRequest.getDestinationAddress()<br/>@tripRequest.getDestinationLong(), @tripRequest.getDestinationLat()</td>
     			<td>@tripRequest.getStartTimeWindow()</td>
     			<td>@tripRequest.getEndTimeWindow()</td>
     			<td>@((tripRequest.getMetaData.getApproximateDirectionsDistance()/100)/10.0) km</td>
@@ -50,8 +50,8 @@
 	    		@for(m <- tripMatches) {
 	    		<tr>
 				    <td>@m.getId()</td>
-				    <td>@m.getOriginAddress()</td>
-	    			<td>@m.getDestinationAddress()</td>
+				    <td>@m.getOriginAddress()<br/>@m.getOriginLong(), @m.getOriginLat()</td>
+	    			<td>@m.getDestinationAddress()<br/>@m.getDestinationLong(), @m.getDestinationLat()</td>
 	    			<td>@m.getStartTimeWindow()</td>
 	    			<td>@m.getEndTimeWindow()</td>
 	    			<td>@((m.getMetaData().getApproximateDirectionsDistance()/100)/10.0) km</td>

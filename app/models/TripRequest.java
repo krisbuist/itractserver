@@ -26,50 +26,58 @@ public class TripRequest extends Trip {
 
 	List<TripOffer> matches = new ArrayList<TripOffer>();
 
-	// Reduce to matching offers in time window
 	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
 		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
 
-	// Reduce matching offer to matching offers in boundary box and
-	// travelDistance
-	Directions d;
-	for (TripOffer t : matchesInTimeWindow) {
-	    d = new Directions();
-	    d.addWaypoint(new Waypoint(t.getOriginLong(), t.getOriginLat(), t.getStartTimeMin(), t.getStartTimeMax()));
-	    d.addWaypoint(new Waypoint(t.getDestinationLong(), t.getDestinationLat(), t.getEndTimeMin(), t.getEndTimeMax()));
+	
+	Directions originalDirections, directionsIncludingRequest;
+	
+	for (TripOffer matchingOffer : matchesInTimeWindow) {
 
-	    if (isBetweenBounds(d.getNorthWestBounds(), d.getSouthEastBounds()) && isPossibleMatchOnTravelDistance(t)) {
-		matches.add(t);
+	    Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(), matchingOffer.getStartTimeMax());
+	    Waypoint offerDestination = new Waypoint(matchingOffer.getDestinationLong(), matchingOffer.getDestinationLat(), matchingOffer.getEndTimeMin(), matchingOffer.getEndTimeMax());
+	    Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
+	    Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
+
+	    originalDirections = new Directions();
+	    originalDirections.addWaypoint(offerOrigin);
+	    originalDirections.addWaypoint(offerDestination);
+
+	    directionsIncludingRequest = new Directions();
+	    directionsIncludingRequest.addWaypoint(offerOrigin);
+	    directionsIncludingRequest.addWaypoint(requestOrigin);
+	    directionsIncludingRequest.addWaypoint(requestDestination);
+	    directionsIncludingRequest.addWaypoint(offerDestination);
+
+	    if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds()) 
+		    && isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)
+		    && !isPossibleMatchOnTravelTime(directionsIncludingRequest)) {
+		matches.add(matchingOffer);
 	    }
 	}
 	return matches;
     }
 
-    private boolean isPossibleMatchOnTravelDistance(TripOffer t) {
-	Waypoint offerOrigin = new Waypoint(t.getOriginLong(), t.getOriginLat(), t.getStartTimeMin(), t.getStartTimeMax());
-	Waypoint offerDestination = new Waypoint(t.getDestinationLong(), t.getDestinationLat(), t.getEndTimeMin(), t.getEndTimeMax());
-	Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
-	Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
+    private boolean isPossibleMatchOnTravelTime(Directions directions) {
+	return directions.isValidForWaypointTimeConstraints();
+    }
 
-	Directions originalOffer = new Directions();
-	originalOffer.addWaypoint(offerOrigin);
-	originalOffer.addWaypoint(offerDestination);
+    private boolean isPossibleMatchOnTravelDistance(TripOffer tripOffer, Directions originalDirections, Directions newDirections) {
+	
+	if (originalDirections.getApproximateRouteDistance() * tripOverhead >= newDirections.getApproximateRouteDistance()) {
 
-	Directions offerIncludingRequest = new Directions();
-	offerIncludingRequest.addWaypoint(offerOrigin);
-	offerIncludingRequest.addWaypoint(requestOrigin);
-	offerIncludingRequest.addWaypoint(requestDestination);
-	offerIncludingRequest.addWaypoint(offerDestination);
+	    newDirections.retrieveGoogleAPICalculations();
 
-	if (originalOffer.getApproximateRouteDistance() * tripOverhead >= offerIncludingRequest.getApproximateRouteDistance()) {
+	    long offerIncludingRequestDistance = newDirections.getTotalDirectionDistance();
 
-	    if (!t.getMetaData().hasResultsFromAPI()) {
-		originalOffer.retrieveGoogleAPICalculations();
-		offerIncludingRequest.retrieveGoogleAPICalculations();
+	    if (!tripOffer.getMetaData().hasResultsFromAPI()) {
+		originalDirections.retrieveGoogleAPICalculations();
 
-		t.getMetaData().setCalculatedDuration(originalOffer.getCalculatedTravelTimeInSeconds());
-		t.getMetaData().setDirectionsDistance(originalOffer.getTotalDirectionDistance());
-		t.getMetaData().save();
+		tripOffer.getMetaData().setCalculatedDuration(originalDirections.getCalculatedTravelTimeInSeconds());
+		tripOffer.getMetaData().setDirectionsDistance(originalDirections.getTotalDirectionDistance());
+		tripOffer.getMetaData().save();
+
+		//Sleep is for not sending too many requests to the Google API per second
 		try {
 		    Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -77,7 +85,9 @@ public class TripRequest extends Trip {
 		}
 	    }
 
-	    if (t.getMetaData().hasResultsFromAPI() && originalOffer.getTotalDirectionDistance() * tripOverhead >= offerIncludingRequest.getTotalDirectionDistance()) {
+	    long originalDistance = tripOffer.getMetaData().getDirectionsDistance();
+
+	    if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
 		return true;
 	    }
 	}

@@ -1,24 +1,39 @@
 package controllers;
 
 
+import static play.libs.Json.toJson;
+
+import java.util.List;
+
+import models.TripOffer;
+import models.TripRequest;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 public class UserController extends Controller {
 
     public static Result getUser(Integer id) {
-        return TODO;
+    	User user = User.find.byId(id);
+
+        return ok(toJson(user));
     }
 
     public static Result getUsers() {
-        return TODO;
+    	List<User> users = User.find.all();
+
+        return ok(toJson(users));
     }
 
     public static Result setUser() {
-        return TODO;
+    	List<User> users = User.find.all();
+
+        return ok(toJson(users));
     }
 
     public static Result updateUser(Integer id) {
-        return TODO;
+    	User user = User.find.byId(id);
+        user.save();
+        return ok(toJson(user));
     }
 }

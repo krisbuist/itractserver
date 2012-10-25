@@ -17,8 +17,8 @@ public class calculateDistanceTest {
 	Location zwolle = new Location(52.516750, 6.083060000000001);
 
 	Directions directions = new Directions();
-	directions.addRoutePoint(groningen);
-	directions.addRoutePoint(zwolle);
+	directions.addWaypoint(groningen);
+	directions.addWaypoint(zwolle);
 	directions.retrieveGoogleAPICalculations();
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();
@@ -38,9 +38,9 @@ public class calculateDistanceTest {
 	Location zwolle = new Location(52.516750, 6.083060000000001);
 
 	Directions directions = new Directions();
-	directions.addRoutePoint(groningen);
-	directions.addRoutePoint(amsterdam);
-	directions.addRoutePoint(zwolle);
+	directions.addWaypoint(groningen);
+	directions.addWaypoint(amsterdam);
+	directions.addWaypoint(zwolle);
 	directions.retrieveGoogleAPICalculations();
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();
@@ -61,10 +61,10 @@ public class calculateDistanceTest {
 	Location zwolle = new Location(52.516750, 6.083060000000001);
 
 	Directions directions = new Directions();
-	directions.addRoutePoint(groningen);
-	directions.addRoutePoint(amsterdam);
-	directions.addRoutePoint(assen);
-	directions.addRoutePoint(zwolle);
+	directions.addWaypoint(groningen);
+	directions.addWaypoint(amsterdam);
+	directions.addWaypoint(assen);
+	directions.addWaypoint(zwolle);
 	directions.retrieveGoogleAPICalculations();
 
 	long totalRouteDistance = directions.getTotalDirectionDistance();

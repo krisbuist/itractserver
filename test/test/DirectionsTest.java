@@ -16,8 +16,8 @@ public class DirectionsTest {
 	Location zwolle = new Location(52.5125, 6.0886);
 	Location center = new Location(52.86515, 6.3275);
 	Directions directions = new Directions();
-	directions.addRoutePoint(groningen);
-	directions.addRoutePoint(zwolle);
+	directions.addWaypoint(groningen);
+	directions.addWaypoint(zwolle);
 
 	assert (center.equals(directions.getDirectionsCenter()));
     }
@@ -30,8 +30,8 @@ public class DirectionsTest {
         Location southEastBounds = new Location(52.46432762658863, 6.953970078637736);
 
         Directions directions = new Directions();
-        directions.addRoutePoint(north);
-        directions.addRoutePoint(south);
+        directions.addWaypoint(north);
+        directions.addWaypoint(south);
 
         System.out.println(directions.getNorthWestBounds().getLongLatString());
         System.out.println(directions.getSouthEastBounds().getLongLatString());
@@ -48,8 +48,8 @@ public class DirectionsTest {
         Location southEastBounds = new Location(53.051547877615, 6.582341860727141);
 
         Directions directions = new Directions();
-        directions.addRoutePoint(east);
-        directions.addRoutePoint(west);
+        directions.addWaypoint(east);
+        directions.addWaypoint(west);
 
         System.out.println(directions.getNorthWestBounds().getLongLatString());
         System.out.println(directions.getSouthEastBounds().getLongLatString());

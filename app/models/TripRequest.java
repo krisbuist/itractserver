@@ -35,8 +35,8 @@ public class TripRequest extends Trip {
 	Directions d;
 	for (TripOffer t : matchesInTimeWindow) {
 	    d = new Directions();
-	    d.addRoutePoint(new Location(t.getOriginLong(), t.getOriginLat()));
-	    d.addRoutePoint(new Location(t.getDestinationLong(), t.getDestinationLat()));
+	    d.addWaypoint(new Location(t.getOriginLong(), t.getOriginLat()));
+	    d.addWaypoint(new Location(t.getDestinationLong(), t.getDestinationLat()));
 
 	    if (isBetweenBounds(d.getNorthWestBounds(), d.getSouthEastBounds()) && isPossibleMatchOnTravelDistance(t)) {
 		matches.add(t);
@@ -52,14 +52,14 @@ public class TripRequest extends Trip {
 	Location requestDestination = new Location(getDestinationLong(), getDestinationLat());
 
 	Directions originalOffer = new Directions();
-	originalOffer.addRoutePoint(offerOrigin);
-	originalOffer.addRoutePoint(offerDestination);
+	originalOffer.addWaypoint(offerOrigin);
+	originalOffer.addWaypoint(offerDestination);
 
 	Directions offerIncludingRequest = new Directions();
-	offerIncludingRequest.addRoutePoint(offerOrigin);
-	offerIncludingRequest.addRoutePoint(requestOrigin);
-	offerIncludingRequest.addRoutePoint(requestDestination);
-	offerIncludingRequest.addRoutePoint(offerDestination);
+	offerIncludingRequest.addWaypoint(offerOrigin);
+	offerIncludingRequest.addWaypoint(requestOrigin);
+	offerIncludingRequest.addWaypoint(requestDestination);
+	offerIncludingRequest.addWaypoint(offerDestination);
 
 	if (originalOffer.getApproximateRouteDistance() * tripOverhead >= offerIncludingRequest.getApproximateRouteDistance()) {
 

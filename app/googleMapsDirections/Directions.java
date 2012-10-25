@@ -21,7 +21,7 @@ public class Directions {
         this.route = new ArrayList<Location>();
     }
 
-    public void addRoutePoint(Location loc) {
+    public void addWaypoint(Location loc) {
         route.add(loc);
     }
 
@@ -127,6 +127,7 @@ public class Directions {
     public Location getNorthWestBounds() {
         return getBounds(5.49778714); // 315 degrees in radians
     }
+
 
     // This method returns a very crude calculation of a new Location
     // with a specific offset. It basically treats the earth as flat

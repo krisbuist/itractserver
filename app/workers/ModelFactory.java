@@ -44,8 +44,8 @@ public class ModelFactory {
         Location origin = getRandomCity();
         Location destination = getRandomCity();
         Directions directions = new Directions();
-        directions.addRoutePoint(origin);
-        directions.addRoutePoint(destination);
+        directions.addWaypoint(origin);
+        directions.addWaypoint(destination);
         long currentTime = System.currentTimeMillis() / 1000L;
 
         trip.setOriginAddress(origin.getAddress());

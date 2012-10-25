@@ -75,7 +75,7 @@ public class ModelFactory {
 
     public User getRandomUser() {
         User u = new User();
-        u.setUserName(Long.toHexString(Double.doubleToLongBits(Math.random())));
+        u.setName(Long.toHexString(Double.doubleToLongBits(Math.random())));
         return u;
     }
 

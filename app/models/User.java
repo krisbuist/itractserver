@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import play.data.validation.Constraints;
-import play.data.validation.Constraints.MaxLength;
-import play.data.validation.Constraints.MinLength;
 import play.db.ebean.Model;
 
 @Entity
@@ -18,25 +16,39 @@ public class User extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    private int id;
+    
     @Constraints.Required
-    @MinLength(5)
-    @MaxLength(20)
-    private String userName;
+    @Constraints.MinLength(3)
+    @Constraints.MaxLength(20)
+    private String name;
+    
+    @Constraints.Required
+    @Constraints.MinLength(3)
+    @Constraints.MaxLength(20)
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public User() {
 
     }
 
-    public int getUserId() {
-	return userId;
+    public int getId() {
+	return id;
     }
 
-    public String getUserName() {
-	return userName;
+    public String getName() {
+	return name;
     }
 
-    public void setUserName(String userName) {
-	this.userName = userName;
+    public void setName(String name) {
+	this.name = name;
     }
 }

@@ -27,7 +27,7 @@ public class TripRequestController extends Controller {
 	for (TripRequest trip : trips) {
 	    LinkedHashMap<String, Object> tripDetails = new LinkedHashMap<String, Object>();
 	    tripDetails.put("request_id", trip.getId());
-	    tripDetails.put("request_user", trip.getUser().getUserId());
+	    tripDetails.put("request_user", trip.getUser().getId());
 	    tripDetails.put("request_origin_long", trip.getOriginLong());
 	    tripDetails.put("request_origin_lat", trip.getOriginLat());
 	    tripDetails.put("request_origin_window", 0);
@@ -56,7 +56,7 @@ public class TripRequestController extends Controller {
 	if (trip != null) {
 	    LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
 	    details.put("request_id", trip.getId());
-	    details.put("request_user", trip.getUser().getUserId());
+	    details.put("request_user", trip.getUser().getId());
 	    details.put("request_origin_long", trip.getOriginLong());
 	    details.put("request_origin_lat", trip.getOriginLat());
 	    details.put("request_origin_window", 0);

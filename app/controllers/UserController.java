@@ -12,40 +12,43 @@ import play.mvc.Result;
 
 public class UserController extends Controller {
 
-    public static Result getUser(Integer id) {
-	User user = User.find.byId(id);
-	
+    public static Result getUsers() {
+	List<User> users = User.find.all();
+
 	LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
-	details.put("user_id", user.getUserId());
-	details.put("user_name", user.getUserName());
-	
+	List<LinkedHashMap<String, Object>> allUserDetails = new ArrayList<LinkedHashMap<String, Object>>();
+	for (User user : users) {
+	    LinkedHashMap<String, Object> oneUserDetails = new LinkedHashMap<String, Object>();
+	    oneUserDetails.put("user_id", user.getUserId());
+	    oneUserDetails.put("user_name", user.getUserName());
+	    allUserDetails.add(oneUserDetails);
+	}
+	details.put("users", allUserDetails);
 	return ok(toJson(details));
     }
+    
+    public static Result getUser(Integer id) {
+	User user = User.find.byId(id);
 
-    public static Result getUsers() {
-        List<User> users = User.find.all();
-        
-        LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
-        List<LinkedHashMap<String, Object>> allUserDetails = new ArrayList<LinkedHashMap<String,Object>>();
-        for (User user : users)
-        {
-            LinkedHashMap<String, Object> oneUserDetails = new LinkedHashMap<String, Object>();
-            oneUserDetails.put("user_id", user.getUserId());
-            oneUserDetails.put("user_name", user.getUserName());
-            allUserDetails.add(oneUserDetails);
-        }
-        details.put("users", allUserDetails);
-        return ok(toJson(details));
+	LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
+	if (user != null) {
+	    details.put("user_id", user.getUserId());
+	    details.put("user_name", user.getUserName());
+	    return ok(toJson(details));
+	} else {
+	    return notFound();
+	}
+
     }
 
     public static Result newUser() {
-        return TODO;
+	return TODO;
     }
 
     public static Result updateUser(Integer id) {
-        return TODO;
+	return TODO;
     }
-    
+
     public static Result deleteUser(Integer id) {
 	return TODO;
     }

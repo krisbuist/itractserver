@@ -12,9 +12,6 @@ import play.mvc.Result;
 
 public class TripOfferController extends Controller {
 
-    // TODO: Valid specification JSON implementation
-    // (http://www.playframework.org/documentation/2.0/JavaJsonRequests)
-
     public static Result getTripOffers() {
 	List<TripOffer> trips = TripOffer.find.where().le("id", 50).findList();
 	LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
@@ -44,33 +41,36 @@ public class TripOfferController extends Controller {
     public static Result getTripOffer(Integer id) {
 	TripOffer trip = TripOffer.find.byId(id);
 
-	LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
-	details.put("offer_id", trip.getId());
-	details.put("offer_user", trip.getUser().getUserId());
-	details.put("offer_origin_long", trip.getOriginLong());
-	details.put("offer_origin_lat", trip.getOriginLat());
-	details.put("offer_origin_window", 0);
-	details.put("offer_destination_long", trip.getDestinationLong());
-	details.put("offer_destination_lat", trip.getDestinationLat());
-	details.put("offer_destination_window", 0);
-	details.put("offer_start_time_min", trip.getStartTimeMin());
-	details.put("offer_start_time_max", trip.getStartTimeMax());
-	details.put("offer_end_time_min", trip.getEndTimeMin());
-	details.put("offer_end_time_max", trip.getEndTimeMax());
-	details.put("offer_numberOfSeats", trip.getNumberOfSeats());
-	details.put("offer_state", "OPEN");
+	if (trip != null) {
+	    LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
+	    details.put("offer_id", trip.getId());
+	    details.put("offer_user", trip.getUser().getUserId());
+	    details.put("offer_origin_long", trip.getOriginLong());
+	    details.put("offer_origin_lat", trip.getOriginLat());
+	    details.put("offer_origin_window", 0);
+	    details.put("offer_destination_long", trip.getDestinationLong());
+	    details.put("offer_destination_lat", trip.getDestinationLat());
+	    details.put("offer_destination_window", 0);
+	    details.put("offer_start_time_min", trip.getStartTimeMin());
+	    details.put("offer_start_time_max", trip.getStartTimeMax());
+	    details.put("offer_end_time_min", trip.getEndTimeMin());
+	    details.put("offer_end_time_max", trip.getEndTimeMax());
+	    details.put("offer_numberOfSeats", trip.getNumberOfSeats());
+	    details.put("offer_state", "OPEN");
 
-	return ok(toJson(details));
+	    return ok(toJson(details));
+	} else {
+	    return notFound();
+	}
     }
 
     public static Result newTripOffer() {
-	List<TripOffer> trips = TripOffer.find.all();
-
-	return ok(toJson(trips));
+	return TODO;
     }
 
     public static Result deleteTripOffer(Integer id) {
-	return TODO;
+	TripOffer.find.byId(id).delete();
+	return redirect(routes.TripOfferController.getTripOffers());
     }
 
     public static Result updateTripOffer(Integer id) {

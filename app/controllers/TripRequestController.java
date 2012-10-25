@@ -47,36 +47,40 @@ public class TripRequestController extends Controller {
     }
 
     public static Result newTripRequest() {
-        return TODO;
+	return TODO;
     }
 
     public static Result getTripRequest(Integer id) {
 	TripRequest trip = TripRequest.find.byId(id);
 
-	LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
-	details.put("request_id", trip.getId());
-	details.put("request_user", trip.getUser().getUserId());
-	details.put("request_origin_long", trip.getOriginLong());
-	details.put("request_origin_lat", trip.getOriginLat());
-	details.put("request_origin_window", 0);
-	details.put("request_destination_long", trip.getDestinationLong());
-	details.put("request_destination_lat", trip.getDestinationLat());
-	details.put("request_destination_window", 0);
-	details.put("request_start_time_min", trip.getStartTimeMin());
-	details.put("request_start_time_max", trip.getStartTimeMax());
-	details.put("request_end_time_min", trip.getEndTimeMin());
-	details.put("request_end_time_max", trip.getEndTimeMax());
-	details.put("request_numberOfSeats", trip.getNumberOfSeats());
-	details.put("request_state", "OPEN");
+	if (trip != null) {
+	    LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
+	    details.put("request_id", trip.getId());
+	    details.put("request_user", trip.getUser().getUserId());
+	    details.put("request_origin_long", trip.getOriginLong());
+	    details.put("request_origin_lat", trip.getOriginLat());
+	    details.put("request_origin_window", 0);
+	    details.put("request_destination_long", trip.getDestinationLong());
+	    details.put("request_destination_lat", trip.getDestinationLat());
+	    details.put("request_destination_window", 0);
+	    details.put("request_start_time_min", trip.getStartTimeMin());
+	    details.put("request_start_time_max", trip.getStartTimeMax());
+	    details.put("request_end_time_min", trip.getEndTimeMin());
+	    details.put("request_end_time_max", trip.getEndTimeMax());
+	    details.put("request_numberOfSeats", trip.getNumberOfSeats());
+	    details.put("request_state", "OPEN");
 
-	return ok(toJson(details));
+	    return ok(toJson(details));
+	} else {
+	    return notFound();
+	}
     }
 
     public static Result updateTripRequest(Integer id) {
 	TripRequest trip = TripRequest.find.byId(id);
 	return redirect(routes.TripRequestController.getTripRequest(trip.getId()));
     }
-    
+
     public static Result deleteTripRequest(Integer id) {
 	TripRequest.find.byId(id).delete();
 	return redirect(routes.TripRequestController.getTripRequests());

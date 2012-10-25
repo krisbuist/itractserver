@@ -34,10 +34,13 @@ public class StatisticsGenerator {
 		totalDirectionsDistance += elements.get(j).getDirectionsDistance();
 		totalTravelTime += elements.get(j).getCalculatedDuration();
 	    }
+
 	    distribution[i] = elements.get(Math.min(totalElements - 1, (i + 1) * blockSize - 1)).getCrowFlyDistance();
 	    overhead[i] = totalDirectionsDistance / totalCrowFlyDistance;
 	    ratio[i] = totalDirectionsDistance / totalTravelTime;
+
 	    Logger.info(String.format("Block end: %d\tRatio: %03f\tOverhead: %03f", distribution[i], ratio[i], overhead[i]));
+
 	}
     }
 
@@ -51,7 +54,7 @@ public class StatisticsGenerator {
 
     private static int findBlockNumberByDistance(double crowFlyDistance) {
 	int i = 0;
-	while (i < distribution.length && distribution[i] < crowFlyDistance) {
+	while (i < distribution.length - 1 && distribution[i] < crowFlyDistance) {
 	    i++;
 	}
 	return i;

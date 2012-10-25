@@ -24,7 +24,7 @@ public class StatisticsGenerator {
 	int totalElements = elements.size();
 	calculateBlocksize(totalElements);
 
-	Collections.sort(elements, new TripMetaDataComparator());
+	Collections.sort(elements, new TripMetaDataCrowFlyDistanceComparator());
 
 	double totalCrowFlyDistance;
 	double totalDirectionsDistance;
@@ -73,7 +73,7 @@ public class StatisticsGenerator {
 	return i;
     }
 
-    private static class TripMetaDataComparator implements Comparator<TripMetaData> {
+    private static class TripMetaDataCrowFlyDistanceComparator implements Comparator<TripMetaData> {
 	@Override
 	public int compare(TripMetaData tmd1, TripMetaData tmd2) {
 	    return Double.compare(tmd1.getCrowFlyDistance(), tmd2.getCrowFlyDistance());

@@ -128,7 +128,6 @@ public class Directions {
         return getBounds(5.49778714); // 315 degrees in radians
     }
 
-
     // This method returns a very crude calculation of a new Location
     // with a specific offset. It basically treats the earth as flat
     // but it should serve our purpose.

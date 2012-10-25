@@ -70,6 +70,12 @@ public class TripRequest extends Trip {
 		t.getMetaData().setCalculatedDuration(originalOffer.getCalculatedTravelTimeInSeconds());
 		t.getMetaData().setDirectionsDistance(originalOffer.getTotalDirectionDistance());
 		t.getMetaData().save();
+		try {
+		    Thread.sleep(100);
+		} catch (InterruptedException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
 	    }
 
 	    if (t.getMetaData().hasResultsFromAPI() && originalOffer.getTotalDirectionDistance() * tripOverhead >= offerIncludingRequest.getTotalDirectionDistance()) {

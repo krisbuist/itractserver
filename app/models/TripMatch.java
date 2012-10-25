@@ -30,22 +30,22 @@ public class TripMatch extends Model {
     }
 
     public int getMatchId() {
-	return matchId;
+        return matchId;
     }
 
     public TripOffer getTripOffer() {
-	return tripOffer;
+        return tripOffer;
     }
 
     public void setTripOffer(TripOffer tripOffer) {
-	this.tripOffer = tripOffer;
+        this.tripOffer = tripOffer;
     }
 
     public TripMatchState getMatchState() {
-	return matchState;
+        return matchState;
     }
 
     public void setMatchState(TripMatchState matchState) {
-	this.matchState = matchState;
+        this.matchState = matchState;
     }
 }

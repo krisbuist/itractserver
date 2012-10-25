@@ -10,17 +10,17 @@ import play.db.ebean.Model;
 
 
 @Entity
-public class TripMetaData extends Model{
+public class TripMetaData extends Model {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3091163212158817944L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
-    
+
     @Constraints.Required
     protected long approximateDuration;
     @Constraints.Required
@@ -30,39 +30,39 @@ public class TripMetaData extends Model{
     protected long directionsDistance;
 
     public long getApproximateDuration() {
-	return approximateDuration;
+        return approximateDuration;
     }
 
     public void setApproximateDuration(long approximateDuration) {
-	this.approximateDuration = approximateDuration;
+        this.approximateDuration = approximateDuration;
     }
 
     public long getCalculatedDuration() {
-	return calculatedDuration;
+        return calculatedDuration;
     }
 
     public void setCalculatedDuration(long calculatedDuration) {
-	this.calculatedDuration = calculatedDuration;
+        this.calculatedDuration = calculatedDuration;
     }
 
     public long getCrowFliesDistance() {
-	return crowFliesDistance;
+        return crowFliesDistance;
     }
 
     public void setCrowFliesDistance(long crowFliesDistance) {
-	this.crowFliesDistance = crowFliesDistance;
+        this.crowFliesDistance = crowFliesDistance;
     }
 
     public long getDirectionsDistance() {
-	return directionsDistance;
+        return directionsDistance;
     }
 
     public void setDirectionsDistance(long directionsDistance) {
-	this.directionsDistance = directionsDistance;
+        this.directionsDistance = directionsDistance;
     }
 
     public long getId() {
-	return id;
+        return id;
     }
-    
+
 }

@@ -96,12 +96,12 @@ public class TripRequest extends Trip {
 
 	    long originalDistance = tripOffer.getMetaData().getDirectionsDistance();
 
-	    System.out.println(originalDistance);
-	    System.out.println(offerIncludingRequestDistance);
-	    System.out.println();
-
-	    if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
-		return true;
+	    if (originalDistance == 0 || offerIncludingRequestDistance == 0) {
+		Logger.error("Request rejected by Google API");
+	    } else {
+		if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
+		    return true;
+		}
 	    }
 	}
 	return false;

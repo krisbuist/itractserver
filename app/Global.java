@@ -15,7 +15,7 @@ public class Global extends GlobalSettings {
 	Logger.info("Application has started");
 	Akka.system().scheduler().schedule(
 		Duration.create(0, TimeUnit.MILLISECONDS), 
-		Duration.create(5, TimeUnit.SECONDS), 
+		Duration.create(5, TimeUnit.MINUTES), 
 	new Runnable() {
 
 	    @Override

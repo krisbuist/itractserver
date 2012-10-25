@@ -44,7 +44,7 @@ public class StatisticsGenerator {
 	    overhead[i] = totalDirectionsDistance / totalCrowFlyDistance;
 	    ratio[i] = totalDirectionsDistance / totalTravelTime;
 
-	    //Logger.info(String.format("Block end: %d\tRatio: %03f\tOverhead: %03f", distribution[i], ratio[i], overhead[i]));
+	    Logger.info(String.format("Block end: %d\tRatio: %03f\tOverhead: %03f", distribution[i], ratio[i], overhead[i]));
 
 	}
     }

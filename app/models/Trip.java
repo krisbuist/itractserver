@@ -204,7 +204,7 @@ public abstract class Trip extends Model {
         Directions dir = new Directions();
         dir.addWaypoint(new Location(getOriginLong(), getOriginLat()));
         dir.addWaypoint(new Location(getDestinationLong(), getDestinationLat()));
-        metaData.setCrowFliesDistance((long) dir.getTotalLinearDistance());
+        metaData.setCrowFliesDistance(dir.getTotalLinearDistance());
         metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
         metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
         metaData.save();

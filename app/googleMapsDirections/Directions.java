@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import models.Location;
+import models.Waypoint;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -12,17 +13,17 @@ import workers.StatisticsGenerator;
 
 public class Directions {
 
-    private final ArrayList<Location> route;
+    private final ArrayList<Waypoint> route;
     private final String apiServer = "http://maps.googleapis.com/maps/api/directions/json?";
     private long duration = 0;
     private long distance = 0;
 
     public Directions() {
-        this.route = new ArrayList<Location>();
+        this.route = new ArrayList<Waypoint>();
     }
 
-    public void addWaypoint(Location loc) {
-        route.add(loc);
+    public void addWaypoint(Waypoint waypoint) {
+        route.add(waypoint);
     }
 
     public long getTotalDirectionDistance() {
@@ -31,7 +32,7 @@ public class Directions {
 
     public void retrieveGoogleAPICalculations() {
         String requestURL = String.format("%sorigin=%s&destination=%s&sensor=false&units=metric&waypoints=%s", apiServer, getOriginLocation(),
-                getDestinationLocation(), getWaypointsLocations());
+                getDestinationLocation(), getWaypointsLocationsAsURLParameter());
 
         HttpRequest req = new HttpRequest(requestURL);
         JsonNode result = req.getResult();
@@ -95,7 +96,7 @@ public class Directions {
         return (float) (dist * meterConversion);
     }
 
-    private String getWaypointsLocations() {
+    private String getWaypointsLocationsAsURLParameter() {
         StringBuilder res = new StringBuilder();
         for (Location loc : route.subList(1, route.size() - 1)) {
             res.append(loc.getLongLatString());

@@ -1,7 +1,5 @@
 package controllers;
 
-import static play.libs.Json.toJson;
-
 import java.util.List;
 
 import models.TripOffer;

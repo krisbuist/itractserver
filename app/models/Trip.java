@@ -202,8 +202,8 @@ public abstract class Trip extends Model {
     private void calculateMetaData() {
         metaData = new TripMetaData();
         Directions dir = new Directions();
-        dir.addWaypoint(new Location(getOriginLong(), getOriginLat()));
-        dir.addWaypoint(new Location(getDestinationLong(), getDestinationLat()));
+        dir.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax()));
+        dir.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax()));
         metaData.setCrowFliesDistance(dir.getTotalLinearDistance());
         metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
         metaData.setDirectionsDistance(dir.getTotalDirectionDistance());

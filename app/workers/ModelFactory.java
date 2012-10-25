@@ -1,27 +1,28 @@
 package workers;
 
+import googleMapsDirections.Directions;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import googleMapsDirections.Directions;
-import models.Location;
 import models.Trip;
 import models.TripOffer;
 import models.TripRequest;
 import models.User;
+import models.Waypoint;
 
 public class ModelFactory {
 
     private User user;
     private static ModelFactory instance;
-    private ArrayList<Location> cities;
+    private ArrayList<Waypoint> cities;
     private final long THREE_HOURS = (long) (Math.random() * 60 * 60 * 3);
 
     private ModelFactory() {
-        cities = new ArrayList<Location>();
+        cities = new ArrayList<Waypoint>();
         loadCityDataFromCsv();
         user = getRandomUser();
         user.save();
@@ -41,8 +42,8 @@ public class ModelFactory {
     }
 
     private void fillTripWithRandomData(Trip trip) {
-        Location origin = getRandomCity();
-        Location destination = getRandomCity();
+	Waypoint origin = getRandomCity();
+	Waypoint destination = getRandomCity();
         Directions directions = new Directions();
         directions.addWaypoint(origin);
         directions.addWaypoint(destination);
@@ -62,7 +63,7 @@ public class ModelFactory {
         trip.setUser(user);
     }
 
-    private Location getRandomCity() {
+    private Waypoint getRandomCity() {
         return cities.get((int) (Math.random() * cities.size()));
     }
 
@@ -103,7 +104,7 @@ public class ModelFactory {
                     String address = String.format("%s, %s, %s", cityValues[0], cityValues[1], cityValues[2]);
                     double longitude = Double.parseDouble(cityValues[3]);
                     double latitude = Double.parseDouble(cityValues[4]);
-                    Location loc = new Location(longitude, latitude, address);
+                    Waypoint loc = new Waypoint(longitude, latitude, address, 0, 0);
                     cities.add(loc);
                 }
             }

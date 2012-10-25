@@ -35,8 +35,8 @@ public class TripRequest extends Trip {
 	Directions d;
 	for (TripOffer t : matchesInTimeWindow) {
 	    d = new Directions();
-	    d.addWaypoint(new Location(t.getOriginLong(), t.getOriginLat()));
-	    d.addWaypoint(new Location(t.getDestinationLong(), t.getDestinationLat()));
+	    d.addWaypoint(new Waypoint(t.getOriginLong(), t.getOriginLat(), t.getStartTimeMin(), t.getStartTimeMax()));
+	    d.addWaypoint(new Waypoint(t.getDestinationLong(), t.getDestinationLat(), t.getEndTimeMin(), t.getEndTimeMax()));
 
 	    if (isBetweenBounds(d.getNorthWestBounds(), d.getSouthEastBounds()) && isPossibleMatchOnTravelDistance(t)) {
 		matches.add(t);
@@ -46,10 +46,10 @@ public class TripRequest extends Trip {
     }
 
     private boolean isPossibleMatchOnTravelDistance(TripOffer t) {
-	Location offerOrigin = new Location(t.getOriginLong(), t.getOriginLat());
-	Location offerDestination = new Location(t.getDestinationLong(), t.getDestinationLat());
-	Location requestOrigin = new Location(getOriginLong(), getOriginLat());
-	Location requestDestination = new Location(getDestinationLong(), getDestinationLat());
+	Waypoint offerOrigin = new Waypoint(t.getOriginLong(), t.getOriginLat(), t.getStartTimeMin(), t.getStartTimeMax());
+	Waypoint offerDestination = new Waypoint(t.getDestinationLong(), t.getDestinationLat(), t.getEndTimeMin(), t.getEndTimeMax());
+	Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
+	Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
 
 	Directions originalOffer = new Directions();
 	originalOffer.addWaypoint(offerOrigin);
@@ -73,7 +73,6 @@ public class TripRequest extends Trip {
 		try {
 		    Thread.sleep(100);
 		} catch (InterruptedException e) {
-		    // TODO Auto-generated catch block
 		    e.printStackTrace();
 		}
 	    }

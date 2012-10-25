@@ -2,7 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import googleMapsDirections.Directions;
-import models.Location;
+import models.Waypoint;
 
 import org.junit.Test;
 
@@ -13,8 +13,8 @@ public class calculateDistanceTest {
 
     @Test
     public void testFromGroningenToZwolle() {
-	Location groningen = new Location(53.219520, 6.566810);
-	Location zwolle = new Location(52.516750, 6.083060000000001);
+	Waypoint groningen = new Waypoint(53.219520, 6.566810, 0, 0);
+	Waypoint zwolle = new Waypoint(52.516750, 6.083060000000001, 0, 0);
 
 	Directions directions = new Directions();
 	directions.addWaypoint(groningen);
@@ -33,9 +33,9 @@ public class calculateDistanceTest {
 
     @Test
     public void testFromGroningenToZwolleViaAmsterdam() {
-	Location groningen = new Location(53.219520, 6.566810);
-	Location amsterdam = new Location(52.3700, 4.8900);
-	Location zwolle = new Location(52.516750, 6.083060000000001);
+	Waypoint groningen = new Waypoint(53.219520, 6.566810, 0, 0);
+	Waypoint amsterdam = new Waypoint(52.3700, 4.8900, 0, 0);
+	Waypoint zwolle = new Waypoint(52.516750, 6.083060000000001, 0, 0);
 
 	Directions directions = new Directions();
 	directions.addWaypoint(groningen);
@@ -55,10 +55,10 @@ public class calculateDistanceTest {
 
     @Test
     public void testFromGroningenToZwolleViaAmsterdamAndAssen() {
-	Location groningen = new Location(53.219520, 6.566810);
-	Location amsterdam = new Location(52.3700, 4.8900);
-	Location assen = new Location(53.0000, 6.5500);
-	Location zwolle = new Location(52.516750, 6.083060000000001);
+	Waypoint groningen = new Waypoint(53.219520, 6.566810, 0, 0);
+	Waypoint amsterdam = new Waypoint(52.3700, 4.8900, 0, 0);
+	Waypoint assen = new Waypoint(53.0000, 6.5500, 0, 0);
+	Waypoint zwolle = new Waypoint(52.516750, 6.083060000000001, 0, 0);
 
 	Directions directions = new Directions();
 	directions.addWaypoint(groningen);

@@ -58,11 +58,19 @@ public class StatisticsGenerator {
     }
 
     public static double getCrowFlyDistanceOverhead(double crowFlyDistance) {
-	return overhead[findBlockNumberByDistance(crowFlyDistance)];
+	if (overhead.length > 0) {
+	    return overhead[findBlockNumberByDistance(crowFlyDistance)];
+	} else {
+	    return 1.3;
+	}
     }
 
     public static double getDistanceToTravelTimeRatio(double crowFlyDistance) {
-	return ratio[findBlockNumberByDistance(crowFlyDistance)];
+	if (ratio.length > 0) {
+	    return ratio[findBlockNumberByDistance(crowFlyDistance)];
+	} else {
+	    return 20;
+	}
     }
 
     private static int findBlockNumberByDistance(double crowFlyDistance) {

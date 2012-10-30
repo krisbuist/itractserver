@@ -56,6 +56,8 @@ public class MatchController extends Controller {
 		matchDetails.put("offer_end_time_max", trip.getEndTimeMax());
 		matchDetails.put("offer_number_of_seats", trip.getNumberOfSeats());
 		matchDetails.put("offer_state", "OPEN");
+		matchDetails.put("match_id", 0);
+		matchDetails.put("match_state", "OPEN");
 		matchesDetails.add(matchDetails);
 	    }
 

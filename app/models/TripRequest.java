@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 @Entity
 public class TripRequest extends Trip {
 
+    private static final boolean useGoogleAPIAfterApproximation = false;
     private static final double tripOverhead = 1.1;
 
     /**
@@ -51,8 +52,9 @@ public class TripRequest extends Trip {
 	    directionsIncludingRequest.addWaypoint(offerDestination);
 
 	    if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
-		    && isPossibleMatchOnTravelTime(directionsIncludingRequest)
 		    && isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)) {
+		// TODO: Add
+		// isPossibleMatchOnTravelTime(directionsIncludingRequest)
 		matches.add(matchingOffer);
 	    }
 	}
@@ -67,16 +69,29 @@ public class TripRequest extends Trip {
 
 	if (originalDirections.getApproximateRouteDistance() * tripOverhead >= newDirections.getApproximateRouteDistance()) {
 
-	    newDirections.retrieveGoogleAPICalculations();
+	    if (!useGoogleAPIAfterApproximation) {
+		return true;
+	    } else {
+		newDirections.retrieveGoogleAPICalculations();
 
-	    long offerIncludingRequestDistance = newDirections.getTotalDirectionDistance();
+		long offerIncludingRequestDistance = newDirections.getTotalDirectionDistance();
 
-	    if (!tripOffer.getMetaData().hasResultsFromAPI()) {
-		originalDirections.retrieveGoogleAPICalculations();
+		if (!tripOffer.getMetaData().hasResultsFromAPI()) {
+		    originalDirections.retrieveGoogleAPICalculations();
 
-		tripOffer.getMetaData().setCalculatedDuration(originalDirections.getCalculatedTravelTimeInSeconds());
-		tripOffer.getMetaData().setDirectionsDistance(originalDirections.getTotalDirectionDistance());
-		tripOffer.getMetaData().save();
+		    tripOffer.getMetaData().setCalculatedDuration(originalDirections.getCalculatedTravelTimeInSeconds());
+		    tripOffer.getMetaData().setDirectionsDistance(originalDirections.getTotalDirectionDistance());
+		    tripOffer.getMetaData().save();
+		    // Sleep is for not sending too many requests to the Google
+		    // API
+		    // per second
+		    try {
+			Thread.sleep(150);
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
+		}
+
 		// Sleep is for not sending too many requests to the Google API
 		// per second
 		try {
@@ -84,23 +99,15 @@ public class TripRequest extends Trip {
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
-	    }
 
-	    // Sleep is for not sending too many requests to the Google API
-	    // per second
-	    try {
-		Thread.sleep(150);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
-	    }
+		long originalDistance = tripOffer.getMetaData().getDirectionsDistance();
 
-	    long originalDistance = tripOffer.getMetaData().getDirectionsDistance();
-
-	    if (originalDistance == 0 || offerIncludingRequestDistance == 0) {
-		Logger.error("Request rejected by Google API");
-	    } else {
-		if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
-		    return true;
+		if (originalDistance == 0 || offerIncludingRequestDistance == 0) {
+		    Logger.error("Request rejected by Google API");
+		} else {
+		    if ((originalDistance * tripOverhead) >= offerIncludingRequestDistance) {
+			return true;
+		    }
 		}
 	    }
 	}

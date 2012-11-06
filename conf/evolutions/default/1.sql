@@ -57,8 +57,17 @@ create table trip_request (
 
 create table user (
   id                        integer auto_increment not null,
-  name                      varchar(255),
+  first_name                varchar(255),
+  last_name                 varchar(255),
   email                     varchar(255),
+  password                  varchar(255),
+  address                   varchar(255),
+  postal_code               varchar(255),
+  city                      varchar(255),
+  country_code              varchar(255),
+  date_of_birth             datetime,
+  gender                    varchar(255),
+  profile_picture           varchar(255),
   constraint pk_user primary key (id))
 ;
 

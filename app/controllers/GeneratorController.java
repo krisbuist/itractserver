@@ -12,13 +12,21 @@ public class GeneratorController extends Controller {
         for (int i = 0; i < number; i++) {
             modelFactory.getRandomTripOffer().save();
         }
-        return redirect(routes.TripOfferController.getTripOffer(1));
+        return redirect(routes.TripOfferController.getTripOffers());
     }
 
     public static Result generateTripRequests(Integer number) {
         for (int i = 0; i < number; i++) {
             modelFactory.getRandomTripRequest().save();
         }
-        return redirect(routes.TripRequestController.getTripRequest(1));
+        return redirect(routes.TripRequestController.getTripRequests());
+    }
+    
+    public static Result generateUsers(Integer number)
+    {
+        for (int i = 0; i < number; i++) {
+            modelFactory.generateNewRandomUser().save();
+        }
+        return redirect(routes.UserController.getUsers());
     }
 }

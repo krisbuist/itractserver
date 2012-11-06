@@ -58,7 +58,7 @@ public class StatisticsGenerator {
     }
 
     public static double getCrowFlyDistanceOverhead(double crowFlyDistance) {
-	if (overhead.length > 0) {
+	if (overhead != null && overhead.length > 0) {
 	    return overhead[findBlockNumberByDistance(crowFlyDistance)];
 	} else {
 	    return 1.3;
@@ -66,7 +66,7 @@ public class StatisticsGenerator {
     }
 
     public static double getDistanceToTravelTimeRatio(double crowFlyDistance) {
-	if (ratio.length > 0) {
+	if (ratio != null && ratio.length > 0) {
 	    return ratio[findBlockNumberByDistance(crowFlyDistance)];
 	} else {
 	    return 20;

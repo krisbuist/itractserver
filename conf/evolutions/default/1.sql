@@ -4,11 +4,12 @@
 # --- !Ups
 
 create table trip_match (
-  match_id                  integer auto_increment not null,
+  id                        integer auto_increment not null,
   trip_offer_id             integer,
-  match_state               varchar(7),
-  constraint ck_trip_match_match_state check (match_state in ('OPEN','MATCHED')),
-  constraint pk_trip_match primary key (match_id))
+  trip_request_id           integer,
+  state                     varchar(19),
+  constraint ck_trip_match_state check (state in ('OPEN','CONFIRMED_MATCH','DECLINED_POTENTIAL','DECLINED_MATCH','CONFIRMED_POTENTIAL','POTENTIAL')),
+  constraint pk_trip_match primary key (id))
 ;
 
 create table trip_meta_data (
@@ -58,6 +59,7 @@ create table trip_request (
 create table user (
   id                        integer auto_increment not null,
   first_name                varchar(255),
+  middle_name               varchar(255),
   last_name                 varchar(255),
   email                     varchar(255),
   password                  varchar(255),
@@ -65,7 +67,7 @@ create table user (
   postal_code               varchar(255),
   city                      varchar(255),
   country_code              varchar(255),
-  date_of_birth             datetime,
+  date_of_birth             varchar(255),
   gender                    varchar(255),
   profile_picture           varchar(255),
   constraint pk_user primary key (id))
@@ -73,14 +75,16 @@ create table user (
 
 alter table trip_match add constraint fk_trip_match_tripOffer_1 foreign key (trip_offer_id) references trip_offer (id) on delete restrict on update restrict;
 create index ix_trip_match_tripOffer_1 on trip_match (trip_offer_id);
-alter table trip_offer add constraint fk_trip_offer_user_2 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_trip_offer_user_2 on trip_offer (user_id);
-alter table trip_offer add constraint fk_trip_offer_metaData_3 foreign key (meta_data_id) references trip_meta_data (id) on delete restrict on update restrict;
-create index ix_trip_offer_metaData_3 on trip_offer (meta_data_id);
-alter table trip_request add constraint fk_trip_request_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_trip_request_user_4 on trip_request (user_id);
-alter table trip_request add constraint fk_trip_request_metaData_5 foreign key (meta_data_id) references trip_meta_data (id) on delete restrict on update restrict;
-create index ix_trip_request_metaData_5 on trip_request (meta_data_id);
+alter table trip_match add constraint fk_trip_match_tripRequest_2 foreign key (trip_request_id) references trip_request (id) on delete restrict on update restrict;
+create index ix_trip_match_tripRequest_2 on trip_match (trip_request_id);
+alter table trip_offer add constraint fk_trip_offer_user_3 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_trip_offer_user_3 on trip_offer (user_id);
+alter table trip_offer add constraint fk_trip_offer_metaData_4 foreign key (meta_data_id) references trip_meta_data (id) on delete restrict on update restrict;
+create index ix_trip_offer_metaData_4 on trip_offer (meta_data_id);
+alter table trip_request add constraint fk_trip_request_user_5 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_trip_request_user_5 on trip_request (user_id);
+alter table trip_request add constraint fk_trip_request_metaData_6 foreign key (meta_data_id) references trip_meta_data (id) on delete restrict on update restrict;
+create index ix_trip_request_metaData_6 on trip_request (meta_data_id);
 
 
 

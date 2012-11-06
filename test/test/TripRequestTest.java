@@ -42,7 +42,7 @@ public class TripRequestTest {
         request.setNumberOfSeats(1);
         request.save();
 
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TripRequestTest {
         request.setNumberOfSeats(1);
         request.save();
 
-        assert (!request.getMatchingOffers().contains(offerToMatch));
+        assert (!request.getMatches().contains(offerToMatch));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TripRequestTest {
         request.setNumberOfSeats(1);
         request.save();
 
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
 
         request.setStartTimeMin(150);
         request.setStartTimeMax(160);
@@ -100,7 +100,7 @@ public class TripRequestTest {
         request.setEndTimeMax(360);
         request.save();
 
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
 
         request.setStartTimeMin(150);
         request.setStartTimeMax(250);
@@ -108,7 +108,7 @@ public class TripRequestTest {
         request.setEndTimeMax(450);
         request.save();
 
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
 
         request.setStartTimeMin(10);
         request.setStartTimeMax(20);
@@ -116,7 +116,7 @@ public class TripRequestTest {
         request.setEndTimeMax(40);
         request.save();
 
-        assert (!request.getMatchingOffers().contains(offerToMatch));
+        assert (!request.getMatches().contains(offerToMatch));
 
         request.setStartTimeMin(10);
         request.setStartTimeMax(20);
@@ -124,7 +124,7 @@ public class TripRequestTest {
         request.setEndTimeMax(340);
         request.save();
 
-        assert (!request.getMatchingOffers().contains(offerToMatch));
+        assert (!request.getMatches().contains(offerToMatch));
 
         request.setStartTimeMin(420);
         request.setStartTimeMax(430);
@@ -132,7 +132,7 @@ public class TripRequestTest {
         request.setEndTimeMax(450);
         request.save();
 
-        assert (!request.getMatchingOffers().contains(offerToMatch));
+        assert (!request.getMatches().contains(offerToMatch));
     }
 
     @Test
@@ -153,15 +153,15 @@ public class TripRequestTest {
         request.setNumberOfSeats(2);
         request.save();
 
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
 
         request.setNumberOfSeats(1);
         request.save();
-        assert (!request.getMatchingOffers().contains(offerToMatch));
+        assert (!request.getMatches().contains(offerToMatch));
 
         request.setNumberOfSeats(3);
         request.save();
-        assert (request.getMatchingOffers().contains(offerToMatch));
+        assert (request.getMatches().contains(offerToMatch));
 
     }
 

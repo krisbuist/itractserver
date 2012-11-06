@@ -9,7 +9,8 @@ object ApplicationBuild extends Build {
 
 	val appDependencies = Seq(
 	  "mysql" % "mysql-connector-java" % "5.1.18",
-	  "com.google.code.gson" % "gson" % "2.2.2"
+	  "com.google.code.gson" % "gson" % "2.2.2",
+	  "net.sf.flexjson" % "flexjson" % "2.1"
 	)
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

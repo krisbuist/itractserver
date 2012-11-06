@@ -1,18 +1,23 @@
 package models;
 
 import googleMapsDirections.Directions;
-import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+import play.Logger;
 
 @Entity
 public class TripRequest extends Trip {
 
     private static final boolean useGoogleAPIAfterApproximation = false;
     private static final double tripOverhead = 1.1;
+
+    @OneToMany
+    private List<TripMatch> matches = new ArrayList<TripMatch>();
 
     /**
      *
@@ -24,8 +29,12 @@ public class TripRequest extends Trip {
 	super();
     }
 
-    public List<TripOffer> getMatchingOffers() {
-	List<TripOffer> matches = new ArrayList<TripOffer>();
+    public List<TripMatch> getMatches() {
+	calculateNewMatchingOffers();
+	return matches;
+    }
+
+    private void calculateNewMatchingOffers() {
 
 	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
 		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
@@ -34,31 +43,50 @@ public class TripRequest extends Trip {
 
 	for (TripOffer matchingOffer : matchesInTimeWindow) {
 
-	    Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(),
-		    matchingOffer.getStartTimeMax());
-	    Waypoint offerDestination = new Waypoint(matchingOffer.getDestinationLong(), matchingOffer.getDestinationLat(),
-		    matchingOffer.getEndTimeMin(), matchingOffer.getEndTimeMax());
-	    Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
-	    Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
+	    if (isNewOffer(matchingOffer)) {
 
-	    originalDirections = new Directions();
-	    originalDirections.addWaypoint(offerOrigin);
-	    originalDirections.addWaypoint(offerDestination);
+		Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(),
+			matchingOffer.getStartTimeMax());
+		Waypoint offerDestination = new Waypoint(matchingOffer.getDestinationLong(), matchingOffer.getDestinationLat(),
+			matchingOffer.getEndTimeMin(), matchingOffer.getEndTimeMax());
+		Waypoint requestOrigin = new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax());
+		Waypoint requestDestination = new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax());
 
-	    directionsIncludingRequest = new Directions();
-	    directionsIncludingRequest.addWaypoint(offerOrigin);
-	    directionsIncludingRequest.addWaypoint(requestOrigin);
-	    directionsIncludingRequest.addWaypoint(requestDestination);
-	    directionsIncludingRequest.addWaypoint(offerDestination);
+		originalDirections = new Directions();
+		originalDirections.addWaypoint(offerOrigin);
+		originalDirections.addWaypoint(offerDestination);
 
-	    if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
-		    && isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)) {
-		// TODO: Add
-		// isPossibleMatchOnTravelTime(directionsIncludingRequest)
-		matches.add(matchingOffer);
+		directionsIncludingRequest = new Directions();
+		directionsIncludingRequest.addWaypoint(offerOrigin);
+		directionsIncludingRequest.addWaypoint(requestOrigin);
+		directionsIncludingRequest.addWaypoint(requestDestination);
+		directionsIncludingRequest.addWaypoint(offerDestination);
+
+		if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
+			&& isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)) {
+		    // TODO: Add
+		    // isPossibleMatchOnTravelTime(directionsIncludingRequest)
+
+		    TripMatch match = new TripMatch();
+		    match.setTripOffer(matchingOffer);
+		    match.setTripRequest(this);
+		    match.setState(TripMatchState.OPEN);
+		    match.save();
+		    matches.add(match);
+		}
 	    }
 	}
-	return matches;
+    }
+
+    private boolean isNewOffer(TripOffer matchingOffer) {
+	for(TripMatch match : matches)
+	{
+	    if(match.getTripOffer().getId() == matchingOffer.getId())
+	    {
+		return false;
+	    }
+	}
+	return true;
     }
 
     private boolean isPossibleMatchOnTravelTime(Directions directions) {

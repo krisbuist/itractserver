@@ -21,13 +21,13 @@ public class TripMetaData extends Model{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected long id;
+    private long id;
 
     @Constraints.Required
-    protected long crowFliesDistance;
+    private long crowFliesDistance;
 
-    protected long calculatedDuration;
-    protected long directionsDistance;
+    private long calculatedDuration;
+    private long directionsDistance;
 
     public long getApproximateDuration() {
         return (long)(getApproximateDirectionsDistance() / StatisticsGenerator.getDistanceToTravelTimeRatio(crowFliesDistance));
@@ -41,7 +41,7 @@ public class TripMetaData extends Model{
         this.calculatedDuration = calculatedDuration;
     }
 
-    public long getCrowFlyDistance() {
+    public long getCrowFliesDistance() {
         return crowFliesDistance;
     }
 

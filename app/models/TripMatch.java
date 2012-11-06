@@ -15,37 +15,48 @@ import play.db.ebean.Model;
 public class TripMatch extends Model {
 
     private static final long serialVersionUID = -2382823100066234473L;
+    public static Finder<Integer, TripMatch> find = new Finder<Integer, TripMatch>(Integer.class, TripMatch.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int matchId;
+    private int id;
     @ManyToOne
     private TripOffer tripOffer;
+    @ManyToOne
+    private TripRequest tripRequest;
     @Required
     @Enumerated(EnumType.STRING)
-    private TripMatchState matchState;
+    private TripMatchState state;
 
     public TripMatch() {
 
     }
 
-    public int getMatchId() {
-        return matchId;
+    public int getId() {
+	return id;
     }
 
     public TripOffer getTripOffer() {
-        return tripOffer;
+	return tripOffer;
     }
 
     public void setTripOffer(TripOffer tripOffer) {
-        this.tripOffer = tripOffer;
+	this.tripOffer = tripOffer;
     }
 
-    public TripMatchState getMatchState() {
-        return matchState;
+    public TripMatchState getState() {
+	return state;
     }
 
-    public void setMatchState(TripMatchState matchState) {
-        this.matchState = matchState;
+    public void setState(TripMatchState state) {
+	this.state = state;
+    }
+
+    public void setTripRequest(TripRequest tripRequest) {
+	this.tripRequest = tripRequest;
+    }
+
+    public TripRequest getTripRequest() {
+	return tripRequest;
     }
 }

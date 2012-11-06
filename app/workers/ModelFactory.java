@@ -97,9 +97,7 @@ public class ModelFactory {
 	u.setCountryCode("NL");
 	u.setEmail(u.getFirstName() + "." + u.getLastName() + "@itract.com");
 
-	Calendar dateOfBirth = new GregorianCalendar();
-	dateOfBirth.set(1987, Calendar.SEPTEMBER, 01);
-	u.setDateOfBirth(dateOfBirth);
+	u.setDateOfBirth("2012/09/02");
 
 	u.setGender("M");
 	u.setPassword("john");

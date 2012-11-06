@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Calendar;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +21,8 @@ public class User extends Model {
     @Constraints.Required
     private String firstName;
 
+    private String middleName;
+
     @Constraints.Required
     private String lastName;
 
@@ -40,7 +40,7 @@ public class User extends Model {
 
     private String countryCode;
 
-    private Calendar dateOfBirth;
+    private String dateOfBirth;
 
     private String gender;
 
@@ -96,11 +96,11 @@ public class User extends Model {
 	this.countryCode = countryCode;
     }
 
-    public Calendar getDateOfBirth() {
+    public String getDateOfBirth() {
 	return dateOfBirth;
     }
 
-    public void setDateOfBirth(Calendar dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
 	this.dateOfBirth = dateOfBirth;
     }
 
@@ -140,5 +140,17 @@ public class User extends Model {
 
     public int getId() {
 	return id;
+    }
+
+    public String getMiddleName() {
+	return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+	this.middleName = middleName;
+    }
+
+    public void setId(int id) {
+	this.id = id;
     }
 }

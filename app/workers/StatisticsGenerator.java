@@ -35,12 +35,12 @@ public class StatisticsGenerator {
 	    totalDirectionsDistance = 0;
 	    totalTravelTime = 0;
 	    for (int j = i * blockSize; j < Math.min(totalElements, (i + 1) * blockSize); j++) {
-		totalCrowFlyDistance += elements.get(j).getCrowFlyDistance();
+		totalCrowFlyDistance += elements.get(j).getCrowFliesDistance();
 		totalDirectionsDistance += elements.get(j).getDirectionsDistance();
 		totalTravelTime += elements.get(j).getCalculatedDuration();
 	    }
 
-	    distribution[i] = elements.get(Math.min(totalElements - 1, (i + 1) * blockSize - 1)).getCrowFlyDistance();
+	    distribution[i] = elements.get(Math.min(totalElements - 1, (i + 1) * blockSize - 1)).getCrowFliesDistance();
 	    overhead[i] = totalDirectionsDistance / totalCrowFlyDistance;
 	    ratio[i] = totalDirectionsDistance / totalTravelTime;
 
@@ -84,7 +84,7 @@ public class StatisticsGenerator {
     private static class TripMetaDataCrowFlyDistanceComparator implements Comparator<TripMetaData> {
 	@Override
 	public int compare(TripMetaData tmd1, TripMetaData tmd2) {
-	    return Double.compare(tmd1.getCrowFlyDistance(), tmd2.getCrowFlyDistance());
+	    return Double.compare(tmd1.getCrowFliesDistance(), tmd2.getCrowFliesDistance());
 	}
     }
 }

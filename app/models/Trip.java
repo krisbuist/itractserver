@@ -47,7 +47,6 @@ public abstract class Trip extends Model {
     protected long endTimeMax;
     @Required
     @Range(min = 1, max = 7)
-    // inclusive
     protected int numberOfSeats;
     @OneToOne
     protected TripMetaData metaData;

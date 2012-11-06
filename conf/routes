@@ -36,3 +36,4 @@ DELETE	/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer
 # Routes for the data generator
 GET		/generate/offers/:number	controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
 GET		/generate/requests/:number	controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)
+GET		/generate/users/:number		controllers.GeneratorController.generateUsers(number: java.lang.Integer)

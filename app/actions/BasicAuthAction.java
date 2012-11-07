@@ -31,7 +31,8 @@ public class BasicAuthAction extends Action.Simple {
 	String username = credString[0];
 	String password = credString[1];
 	User authUser = User.authenticate(username, password);
-
+	context.args.put("user", authUser);
+	
 	return (authUser == null) ? unauthorized() : delegate.call(context);
     }
 

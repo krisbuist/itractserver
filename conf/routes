@@ -33,6 +33,7 @@ PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(
 
 # Routers for the trip request
 GET     /api/user                       controllers.UserController.getUsers()
+GET     /api/my_user                    controllers.UserController.getCurrentUser()
 POST    /api/user                       controllers.UserController.newUser()
 GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
 POST    /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)

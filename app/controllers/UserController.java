@@ -18,6 +18,21 @@ import flexjson.JSONSerializer;
 
 public class UserController extends Controller {
 
+    private static User activeUser() {
+	Object u = ctx().args.get("user");
+	if (u != null && u instanceof User) {
+	    return (User) u;
+	}
+	return null;
+    }
+
+    @With(BasicAuthAction.class)
+    public static Result getCurrentUser() {
+	User user = activeUser();
+	return ok(toJson(user));
+    }
+
+    @With(BasicAuthAction.class)
     public static Result getUsers() {
 	List<User> users = User.find.all();
 	return ok(toJson(users));

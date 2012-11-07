@@ -44,12 +44,12 @@ public class TripMatch extends Model {
 	this.tripOffer = tripOffer;
     }
 
-    public TripMatchState getState() {
-	return state;
+    public int getState() {
+	return state.ordinal();
     }
 
-    public void setState(TripMatchState state) {
-	this.state = state;
+    public void setState(int state) {
+	this.state = TripMatchState.values()[state];
     }
 
     public void setTripRequest(TripRequest tripRequest) {

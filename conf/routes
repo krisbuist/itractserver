@@ -4,10 +4,12 @@
 
 # Map static resources from the /public folder to the /assets URL path
 
-#GET     /               				controllers.Assets.at(path="/public/index.html")
+GET		/								controllers.Application.index()
 
-#Routes
-GET		/api/login						controllers.UserController.login()
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)
+
+# Routes for login
+GET		/api/login						controllers.UserController.doLogin()
 
 # Routes for the trip offers                                                          
 GET     /api/trip_offer                 controllers.TripOfferController.getTripOffers()
@@ -23,11 +25,11 @@ GET     /api/trip_request/:id           controllers.TripRequestController.getTri
 PUT     /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
 
-# Routes for The matches
+# Routes for the matches
 GET     /api/match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
 
-# Routers for the users
+# Routers for the trip request
 GET     /api/user                       controllers.UserController.getUsers()
 POST    /api/user                       controllers.UserController.newUser()
 GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)

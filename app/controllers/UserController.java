@@ -104,7 +104,7 @@ public class UserController extends Controller {
 	return ok(serializer.serialize(matches));
     }
     
-    public static Result login()
+    public static Result doLogin()
     {
 	return TODO;
     }

@@ -2,38 +2,45 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
-
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-# Routers for the trip offers                                                          
-GET     /trip_offer                 controllers.TripOfferController.getTripOffers()
-POST    /trip_offer                 controllers.TripOfferController.newTripOffer()
-GET     /trip_offer/:id				controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
-PUT     /trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
-DELETE	/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: java.lang.Integer)
+#GET     /               				controllers.Assets.at(path="/public/index.html")
 
-# Routers for the trip request
-GET     /trip_request               controllers.TripRequestController.getTripRequests()
-POST    /trip_request               controllers.TripRequestController.newTripRequest()
-GET     /trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
-PUT     /trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
-DELETE	/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
+#Routes
+GET		/api/login						controllers.UserController.login()
 
-# Routers for The matches
-GET     /match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
-PUT     /match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
+# Routes for the trip offers                                                          
+GET     /api/trip_offer                 controllers.TripOfferController.getTripOffers()
+POST    /api/trip_offer                 controllers.TripOfferController.newTripOffer()
+GET     /api/trip_offer/:id				controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
+PUT     /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
+DELETE	/api/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: java.lang.Integer)
 
-# Routers for the trip request
-GET     /user                       controllers.UserController.getUsers()
-POST    /user                       controllers.UserController.newUser()
-GET     /user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
-PUT     /user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
-DELETE	/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer)
+# Routes for the trip request
+GET     /api/trip_request               controllers.TripRequestController.getTripRequests()
+POST    /api/trip_request               controllers.TripRequestController.newTripRequest()
+GET     /api/trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
+PUT     /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
+DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
+
+# Routes for The matches
+GET     /api/match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
+PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
+
+# Routers for the users
+GET     /api/user                       controllers.UserController.getUsers()
+POST    /api/user                       controllers.UserController.newUser()
+GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
+POST    /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
+POST	/api/user/:id/delete			controllers.UserController.deleteUser(id: java.lang.Integer)
+
+DELETE	/api/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer)
+PUT     /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
+GET		/api/user/:id/trip_requests		controllers.UserController.getRequestsByUser(id: java.lang.Integer)
+GET		/api/user/:id/trip_offers		controllers.UserController.getOffersByUser(id: java.lang.Integer)
+GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id: java.lang.Integer)
 
 # Routes for the data generator
-GET		/generate/offers/:number	controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
-GET		/generate/requests/:number	controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)
-GET		/generate/users/:number		controllers.GeneratorController.generateUsers(number: java.lang.Integer)
+GET		/api/generate/offers/:number	controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
+GET		/api/generate/requests/:number	controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)
+GET		/api/generate/users/:number		controllers.GeneratorController.generateUsers(number: java.lang.Integer)

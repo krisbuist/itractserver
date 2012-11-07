@@ -70,7 +70,7 @@ public class TripRequest extends Trip {
 		    TripMatch match = new TripMatch();
 		    match.setTripOffer(matchingOffer);
 		    match.setTripRequest(this);
-		    match.setState(TripMatchState.OPEN);
+		    match.setState(TripMatchState.OPEN.ordinal());
 		    match.save();
 		    matches.add(match);
 		}

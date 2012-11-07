@@ -18,7 +18,7 @@ import flexjson.JSONSerializer;
 public class TripRequestController extends Controller {
 
     public static Result getTripRequests() {
-	List<TripRequest> trips = TripRequest.find.where().le("id", 50).findList();
+	List<TripRequest> trips = TripRequest.find.where().le("id", 3).findList();
 
 	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 

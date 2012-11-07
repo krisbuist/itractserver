@@ -70,6 +70,7 @@ create table user (
   date_of_birth             varchar(255),
   gender                    varchar(255),
   profile_picture           varchar(255),
+  constraint uq_user_email unique (email),
   constraint pk_user primary key (id))
 ;
 

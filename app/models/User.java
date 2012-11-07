@@ -1,5 +1,6 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,8 @@ public class User extends Model {
 
     @Constraints.Required
     private String lastName;
-
+    
+    @Column(unique=true)
     @Constraints.Required
     private String email;
 
@@ -152,5 +154,9 @@ public class User extends Model {
 
     public void setId(int id) {
 	this.id = id;
+    }
+
+    public static User authenticate(String username, String password) {
+	return find.where().eq("email", username).eq("password", password).findUnique();
     }
 }

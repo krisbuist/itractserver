@@ -100,7 +100,7 @@ public class ModelFactory {
 	u.setDateOfBirth("2012/09/02");
 
 	u.setGender("M");
-	u.setPassword("john");
+	u.setPassword(u.getFirstName().toLowerCase());
 	u.setProfilePicture("http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50");
 	
 	return u;

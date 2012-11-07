@@ -13,7 +13,7 @@ import play.mvc.Result;
 public class TripOfferController extends Controller {
 
     public static Result getTripOffers() {
-	List<TripOffer> trips = TripOffer.find.where().le("id", 50).findList();
+	List<TripOffer> trips = TripOffer.find.where().le("id", 15).findList();
 	return ok(toJson(trips));
     }
 

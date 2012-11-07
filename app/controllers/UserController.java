@@ -12,6 +12,8 @@ import play.data.Form;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
+import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
 
 public class UserController extends Controller {
@@ -21,6 +23,7 @@ public class UserController extends Controller {
 	return ok(toJson(users));
     }
 
+    @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
 	User user = User.find.byId(id);
 	if (user != null) {
@@ -33,7 +36,7 @@ public class UserController extends Controller {
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newUser() {
 	Form<User> userForm = form(User.class).bindFromRequest();
-	
+
 	if (userForm.hasErrors()) {
 	    return badRequest();
 	}
@@ -97,15 +100,14 @@ public class UserController extends Controller {
 
     public static Result getMatchesByUser(Integer id) {
 	List<TripMatch> matches = TripMatch.find.join("tripRequest").where().eq("tripRequest.user.id", id).findList();
-	
+
 	JSONSerializer serializer = new JSONSerializer().exclude("class").include("*");
 
 	response().setContentType("application/json");
 	return ok(serializer.serialize(matches));
     }
-    
-    public static Result doLogin()
-    {
+
+    public static Result doLogin() {
 	return TODO;
     }
 }

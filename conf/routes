@@ -28,6 +28,8 @@ DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripReque
 # Routes for the matches
 GET     /api/match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
+GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)
+PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 # Routers for the trip request
 GET     /api/user                       controllers.UserController.getUsers()

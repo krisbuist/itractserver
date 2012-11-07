@@ -29,7 +29,7 @@ public class TripRequestController extends Controller {
 	}
 	return null;
     }
-    
+
     public static Result getTripRequests() {
 	List<TripRequest> trips = TripRequest.find.where().le("id", 15).findList();
 
@@ -41,16 +41,16 @@ public class TripRequestController extends Controller {
 
     @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
-    public static Result newTripRequest() {	
+    public static Result newTripRequest() {
 	Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();
 	if (tripRequestForm.hasErrors()) {
 	    return badRequest();
 	}
-	
+
 	TripRequest newTripRequest = tripRequestForm.get();
-	
+
 	newTripRequest.setId(0);
-	newTripRequest.setUser(activeUser());	
+	newTripRequest.setUser(activeUser());
 	newTripRequest.save();
 
 	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
@@ -75,16 +75,24 @@ public class TripRequestController extends Controller {
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateTripRequest(Integer id) {
 	TripRequest tripToUpdate = TripRequest.find.byId(id);
-	
+
+	if (tripToUpdate == null) {
+	    return notFound();
+	}
+
+	if (tripToUpdate.getUser().getId() != activeUser().getId()) {
+	    return unauthorized();
+	}
+
 	Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();
 	if (tripRequestForm.hasErrors()) {
 	    return badRequest();
 	}
-	
+
 	TripRequest editedTripRequest = tripRequestForm.get();
-	
+
 	editedTripRequest.setId(tripToUpdate.getId());
-	editedTripRequest.setUser(activeUser());	
+	editedTripRequest.setUser(activeUser());
 	editedTripRequest.update();
 
 	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
@@ -92,11 +100,18 @@ public class TripRequestController extends Controller {
 	return ok(serializer.serialize(editedTripRequest));
     }
 
+    @With(BasicAuthAction.class)
     public static Result deleteTripRequest(Integer id) {
 	TripRequest tripToDelete = TripRequest.find.byId(id);
+
 	if (tripToDelete == null) {
 	    return notFound();
 	}
+
+	if (tripToDelete.getUser().getId() != activeUser().getId()) {
+	    return unauthorized();
+	}
+
 	tripToDelete.delete();
 	return noContent();
     }

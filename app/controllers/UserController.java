@@ -63,12 +63,17 @@ public class UserController extends Controller {
 	return status(201, toJson(newUser));
     }
 
+    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateUser(Integer id) {
 	User userToEdit = User.find.byId(id);
 
 	if (userToEdit == null) {
 	    return notFound();
+	}
+
+	if (userToEdit.getId() != activeUser().getId()) {
+	    return unauthorized();
 	}
 
 	Form<User> userForm = form(User.class).bindFromRequest();
@@ -84,14 +89,20 @@ public class UserController extends Controller {
 	return status(200, toJson(editedUser));
     }
 
+    @With(BasicAuthAction.class)
     public static Result deleteUser(Integer id) {
 	User u = User.find.byId(id);
-	if (u != null) {
-	    u.delete();
-	    return ok();
-	} else {
+
+	if (u == null) {
 	    return notFound();
 	}
+
+	if (u.getId() != activeUser().getId()) {
+	    return unauthorized();
+	}
+
+	u.delete();
+	return noContent();
     }
 
     public static Result getRequestsByUser(Integer id) {

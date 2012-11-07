@@ -27,6 +27,7 @@ public class TripRequest extends Trip {
 
     public TripRequest() {
 	super();
+	matches = new ArrayList<TripMatch>();
     }
 
     public List<TripMatch> getMatches() {

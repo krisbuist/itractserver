@@ -122,7 +122,8 @@ public class UserController extends Controller {
 	return ok(serializer.serialize(matches));
     }
 
+    @With(BasicAuthAction.class)
     public static Result doLogin() {
-	return TODO;
+	return noContent();
     }
 }

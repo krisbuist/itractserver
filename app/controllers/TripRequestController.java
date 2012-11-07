@@ -11,12 +11,25 @@ package controllers;
 import java.util.List;
 
 import models.TripRequest;
+import models.User;
+import play.data.Form;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
+import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
 
 public class TripRequestController extends Controller {
 
+    private static User activeUser() {
+	Object u = ctx().args.get("user");
+	if (u != null && u instanceof User) {
+	    return (User) u;
+	}
+	return null;
+    }
+    
     public static Result getTripRequests() {
 	List<TripRequest> trips = TripRequest.find.where().le("id", 15).findList();
 
@@ -26,9 +39,23 @@ public class TripRequestController extends Controller {
 	return ok(serializer.serialize(trips));
     }
 
-    public static Result newTripRequest() {
+    @With(BasicAuthAction.class)
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
+    public static Result newTripRequest() {	
+	Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();
+	if (tripRequestForm.hasErrors()) {
+	    return badRequest();
+	}
+	
+	TripRequest newTripRequest = tripRequestForm.get();
+	
+	newTripRequest.setId(0);
+	newTripRequest.setUser(activeUser());	
+	newTripRequest.save();
 
-	return TODO;
+	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+	response().setContentType("application/json");
+	return created(serializer.serialize(newTripRequest));
     }
 
     public static Result getTripRequest(Integer id) {
@@ -44,9 +71,25 @@ public class TripRequestController extends Controller {
 	}
     }
 
+    @With(BasicAuthAction.class)
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateTripRequest(Integer id) {
 	TripRequest tripToUpdate = TripRequest.find.byId(id);
-	return redirect(routes.TripRequestController.getTripRequest(tripToUpdate.getId()));
+	
+	Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();
+	if (tripRequestForm.hasErrors()) {
+	    return badRequest();
+	}
+	
+	TripRequest editedTripRequest = tripRequestForm.get();
+	
+	editedTripRequest.setId(tripToUpdate.getId());
+	editedTripRequest.setUser(activeUser());	
+	editedTripRequest.update();
+
+	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+	response().setContentType("application/json");
+	return ok(serializer.serialize(editedTripRequest));
     }
 
     public static Result deleteTripRequest(Integer id) {

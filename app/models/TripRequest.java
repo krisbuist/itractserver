@@ -90,6 +90,7 @@ public class TripRequest extends Trip {
 	return true;
     }
 
+    @SuppressWarnings("unused")
     private boolean isPossibleMatchOnTravelTime(Directions directions) {
 	return directions.isValidForWaypointTimeConstraints();
     }

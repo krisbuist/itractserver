@@ -39,7 +39,7 @@ PUT     /api/match/:id                  controllers.MatchController.updateMatch(
 GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
-# Routers for users
+# Routes for users
 GET     /api/user                       controllers.UserController.getUsers()
 POST    /api/user                       controllers.UserController.newUser()
 GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)

@@ -18,5 +18,8 @@ bin
 
 .DS_Store
 
-/public
-!/public/cities.scv
+public
+
+!public/cities.csv
+
+

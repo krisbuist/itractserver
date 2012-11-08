@@ -17,3 +17,6 @@ bin
 /.settings
 
 .DS_Store
+
+/public
+!/public/cities.scv

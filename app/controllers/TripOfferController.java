@@ -15,96 +15,115 @@ import flexjson.JSONSerializer;
 public class TripOfferController extends Controller {
 
     private static User activeUser() {
-	Object u = ctx().args.get("user");
-	if (u != null && u instanceof User) {
-	    return (User) u;
-	}
-	return null;
+        Object u = ctx().args.get("user");
+        if (u != null && u instanceof User) {
+            return (User) u;
+        }
+        return null;
     }
 
     public static Result getTripOffers() {
-	List<TripOffer> trips = TripOffer.find.where().le("id", 15).findList();
+        List<TripOffer> trips = TripOffer.find.where().le("id", 15).findList();
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+        JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 
-	response().setContentType("application/json");
-	return ok(serializer.serialize(trips));
+        response().setContentType("application/json");
+        return ok(serializer.serialize(trips));
     }
 
     public static Result getTripOffer(Integer id) {
-	TripOffer trip = TripOffer.find.byId(id);
+        TripOffer trip = TripOffer.find.byId(id);
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+        JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 
-	if (trip != null) {
-	    response().setContentType("application/json");
-	    return ok(serializer.serialize(trip));
-	} else {
-	    return notFound();
-	}
+        if (trip != null) {
+            response().setContentType("application/json");
+            response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+            response().setHeader("Access-Control-Allow-Origin", "*");
+            response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+            response().setHeader("Access-Control-Max-Age", "60");
+            return ok(serializer.serialize(trip));
+        } else {
+            return notFound();
+        }
     }
 
-    @With(BasicAuthAction.class)
+//    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newTripOffer() {
-	Form<TripOffer> tripOfferForm = form(TripOffer.class).bindFromRequest();
-	if (tripOfferForm.hasErrors()) {
-	    return badRequest();
-	}
+        Form<TripOffer> tripOfferForm = form(TripOffer.class).bindFromRequest();
+        if (tripOfferForm.hasErrors()) {
+            return badRequest();
+        }
 
-	TripOffer newTripOffer = tripOfferForm.get();
+        TripOffer newTripOffer = tripOfferForm.get();
 
-	newTripOffer.setId(0);
-	newTripOffer.setUser(activeUser());
-	newTripOffer.save();
+        newTripOffer.setId(0);
+        newTripOffer.setUser(activeUser());
+        newTripOffer.save();
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
-	response().setContentType("application/json");
-	return created(serializer.serialize(newTripOffer));
+        JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return created(serializer.serialize(newTripOffer));
     }
 
     @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateTripOffer(Integer id) {
-	TripOffer tripToUpdate = TripOffer.find.byId(id);
+        TripOffer tripToUpdate = TripOffer.find.byId(id);
 
-	if (tripToUpdate == null) {
-	    return notFound();
-	}
+        if (tripToUpdate == null) {
+            return notFound();
+        }
 
-	if (tripToUpdate.getUser().getId() != activeUser().getId()) {
-	    return unauthorized();
-	}
+        if (tripToUpdate.getUser().getId() != activeUser().getId()) {
+            return unauthorized();
+        }
 
-	Form<TripOffer> tripOfferForm = form(TripOffer.class).bindFromRequest();
-	if (tripOfferForm.hasErrors()) {
-	    return badRequest();
-	}
+        Form<TripOffer> tripOfferForm = form(TripOffer.class).bindFromRequest();
+        if (tripOfferForm.hasErrors()) {
+            return badRequest();
+        }
 
-	TripOffer editedTripOffer = tripOfferForm.get();
+        TripOffer editedTripOffer = tripOfferForm.get();
 
-	editedTripOffer.setId(tripToUpdate.getId());
-	editedTripOffer.setUser(activeUser());
-	editedTripOffer.update();
+        editedTripOffer.setId(tripToUpdate.getId());
+        editedTripOffer.setUser(activeUser());
+        editedTripOffer.update();
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
-	response().setContentType("application/json");
-	return ok(serializer.serialize(editedTripOffer));
+        JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+        response().setContentType("application/json");
+        return ok(serializer.serialize(editedTripOffer));
     }
 
     @With(BasicAuthAction.class)
     public static Result deleteTripOffer(Integer id) {
-	TripOffer toDelete = TripOffer.find.byId(id);
+        TripOffer toDelete = TripOffer.find.byId(id);
 
-	if (toDelete == null) {
-	    return notFound();
-	}
+        if (toDelete == null) {
+            return notFound();
+        }
 
-	if (toDelete.getUser().getId() != activeUser().getId()) {
-	    return unauthorized();
-	}
+        if (toDelete.getUser().getId() != activeUser().getId()) {
+            return unauthorized();
+        }
 
-	toDelete.delete();
-	return noContent();
+        toDelete.delete();
+        return noContent();
+    }
+
+    public static Result respondToOptions() {
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok();
     }
 }

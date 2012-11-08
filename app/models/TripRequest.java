@@ -37,8 +37,12 @@ public class TripRequest extends Trip {
 
     private void calculateNewMatchingOffers() {
 
-	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
-		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
+	List<TripOffer> matchesInTimeWindow = TripOffer.find.where()
+//		.le("start_time_min", getStartTimeMax())
+//		.ge("start_time_max", getStartTimeMin())
+//		.ge("end_time_max", getEndTimeMin())
+//		.le("end_time_min", getEndTimeMax())
+		.ge("number_of_seats", getNumberOfSeats()).findList();
 
 	Directions originalDirections, directionsIncludingRequest;
 

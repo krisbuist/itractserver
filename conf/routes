@@ -4,9 +4,6 @@
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET		/                               controllers.Assets.at(path="/public", file="index.html")
-
-GET     /*file               	        controllers.Assets.at(path="/public", file)
 
 # Routes for login
 GET		/api/login						controllers.UserController.doLogin()
@@ -60,3 +57,7 @@ GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id:
 GET		/generate/offers/:number		controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
 GET		/generate/requests/:number		controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)
 GET		/generate/users/:number			controllers.GeneratorController.generateUsers(number: java.lang.Integer)
+
+GET		/                               controllers.Assets.at(path="/public", file="index.html")
+
+GET     /*file               	        controllers.Assets.at(path="/public", file)

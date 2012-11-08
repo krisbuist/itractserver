@@ -138,9 +138,9 @@ public class ModelFactory {
 	    while ((line = reader.readLine()) != null) {
 		String[] cityValues = line.split(",");
 		if (cityValues.length == 5) {
-		    String address = String.format("%s, %s, %s", cityValues[0], cityValues[1], cityValues[2]);
-		    double longitude = Double.parseDouble(cityValues[3]);
-		    double latitude = Double.parseDouble(cityValues[4]);
+		    String address = String.format("%s, %s", cityValues[0], cityValues[2]);
+		    double latitude = Double.parseDouble(cityValues[3]);
+		    double longitude = Double.parseDouble(cityValues[4]);
 		    Waypoint loc = new Waypoint(longitude, latitude, address, 0, 0);
 		    cities.add(loc);
 		}

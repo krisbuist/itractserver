@@ -27,12 +27,6 @@ public class UserController extends Controller {
     }
 
     @With(BasicAuthAction.class)
-    public static Result getCurrentUser() {
-	User user = activeUser();
-	return ok(toJson(user));
-    }
-
-    @With(BasicAuthAction.class)
     public static Result getUsers() {
 	List<User> users = User.find.all();
 	return ok(toJson(users));
@@ -135,6 +129,7 @@ public class UserController extends Controller {
 
     @With(BasicAuthAction.class)
     public static Result doLogin() {
-	return noContent();
+	User user = activeUser();
+	return ok(toJson(user));
     }
 }

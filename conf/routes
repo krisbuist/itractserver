@@ -8,8 +8,6 @@ GET		/								controllers.Application.index()
 
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)
 
-# Routes for login
-GET		/api/login						controllers.UserController.doLogin()
 
 # Routes for the trip offers                                                          
 GET     /api/trip_offer                 controllers.TripOfferController.getTripOffers()
@@ -39,6 +37,9 @@ PUT     /api/match/:id                  controllers.MatchController.updateMatch(
 GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
+# Routes for login
+GET		/api/login						controllers.UserController.doLogin()
+
 # Routes for users
 GET     /api/user                       controllers.UserController.getUsers()
 POST    /api/user                       controllers.UserController.newUser()
@@ -51,7 +52,6 @@ POST    /api/user/:id                   controllers.UserController.updateUser(id
 POST	/api/user/:id/delete			controllers.UserController.deleteUser(id: java.lang.Integer)
 
 # Supporting routes for users
-GET     /api/my_user                    controllers.UserController.getCurrentUser()
 GET		/api/user/:id/trip_requests		controllers.UserController.getRequestsByUser(id: java.lang.Integer)
 GET		/api/user/:id/trip_offers		controllers.UserController.getOffersByUser(id: java.lang.Integer)
 GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id: java.lang.Integer)

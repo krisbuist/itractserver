@@ -12,15 +12,33 @@ import play.data.Form;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
+import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
 
 public class UserController extends Controller {
 
+    private static User activeUser() {
+	Object u = ctx().args.get("user");
+	if (u != null && u instanceof User) {
+	    return (User) u;
+	}
+	return null;
+    }
+
+    @With(BasicAuthAction.class)
+    public static Result getCurrentUser() {
+	User user = activeUser();
+	return ok(toJson(user));
+    }
+
+    @With(BasicAuthAction.class)
     public static Result getUsers() {
 	List<User> users = User.find.all();
 	return ok(toJson(users));
     }
 
+    @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
 	User user = User.find.byId(id);
 	if (user != null) {
@@ -33,7 +51,7 @@ public class UserController extends Controller {
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newUser() {
 	Form<User> userForm = form(User.class).bindFromRequest();
-	
+
 	if (userForm.hasErrors()) {
 	    return badRequest();
 	}
@@ -45,12 +63,17 @@ public class UserController extends Controller {
 	return status(201, toJson(newUser));
     }
 
+    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateUser(Integer id) {
 	User userToEdit = User.find.byId(id);
 
 	if (userToEdit == null) {
 	    return notFound();
+	}
+
+	if (userToEdit.getId() != activeUser().getId()) {
+	    return unauthorized();
 	}
 
 	Form<User> userForm = form(User.class).bindFromRequest();
@@ -66,14 +89,20 @@ public class UserController extends Controller {
 	return status(200, toJson(editedUser));
     }
 
+    @With(BasicAuthAction.class)
     public static Result deleteUser(Integer id) {
 	User u = User.find.byId(id);
-	if (u != null) {
-	    u.delete();
-	    return ok();
-	} else {
+
+	if (u == null) {
 	    return notFound();
 	}
+
+	if (u.getId() != activeUser().getId()) {
+	    return unauthorized();
+	}
+
+	u.delete();
+	return noContent();
     }
 
     public static Result getRequestsByUser(Integer id) {
@@ -97,15 +126,15 @@ public class UserController extends Controller {
 
     public static Result getMatchesByUser(Integer id) {
 	List<TripMatch> matches = TripMatch.find.join("tripRequest").where().eq("tripRequest.user.id", id).findList();
-	
+
 	JSONSerializer serializer = new JSONSerializer().exclude("class").include("*");
 
 	response().setContentType("application/json");
 	return ok(serializer.serialize(matches));
     }
-    
-    public static Result doLogin()
-    {
-	return TODO;
+
+    @With(BasicAuthAction.class)
+    public static Result doLogin() {
+	return noContent();
     }
 }

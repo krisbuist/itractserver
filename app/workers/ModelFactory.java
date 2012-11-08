@@ -7,8 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import models.Trip;
@@ -100,7 +98,7 @@ public class ModelFactory {
 	u.setDateOfBirth("2012/09/02");
 
 	u.setGender("M");
-	u.setPassword("john");
+	u.setPassword(u.getFirstName().toLowerCase());
 	u.setProfilePicture("http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50");
 	
 	return u;

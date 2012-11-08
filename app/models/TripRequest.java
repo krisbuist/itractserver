@@ -27,6 +27,7 @@ public class TripRequest extends Trip {
 
     public TripRequest() {
 	super();
+	matches = new ArrayList<TripMatch>();
     }
 
     public List<TripMatch> getMatches() {
@@ -89,6 +90,7 @@ public class TripRequest extends Trip {
 	return true;
     }
 
+    @SuppressWarnings("unused")
     private boolean isPossibleMatchOnTravelTime(Directions directions) {
 	return directions.isValidForWaypointTimeConstraints();
     }

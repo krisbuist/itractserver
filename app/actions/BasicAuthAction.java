@@ -9,7 +9,7 @@ public class BasicAuthAction extends Action.Simple {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-    private static final String REALM = "Basic realm=\"Your Realm Here\"";
+    private static final String REALM = "Basic realm=\"Enter your credentials\"";
 
     @Override
     public Result call(Context context) throws Throwable {

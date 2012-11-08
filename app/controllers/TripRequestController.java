@@ -39,7 +39,7 @@ public class TripRequestController extends Controller {
         return ok(serializer.serialize(trips));
     }
 
-    @With(BasicAuthAction.class)
+//    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newTripRequest() {
         Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();
@@ -54,7 +54,11 @@ public class TripRequestController extends Controller {
         newTripRequest.save();
 
         JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
-        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
         return created(serializer.serialize(newTripRequest));
     }
 
@@ -64,7 +68,11 @@ public class TripRequestController extends Controller {
         JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 
         if (trip != null) {
-            response().setContentType("application/json");
+            response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+            response().setHeader("Access-Control-Allow-Origin", "*");
+            response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+            response().setHeader("Access-Control-Max-Age", "60");
             return ok(serializer.serialize(trip));
         } else {
             return notFound();
@@ -121,6 +129,7 @@ public class TripRequestController extends Controller {
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
         response().setHeader("Access-Control-Max-Age", "60");
 
         return ok();

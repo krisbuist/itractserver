@@ -170,14 +170,14 @@ public abstract class Trip extends Model {
     }
 
     public String getStartTimeWindow() {
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	Date begin = new Date(getStartTimeMin() * 1000);
 	Date end = new Date(getStartTimeMax() * 1000);
 	return format.format(begin) + " - " + format.format(end);
     }
 
     public String getEndTimeWindow() {
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	Date begin = new Date(getEndTimeMin() * 1000);
 	Date end = new Date(getEndTimeMax() * 1000);
 	return format.format(begin) + " - " + format.format(end);

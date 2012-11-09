@@ -1,14 +1,14 @@
 package controllers;
 
-import actions.BasicAuthAction;
+import models.Notification;
 import models.TripMatch;
 import models.TripMatchState;
-import models.User;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
 import workers.GCMWorker;
+import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
 
 public class MatchController extends Controller {
@@ -36,9 +36,15 @@ public class MatchController extends Controller {
 	match.setState(newState);
 
 	if (newState == TripMatchState.POTENTIAL.ordinal()) {
+	    
+	    Notification n = new Notification();
+	    n.setTripMatch(match);
+	    n.setUser(match.getTripOffer().getUser());
+	    
 	    String deviceId = match.getTripOffer().getUser().getDeviceID();
+//	    deviceId = User.find.byId(2).getDeviceID();
 	    if (!deviceId.isEmpty()) {
-		GCMWorker.sendMessage(deviceId, "You have received an invite", "requestInvitation");
+		GCMWorker.sendMessage(deviceId, "You have received an invite", "requestInvitation", Integer.toString(match.getId()));
 	    }
 	}
 

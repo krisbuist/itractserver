@@ -1,7 +1,10 @@
 package controllers;
 
+import java.util.List;
+
 import javax.persistence.PersistenceException;
 
+import models.TripRequest;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -41,5 +44,15 @@ public class GeneratorController extends Controller {
 	    }
 	}
 	return redirect(routes.UserController.getUsers());
+    }
+    
+    public static Result calculateMatches()
+    {
+	List<TripRequest> requests = TripRequest.find.all();
+	for(TripRequest t : requests)
+	{
+	    t.getMatches();
+	}
+	return ok("Matches calculated");
     }
 }

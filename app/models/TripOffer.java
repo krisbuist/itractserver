@@ -11,5 +11,11 @@ public class TripOffer extends Trip {
     public TripOffer() {
         super();
     }
+//    
+//    
+//    public List<TripMatch> getMatches()
+//    {
+//	return TripMatch.find.where().eq("trip_offer_id", this.getId()).findList();
+//    }
 
 }

@@ -49,7 +49,7 @@ public class TripOfferController extends Controller {
         }
     }
 
-//    @With(BasicAuthAction.class)
+    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newTripOffer() {
         Form<TripOffer> tripOfferForm = form(TripOffer.class).bindFromRequest();

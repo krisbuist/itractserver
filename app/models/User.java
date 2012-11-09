@@ -45,6 +45,16 @@ public class User extends Model {
     private String dateOfBirth;
 
     private String gender;
+    
+    private String deviceID;
+
+    public String getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
+    }
 
     public User() {
 

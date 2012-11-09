@@ -40,6 +40,8 @@ PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(
 # Routes for login
 GET	/api/login			controllers.UserController.doLogin()
 OPTIONS /api/login                      controllers.TripRequestController.respondToOptions()
+POST	/api/login						controllers.UserController.doLoginWithDeviceId()
+
 
 # Routes for users
 GET     /api/user                       controllers.UserController.getUsers()
@@ -57,10 +59,14 @@ GET		/api/user/:id/trip_requests		controllers.UserController.getRequestsByUser(i
 GET		/api/user/:id/trip_offers		controllers.UserController.getOffersByUser(id: java.lang.Integer)
 GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id: java.lang.Integer)
 
+# Notifications for the user
+GET     /api/notification               controllers.UserController.getNotifications()
+
 # Routes for the data generator
 GET		/generate/offers/:number		controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)
 GET		/generate/requests/:number		controllers.GeneratorController.generateTripRequests(number: java.lang.Integer)
 GET		/generate/users/:number			controllers.GeneratorController.generateUsers(number: java.lang.Integer)
+GET		/generate/matches				controllers.GeneratorController.calculateMatches()
 
 GET		/                               controllers.Assets.at(path="/public", file="index.html")
 

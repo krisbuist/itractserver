@@ -4,10 +4,7 @@ import static play.libs.Json.toJson;
 
 import java.util.List;
 
-import models.TripMatch;
-import models.TripOffer;
-import models.TripRequest;
-import models.User;
+import models.*;
 import play.data.Form;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -121,7 +118,7 @@ public class UserController extends Controller {
     public static Result getMatchesByUser(Integer id) {
 	List<TripMatch> matches = TripMatch.find.join("tripRequest").where().eq("tripRequest.user.id", id).findList();
 
-	JSONSerializer serializer = new JSONSerializer().exclude("class").include("*");
+	JSONSerializer serializer = new JSONSerializer().exclude("class").exclude("*.password").include("*");
 
 	response().setContentType("application/json");
 	return ok(serializer.serialize(matches));
@@ -131,5 +128,14 @@ public class UserController extends Controller {
     public static Result doLogin() {
 	User user = activeUser();
 	return ok(toJson(user));
+    }
+
+    @With(BasicAuthAction.class)
+    public static Result getNotifications(){
+        List<Notification> notifications = Notification.find.where().eq("user",activeUser()).findList();
+
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
+        response().setContentType("application/json");
+        return ok(serializer.serialize(notifications));
     }
 }

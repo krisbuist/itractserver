@@ -39,7 +39,7 @@ public class TripRequestController extends Controller {
         return ok(serializer.serialize(trips));
     }
 
-//    @With(BasicAuthAction.class)
+    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newTripRequest() {
         Form<TripRequest> tripRequestForm = form(TripRequest.class).bindFromRequest();

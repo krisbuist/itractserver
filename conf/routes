@@ -12,6 +12,7 @@ POST    /api/trip_offer                 controllers.TripOfferController.newTripO
 GET     /api/trip_offer/:id				controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
 PUT     /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
 DELETE	/api/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: java.lang.Integer)
+OPTIONS /api/trip_offer                 controllers.TripOfferController.respondToOptions()
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)

@@ -9,7 +9,7 @@ import workers.StatisticsGenerator;
 import akka.util.Duration;
 
 public class Global extends GlobalSettings {
-
+    
     @Override
     public void onStart(Application app) {
 	Logger.info("Application has started");
@@ -29,5 +29,4 @@ public class Global extends GlobalSettings {
     public void onStop(Application app) {
 	Logger.info("Application shutdown...");
     }
-
 }

@@ -26,9 +26,8 @@ public class UserController extends Controller {
 	return null;
     }
 
-    @With(BasicAuthAction.class)
     public static Result getUsers() {
-	List<User> users = User.find.all();
+	List<User> users = User.find.where().le("id", 20).findList();
 	return ok(toJson(users));
     }
 
@@ -130,6 +129,17 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result doLogin() {
 	User user = activeUser();
+	return ok(toJson(user));
+    }
+    
+    @With(BasicAuthAction.class)
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
+    public static Result doLoginWithDeviceId()
+    {
+	User user = activeUser();
+	
+	user.setDeviceID(request().body().asJson().get("deviceID").asText());
+	user.update();
 	return ok(toJson(user));
     }
 }

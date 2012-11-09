@@ -20,10 +20,12 @@ public class MatchController extends Controller {
 	    return notFound();
 	}
 
-	JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches").include("*");
-
 	response().setContentType("application/json");
-	return ok(serializer.serialize(match));
+	return ok(getSerializer().serialize(match));
+    }
+    
+    private static JSONSerializer getSerializer() {
+	return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
     }
 
     @With(BasicAuthAction.class)
@@ -40,6 +42,7 @@ public class MatchController extends Controller {
 	    Notification n = new Notification();
 	    n.setTripMatch(match);
 	    n.setUser(match.getTripOffer().getUser());
+	    match.update();
 	    
 	    String deviceId = match.getTripOffer().getUser().getDeviceID();
 //	    deviceId = User.find.byId(2).getDeviceID();
@@ -48,9 +51,7 @@ public class MatchController extends Controller {
 	    }
 	}
 
-	JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches").include("*");
-
 	response().setContentType("application/json");
-	return ok(serializer.serialize(match));
+	return ok(getSerializer().serialize(match));
     }
 }

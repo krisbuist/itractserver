@@ -25,6 +25,7 @@ GET     /api/trip_request/:id           controllers.TripRequestController.getTri
 PUT     /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
 OPTIONS /api/trip_request               controllers.TripRequestController.respondToOptions()
+OPTIONS /api/trip_request/:id              controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Fallback routes for browser which do not support PUT and DELETE
 POST	/api/trip_request/:id/delete	controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
@@ -37,7 +38,8 @@ GET     /api/trip_match/:id             controllers.MatchController.getMatch(id:
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 # Routes for login
-GET		/api/login						controllers.UserController.doLogin()
+GET	/api/login			controllers.UserController.doLogin()
+OPTIONS /api/login                      controllers.TripRequestController.respondToOptions()
 
 # Routes for users
 GET     /api/user                       controllers.UserController.getUsers()

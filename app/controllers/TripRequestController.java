@@ -23,7 +23,7 @@ public class TripRequestController extends Controller {
     }
 
     public static Result getTripRequests() {
-	List<TripRequest> trips = TripRequest.find.where().le("id", 15).findList();
+	List<TripRequest> trips = TripRequest.find.where().le("id", 10000).findList();
 
 	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 

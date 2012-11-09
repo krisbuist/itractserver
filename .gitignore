@@ -23,3 +23,5 @@ public
 !public/cities.csv
 
 
+/lib/gcm-server.jar
+/lib/json-simple-1.1.1.jar

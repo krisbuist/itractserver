@@ -85,7 +85,7 @@ public class MatchController extends Controller {
 				}
 
 				if (message != null && title != null) {
-					GCMWorker.sendMessage(deviceId, message, title,
+					GCMWorker.sendMessage(deviceId, title, message,
 							Integer.toString(match.getId()));
 				}
 			}

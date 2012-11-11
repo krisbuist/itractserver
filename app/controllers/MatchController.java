@@ -2,7 +2,6 @@ package controllers;
 
 import models.Notification;
 import models.TripMatch;
-import models.TripMatchState;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,45 +12,79 @@ import flexjson.JSONSerializer;
 
 public class MatchController extends Controller {
 
-    public static Result getMatch(Integer id) {
-	TripMatch match = TripMatch.find.byId(id);
+	public static Result getMatch(Integer id) {
+		TripMatch match = TripMatch.find.byId(id);
 
-	if (match == null) {
-	    return notFound();
+		if (match == null) {
+			return notFound();
+		}
+
+		response().setContentType("application/json");
+		return ok(getSerializer().serialize(match));
 	}
 
-	response().setContentType("application/json");
-	return ok(getSerializer().serialize(match));
-    }
-    
-    private static JSONSerializer getSerializer() {
-	return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
-    }
-
-    @With(BasicAuthAction.class)
-    @BodyParser.Of(play.mvc.BodyParser.Json.class)
-    public static Result updateMatch(Integer id) {
-	TripMatch match = TripMatch.find.byId(id);
-
-	int newState = request().body().asJson().get("state").asInt();
-
-	match.setState(newState);
-
-	if (newState == TripMatchState.POTENTIAL.ordinal()) {
-	    
-	    Notification n = new Notification();
-	    n.setTripMatch(match);
-	    n.setUser(match.getTripOffer().getUser());
-	    match.update();
-	    
-	    String deviceId = match.getTripOffer().getUser().getDeviceID();
-//	    deviceId = User.find.byId(2).getDeviceID();
-	    if (!deviceId.isEmpty()) {
-		GCMWorker.sendMessage(deviceId, "You have received an invite", "requestInvitation", Integer.toString(match.getId()));
-	    }
+	private static JSONSerializer getSerializer() {
+		return new JSONSerializer().exclude("tripOffer.matches",
+				"tripRequest.matches").include("*");
 	}
 
-	response().setContentType("application/json");
-	return ok(getSerializer().serialize(match));
-    }
+	@With(BasicAuthAction.class)
+	@BodyParser.Of(play.mvc.BodyParser.Json.class)
+	public static Result updateMatch(Integer id) {
+		TripMatch match = TripMatch.find.byId(id);
+
+		int newState = request().body().asJson().get("state").asInt();
+
+		if (match.getState() != newState) {
+			match.setState(newState);
+			match.update();
+
+			String deviceId = match.getTripOffer().getUser().getDeviceID();
+
+			if (!deviceId.isEmpty()) {
+
+				Notification n = new Notification();
+				n.setTripMatch(match);
+				n.setUser(match.getTripOffer().getUser());
+				match.update();
+
+				String message = null;
+				String offerName = match.getTripOffer().getUser()
+						.getFirstName()
+						+ " " + match.getTripOffer().getUser().getLastName();
+				String requestName = match.getTripRequest().getUser()
+						.getFirstName()
+						+ " " + match.getTripRequest().getUser().getLastName();
+
+				switch (match.getEnumState()) {
+				case POTENTIAL:
+					message = "You have received an request from "
+							+ requestName;
+					break;
+				case CONFIRMED_POTENTIAL:
+					message = offerName + " accepted your request.";
+					break;
+				case DECLINED_POTENTIAL:
+					message = offerName + " declined your request.";
+					break;
+				case CONFIRMED_MATCH:
+					message = requestName + " confirmed the match";
+					break;
+				case DECLINED_MATCH:
+					message = requestName + " declined the match";
+				default:
+					// keep message null
+					break;
+				}
+
+				if (message != null) {
+					GCMWorker.sendMessage(deviceId, message, "",
+							Integer.toString(match.getId()));
+				}
+			}
+		}
+
+		response().setContentType("application/json");
+		return ok(getSerializer().serialize(match));
+	}
 }

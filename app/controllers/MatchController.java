@@ -49,6 +49,8 @@ public class MatchController extends Controller {
 				match.update();
 
 				String message = null;
+				String title = null;
+
 				String offerName = match.getTripOffer().getUser()
 						.getFirstName()
 						+ " " + match.getTripOffer().getUser().getLastName();
@@ -58,27 +60,32 @@ public class MatchController extends Controller {
 
 				switch (match.getEnumState()) {
 				case POTENTIAL:
+					title = "New trip request";
 					message = "You have received an request from "
 							+ requestName;
 					break;
 				case CONFIRMED_POTENTIAL:
+					title = "Trip confirmed";
 					message = offerName + " accepted your request.";
 					break;
 				case DECLINED_POTENTIAL:
+					title = "Trip declined";
 					message = offerName + " declined your request.";
 					break;
 				case CONFIRMED_MATCH:
+					title = "Match confirmed";
 					message = requestName + " confirmed the match";
 					break;
 				case DECLINED_MATCH:
+					title = "Match declined";
 					message = requestName + " declined the match";
 				default:
 					// keep message null
 					break;
 				}
 
-				if (message != null) {
-					GCMWorker.sendMessage(deviceId, message, "",
+				if (message != null && title != null) {
+					GCMWorker.sendMessage(deviceId, message, title,
 							Integer.toString(match.getId()));
 				}
 			}

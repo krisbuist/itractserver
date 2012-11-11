@@ -50,7 +50,7 @@ public class TripRequest extends Trip {
 	while (offer == null) {
 	    offer = TripOffer.find.byId((int) (Math.random() * nrOfTripOffers));
 	}
-	return null;
+	return offer;
     }
 
     private void calculateNewMatchingOffers() {

@@ -24,9 +24,9 @@ public class UserController extends Controller {
         }
 
 
-        public static Result getUsers() {
-        List<User> users = User.find.where().le("id", 20).findList();
-        return ok(toJson(users));
+    public static Result getUsers() {
+	List<User> users = User.find.where().le("id", 20).findList();
+	return ok(toJson(users));
     }
 
     @With(BasicAuthAction.class)
@@ -63,71 +63,72 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateUser(Integer id) {
-        User userToEdit = User.find.byId(id);
+	User userToEdit = User.find.byId(id);
 
-        if (userToEdit == null) {
-            return notFound();
-        }
+	if (userToEdit == null) {
+	    return notFound();
+	}
 
-        if (userToEdit.getId() != activeUser().getId()) {
-            return unauthorized();
+	if (userToEdit.getId() != activeUser().getId()) {
+	    return unauthorized();
 	}
 
 	Form<User> userForm = form(User.class).bindFromRequest();
 
-        if (userForm.hasErrors()) {
-            return badRequest();
-        }
+	if (userForm.hasErrors()) {
+	    return badRequest();
+	}
 
-        User editedUser = userForm.get();
-        editedUser.setId(userToEdit.getId());
-        editedUser.update();
+	User editedUser = userForm.get();
+	editedUser.setId(userToEdit.getId());
+	editedUser.update();
 
-        return status(200, toJson(editedUser));
+	return status(200, toJson(editedUser));
     }
 
     @With(BasicAuthAction.class)
     public static Result deleteUser(Integer id) {
-        User u = User.find.byId(id);
+	User u = User.find.byId(id);
 
-        if (u == null) {
-            return notFound();
-        }
+	if (u == null) {
+	    return notFound();
+	}
 
-        if (u.getId() != activeUser().getId()) {
-            return unauthorized();
-        }
+	if (u.getId() != activeUser().getId()) {
+	    return unauthorized();
+	}
 
-        u.delete();
-        return noContent();
+	u.delete();
+	return noContent();
     }
-
+    
     public static Result getRequestsByUser(Integer id) {
-        List<TripRequest> requests = TripRequest.find.join("user").where().eq("user.id", id).findList();
+	List<TripRequest> requests = TripRequest.find.where().eq("user.id", id).findList();
+	//TripRequest request = TripRequest.find.where().eq("user.id", id).findList().get(0);
 
-        JSONSerializer serializer = new JSONSerializer().exclude("*.class").include("*");
+	JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-        response().setContentType("application/json");
-        return ok(serializer.serialize(requests));
+	response().setContentType("application/json");
+	return ok(serializer.serialize(requests));
     }
 
     public static Result getOffersByUser(Integer id) {
 
-        List<TripOffer> offers = TripOffer.find.join("user").where().eq("user.id", id).findList();
+	List<TripOffer> offers = TripOffer.find.where().eq("user.id", id).findList();
 
-        JSONSerializer serializer = new JSONSerializer().exclude("class").include("*");
+	JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-        response().setContentType("application/json");
-        return ok(serializer.serialize(offers));
+	response().setContentType("application/json");
+	return ok(serializer.serialize(offers));
     }
 
     public static Result getMatchesByUser(Integer id) {
-        List<TripMatch> matches = TripMatch.find.join("tripRequest").where().eq("tripRequest.user.id", id).findList();
+	List<TripMatch> matches = TripMatch.find.where().eq("tripOffer.user.id", id).findList();
 
-        JSONSerializer serializer = new JSONSerializer().exclude("class").exclude("*.password").include("*");
+	JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password");
 
-        response().setContentType("application/json");
-        return ok(serializer.serialize(matches));
+	response().setContentType("application/json");
+	return ok(serializer.serialize(matches));
     }
 
     @With(BasicAuthAction.class)

@@ -208,7 +208,12 @@ public class User extends Model {
     public void addNegative(){
         this.negative =+1;
     }
+
     public int getRating(){
         return (this.positive - this.negative);
+    }
+
+    public int getVoters(){
+        return (this.positive + this.negative);
     }
 }

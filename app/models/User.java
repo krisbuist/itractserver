@@ -202,11 +202,11 @@ public class User extends Model {
     }
 
     public void addPositive(){
-        this.positive =+1;
+        this.positive += 1;
     }
 
     public void addNegative(){
-        this.negative =+1;
+        this.negative += 1;
     }
 
     public int getRating(){

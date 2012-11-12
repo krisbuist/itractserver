@@ -57,8 +57,6 @@ public class MatchController extends Controller {
 
 	    if (!deviceId.isEmpty()) {
 
-		match.update();
-
 		String message = null;
 		String title = null;
 

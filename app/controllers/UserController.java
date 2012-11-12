@@ -152,6 +152,15 @@ public class UserController extends Controller {
         user.update();
         return ok(toJson(user));
     }
+    
+    @With(BasicAuthAction.class)
+    public static Result doUnregisterDevice()
+    {
+        User u = activeUser();
+        u.setDeviceID("");
+        u.update();
+        return noContent();
+    }
 
 	@With(BasicAuthAction.class)
     public static Result getNotifications(){
@@ -160,5 +169,39 @@ public class UserController extends Controller {
         JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
         response().setContentType("application/json");
         return ok(serializer.serialize(notifications));
+    }
+
+    @With(BasicAuthAction.class)
+    public static Result getRatingUp(Integer id)
+    {
+        User u = User.find.byId(id);
+        u.addPositive();
+        u.update();
+
+        JSONSerializer serializer = new JSONSerializer().exclude("*.password").include("*");
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(serializer.serialize(u));
+    }
+
+    @With(BasicAuthAction.class)
+    public static Result getRatingDown(Integer id)
+    {
+        User u = User.find.byId(id);
+        u.addNegative();
+        u.update();
+
+        JSONSerializer serializer = new JSONSerializer().exclude("*.password").include("*");
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(serializer.serialize(u));
     }
 }

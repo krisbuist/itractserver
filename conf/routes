@@ -34,17 +34,21 @@ POST	/api/trip_request/:id/delete	controllers.TripRequestController.deleteTripRe
 POST    /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 
 # Routes for the matches
+GET		/match/:id						controllers.MatchController.displayMatches(id: java.lang.Integer)
 GET     /api/match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
 GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
+#Fallback routes for incompetent browsers
+POST    /api/match/:id                 controllers.MatchController.updateMatch(id: java.lang.Integer)
+POST    /api/trip_match/:id            controllers.MatchController.updateMatch(id: java.lang.Integer)
+
 # Routes for login
-
-GET	/api/login			controllers.UserController.doLogin()
-OPTIONS /api/login                      controllers.TripRequestController.respondToOptions()
+GET		/api/login						controllers.UserController.doLogin()
+GET		/api/unregister_device			controllers.UserController.doUnregisterDevice()
 POST	/api/login						controllers.UserController.doLoginWithDeviceId()
-
+OPTIONS		/api/login		 controllers.UserController.respondToOptions()
 
 # Routes for users
 GET     /api/user                       controllers.UserController.getUsers()
@@ -52,6 +56,7 @@ POST    /api/user                       controllers.UserController.newUser()
 GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
 DELETE	/api/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer)
 PUT     /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
+GET		/api/search/user/:name			controllers.UserController.searchUserByName(name: java.lang.String)
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
@@ -62,6 +67,10 @@ GET		/api/user/:id/trip_requests		controllers.UserController.getRequestsByUser(i
 GET		/api/user/:id/trip_offers		controllers.UserController.getOffersByUser(id: java.lang.Integer)
 GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id: java.lang.Integer)
 
+# Rating router for users
+GET     /api/user/:id/rating_up         controllers.UserController.getRatingUp(id: java.lang.Integer)
+GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown(id: java.lang.Integer)
+
 # Notifications for the user
 GET     /api/notification               controllers.UserController.getNotifications()
 
@@ -71,6 +80,6 @@ GET		/generate/requests/:number		controllers.GeneratorController.generateTripReq
 GET		/generate/users/:number			controllers.GeneratorController.generateUsers(number: java.lang.Integer)
 GET		/generate/matches				controllers.GeneratorController.calculateMatches()
 
-GET		/                               controllers.Assets.at(path="/public", file="index.html")
+GET		/                               controllers.Assets.at(path="/public/", file="index.html")
 
-GET     /*file               	        controllers.Assets.at(path="/public", file)
+GET     /*file               	        controllers.Assets.at(path="/public/", file)

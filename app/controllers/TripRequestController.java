@@ -22,13 +22,15 @@ public class TripRequestController extends Controller {
 	return null;
     }
 
-    public static Result getTripRequests() {
-	List<TripRequest> trips = TripRequest.find.where().le("id", 15).findList();
+    private static JSONSerializer getSerializer() {
+	return new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches").include("*");
+    }
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+    public static Result getTripRequests() {
+	List<TripRequest> trips = TripRequest.find.where().le("id", 1000).findList();
 
 	response().setContentType("application/json");
-	return ok(serializer.serialize(trips));
+	return ok(getSerializer().serialize(trips));
     }
 
     @With(BasicAuthAction.class)
@@ -51,11 +53,9 @@ public class TripRequestController extends Controller {
 	    newTripRequest.setStartTimeMax(newTripRequest.getStartTimeMin() + 60 * 60 * 2);
 	} else {
 	    newTripRequest.setEndTimeMin(newTripRequest.getStartTimeMin() + newTripRequest.getMetaData().getApproximateDuration());
-	    newTripRequest.setEndTimeMax(newTripRequest.getEndTimeMin() + 60 * 60 * 2);    
+	    newTripRequest.setEndTimeMax(newTripRequest.getEndTimeMin() + 60 * 60 * 2);
 	}
 	newTripRequest.update();
-
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 
 	response().setContentType("application/json");
 	response().setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -63,15 +63,15 @@ public class TripRequestController extends Controller {
 	response().setHeader("Access-Control-Allow-Origin", "*");
 	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
 	response().setHeader("Access-Control-Max-Age", "60");
-	return created(serializer.serialize(newTripRequest));
+	return created(getSerializer().serialize(newTripRequest));
     }
     
     //@With(BasicAuthAction.class)
     public static Result getTripRequest(Integer id) {
 	TripRequest trip = TripRequest.find.byId(id);
-
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
-
+	
+	new JSONSerializer().exclude("matches").include("*");
+	
 	if (trip != null) {
 	    response().setContentType("application/json");
 	    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -79,7 +79,7 @@ public class TripRequestController extends Controller {
 	    response().setHeader("Access-Control-Allow-Origin", "*");
 	    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
 	    response().setHeader("Access-Control-Max-Age", "60");
-	    return ok(serializer.serialize(trip));
+	    return ok(getSerializer().serialize(trip));
 	} else {
 	    return notFound();
 	}
@@ -109,9 +109,8 @@ public class TripRequestController extends Controller {
 	editedTripRequest.setUser(activeUser());
 	editedTripRequest.update();
 
-	JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
 	response().setContentType("application/json");
-	return ok(serializer.serialize(editedTripRequest));
+	return ok(getSerializer().serialize(editedTripRequest));
     }
 
     @With(BasicAuthAction.class)

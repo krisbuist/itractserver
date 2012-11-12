@@ -47,7 +47,7 @@ public class Location {
     }
 
     public String getLongLatString() {
-        return longitude + "," + latitude;
+        return latitude + "," + longitude;
     }
 
     @Override

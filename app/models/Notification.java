@@ -25,6 +25,16 @@ public class Notification extends Model {
     @OneToOne
     private TripMatch tripMatch;
 
+    private int state;
+
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public User getUser() {
         return user;

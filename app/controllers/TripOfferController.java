@@ -21,6 +21,11 @@ public class TripOfferController extends Controller {
         }
         return null;
     }
+    
+    private static JSONSerializer getSerializer()
+    {
+	return new JSONSerializer().exclude("matches").include("*");
+    }
 
     public static Result getTripOffers() {
         List<TripOffer> trips = TripOffer.find.where().le("id", 15).findList();

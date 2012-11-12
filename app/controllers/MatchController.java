@@ -2,10 +2,12 @@ package controllers;
 
 import models.Notification;
 import models.TripMatch;
+import models.TripRequest;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
+import views.html.tripmatches;
 import workers.GCMWorker;
 import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
@@ -23,6 +25,11 @@ public class MatchController extends Controller {
 	return ok(getSerializer().serialize(match));
     }
 
+    public static Result displayMatches(Integer id) {
+	TripRequest trip = TripRequest.find.byId(id);
+	return ok(tripmatches.render(trip, trip.getMatches()));
+    }
+
     private static JSONSerializer getSerializer() {
 	return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
     }
@@ -34,19 +41,22 @@ public class MatchController extends Controller {
 
 	int newState = request().body().asJson().get("state").asInt();
 
-	//TODO: Check if state change is allowed (e.g. change from 1 to 6, 6 to 5, 2 to 6 etc. is not allowed)
-	
+	// TODO: Check if state change is allowed (e.g. change from 1 to 6, 6 to
+	// 5, 2 to 6 etc. is not allowed)
+
 	if (match.getState() != newState) {
 	    match.setState(newState);
 	    match.update();
+
+	    Notification n = new Notification();
+	    n.setTripMatch(match);
+	    n.setUser(match.getTripOffer().getUser());
+	    n.save();
 
 	    String deviceId = match.getTripOffer().getUser().getDeviceID();
 
 	    if (!deviceId.isEmpty()) {
 
-		Notification n = new Notification();
-		n.setTripMatch(match);
-		n.setUser(match.getTripOffer().getUser());
 		match.update();
 
 		String message = null;

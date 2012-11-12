@@ -31,6 +31,7 @@ POST	/api/trip_request/:id/delete	controllers.TripRequestController.deleteTripRe
 POST    /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 
 # Routes for the matches
+GET		/match/:id						controllers.MatchController.displayMatches(id: java.lang.Integer)
 GET     /api/match/:id             	   	controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
 GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)

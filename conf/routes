@@ -65,6 +65,6 @@ GET		/generate/requests/:number		controllers.GeneratorController.generateTripReq
 GET		/generate/users/:number			controllers.GeneratorController.generateUsers(number: java.lang.Integer)
 GET		/generate/matches				controllers.GeneratorController.calculateMatches()
 
-GET		/                               controllers.Assets.at(path="/public", file="index.html")
+GET		/                               controllers.Assets.at(path="/public/", file="index.html")
 
-GET     /*file               	        controllers.Assets.at(path="/public", file)
+GET     /*file               	        controllers.Assets.at(path="/public/", file)

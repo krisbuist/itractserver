@@ -129,9 +129,9 @@ public class TripRequestController extends Controller {
 
     }
 
-public static Result respondToOptionsWithId(int id) {
-	return respondToOptions();
-}
+    public static Result respondToOptionsWithId(int id) {
+        return respondToOptions();
+    }
 
     public static Result respondToOptions() {
         response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");

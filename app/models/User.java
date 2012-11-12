@@ -33,7 +33,9 @@ public class User extends Model {
 
     @Constraints.Required
     private String password;
-
+    
+    private String telephoneNr;
+    
     private String address;
 
     private String postalCode;
@@ -161,6 +163,15 @@ public class User extends Model {
     public void setMiddleName(String middleName) {
 	this.middleName = middleName;
     }
+    
+    public String getTelephoneNr() {
+        return telephoneNr;
+    }
+
+    public void setTelephoneNr(String telephoneNr) {
+        this.telephoneNr = telephoneNr;
+    }
+
 
     public void setId(int id) {
 	this.id = id;

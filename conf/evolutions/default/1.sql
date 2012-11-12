@@ -7,6 +7,7 @@ create table notification (
   id                        integer auto_increment not null,
   user_id                   integer,
   trip_match_id             integer,
+  state                     integer,
   constraint pk_notification primary key (id))
 ;
 
@@ -78,6 +79,8 @@ create table user (
   date_of_birth             varchar(255),
   gender                    varchar(255),
   device_id                 varchar(255),
+  positive                  integer,
+  negative                  integer,
   profile_picture           varchar(255),
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id))

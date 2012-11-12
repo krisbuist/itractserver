@@ -38,11 +38,11 @@ GET     /api/trip_match/:id             controllers.MatchController.getMatch(id:
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 #Fallback routes for incompetent browsers
-POST    /api/match/:id                 controllers.MatchController.updateMatch(id: java.lang.Integer)
-POST    /api/trip_match/:id            controllers.MatchController.updateMatch(id: java.lang.Integer)
+POST    /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
+POST    /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
 
 # Routes for login
-GET	/api/login			controllers.UserController.doLogin()
+GET	/api/login			                controllers.UserController.doLogin()
 OPTIONS /api/login                      controllers.TripRequestController.respondToOptions()
 POST	/api/login						controllers.UserController.doLoginWithDeviceId()
 
@@ -53,7 +53,7 @@ POST    /api/user                       controllers.UserController.newUser()
 GET     /api/user/:id                   controllers.UserController.getUser(id: java.lang.Integer)
 DELETE	/api/user/:id					controllers.UserController.deleteUser(id: java.lang.Integer)
 PUT     /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
-GET		/api/search/user/:name			controllers.UserController.searchUserByName(name: java.lang.String)
+#GET		/api/search/user/:name			controllers.UserController.searchUserByName(name: java.lang.String)
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)

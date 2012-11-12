@@ -24,7 +24,7 @@ public class TripOfferController extends Controller {
     
     private static JSONSerializer getSerializer()
     {
-	return new JSONSerializer().exclude("matches").include("*");
+	return new JSONSerializer().exclude("matches.tripOffer.matches", "matches.tripRequest.matches").include("*");
     }
 
     public static Result getTripOffers() {

@@ -1,6 +1,5 @@
 package controllers;
 
-import actions.BasicAuthAction;
 import models.Notification;
 import models.TripMatch;
 import models.TripRequest;
@@ -9,7 +8,6 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
-import views.html.tripmatches;
 import workers.GCMWorker;
 import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
@@ -62,14 +60,6 @@ public class MatchController extends Controller {
             n.setTripMatch(match);
             n.setState(newState);
 
-            if(newState == 1 || newState == 4 || newState == 5)
-                n.setUser(match.getTripOffer().getUser());
-            else
-                n.setUser(match.getTripRequest().getUser());
-            n.save();
-
-
-
             String message = null;
             String title = null;
 
@@ -108,12 +98,14 @@ public class MatchController extends Controller {
                 break;
             }
 
+            n.setUser(user);
+        	n.setTitle(title);
+        	n.setMessage(message);
+        	n.save();
 
             if (user != null && user.getDeviceID() != null && message != null && title != null) {
-
-                GCMWorker.sendMessage(user.getDeviceID(), title, message, Integer.toString(match.getId()));
+                GCMWorker.sendMessage(user.getDeviceID(), String.valueOf(n.getId()), title, message, Integer.toString(match.getId()));
             }
-
         }
 
 

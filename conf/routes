@@ -69,6 +69,7 @@ GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown
 
 # Notifications for the user
 GET     /api/notification               controllers.UserController.getNotifications()
+DELETE  /api/notification/:id        	controllers.UserController.deleteNotification(id: java.lang.Integer)
 
 # Routes for the data generator
 GET		/generate/offers/:number		controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)

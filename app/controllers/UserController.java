@@ -164,6 +164,19 @@ public class UserController extends Controller {
         response().setContentType("application/json");
         return ok(serializer.serialize(notifications));
     }
+    
+    @With(BasicAuthAction.class)
+    public static Result deleteNotification(Integer id) {
+        Notification notification = Notification.find.byId(id);
+
+        if (notification.getUser().getId() != activeUser().getId()) {
+            return unauthorized();
+        }
+        
+        notification.delete();
+
+        return ok();
+    }
 
     @With(BasicAuthAction.class)
     public static Result getRatingUp(Integer id)

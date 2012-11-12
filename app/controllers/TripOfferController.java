@@ -26,7 +26,12 @@ public class TripOfferController extends Controller {
         List<TripOffer> trips = TripOffer.find.where().le("id", 15).findList();
 
         JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
-
+	
+    	response().setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    	response().setHeader("Access-Control-Allow-Origin", "*");
+    	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+    	response().setHeader("Access-Control-Max-Age", "60000");
         response().setContentType("application/json");
         return ok(serializer.serialize(trips));
     }
@@ -38,7 +43,7 @@ public class TripOfferController extends Controller {
 
         if (trip != null) {
             response().setContentType("application/json");
-            response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response().setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
             response().setHeader("Access-Control-Allow-Origin", "*");
             response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
@@ -65,10 +70,10 @@ public class TripOfferController extends Controller {
 
         JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
         response().setContentType("application/json");
-        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
-        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, Authorization");
         response().setHeader("Access-Control-Max-Age", "60");
         return created(serializer.serialize(newTripOffer));
     }
@@ -118,8 +123,9 @@ public class TripOfferController extends Controller {
         return noContent();
     }
 
+
     public static Result respondToOptions() {
-        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");

@@ -31,6 +31,12 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
         User user = User.find.byId(id);
+	response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         if (user != null) {
             return ok(toJson(user));
         } else {
@@ -46,6 +52,13 @@ public class UserController extends Controller {
             return badRequest();
         }
 
+	response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");	
+
         User newUser = userForm.get();
         newUser.setId(0);
         newUser.save();
@@ -57,7 +70,13 @@ public class UserController extends Controller {
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateUser(Integer id) {
         User userToEdit = User.find.byId(id);
-
+	        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         if (userToEdit == null) {
             return notFound();
         }
@@ -90,6 +109,14 @@ public class UserController extends Controller {
         if (u.getId() != activeUser().getId()) {
             return unauthorized();
         }
+	
+	        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
 
         u.delete();
         return noContent();
@@ -98,7 +125,7 @@ public class UserController extends Controller {
     public static Result getRequestsByUser(Integer id) {
         List<TripRequest> requests = TripRequest.find.where().eq("user.id", id).findList();
         //TripRequest request = TripRequest.find.where().eq("user.id", id).findList().get(0);
-
+	
         JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
         response().setContentType("application/json");
@@ -127,19 +154,41 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result doLogin() {
         User user = activeUser();
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         return ok(toJson(user));
     }
     
     @With(BasicAuthAction.class)
     public static Result searchUserByName(String name)
     {
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         List<User> users = User.find.where().like("email", "%" + name + "%").findList();
+	
         return ok(toJson(users));
     }
 
     @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result doLoginWithDeviceId() {
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         User user = activeUser();
 
         user.setDeviceID(request().body().asJson().get("deviceID").asText());
@@ -150,6 +199,13 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result doUnregisterDevice()
     {
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         User u = activeUser();
         u.setDeviceID("");
         u.update();
@@ -159,9 +215,15 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result getNotifications() {
         List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
-
-        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
         response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
+
         return ok(serializer.serialize(notifications));
     }
     
@@ -172,6 +234,13 @@ public class UserController extends Controller {
         if (notification.getUser().getId() != activeUser().getId()) {
             return unauthorized();
         }
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         
         notification.delete();
 
@@ -188,6 +257,7 @@ public class UserController extends Controller {
         JSONSerializer serializer = new JSONSerializer().exclude("*.password").include("*");
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
@@ -204,11 +274,36 @@ public class UserController extends Controller {
 
         JSONSerializer serializer = new JSONSerializer().exclude("*.password").include("*");
         response().setContentType("application/json");
-        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-        response().setHeader("Access-Control-Allow-Origin", "*");
-        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
-        response().setHeader("Access-Control-Max-Age", "60");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
         return ok(serializer.serialize(u));
+    }
+
+public static Result respondToOptionsWithId (int id) {
+	        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
+
+	return ok();
+    }
+    
+public static Result respondToOptions() {
+	        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+	response().setHeader("Access-Control-Max-Age", "60");
+
+	return ok();
     }
 }

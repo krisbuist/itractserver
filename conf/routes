@@ -9,10 +9,12 @@
 # Routes for the trip offers                                                          
 GET     /api/trip_offer                 controllers.TripOfferController.getTripOffers()
 POST    /api/trip_offer                 controllers.TripOfferController.newTripOffer()
+POST    /api/trip_offer/                 controllers.TripOfferController.newTripOffer()
 GET     /api/trip_offer/:id				controllers.TripOfferController.getTripOffer(id: java.lang.Integer)
 PUT     /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
 DELETE	/api/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: java.lang.Integer)
 OPTIONS /api/trip_offer                 controllers.TripOfferController.respondToOptions()
+OPTIONS /api/trip_offer/                 controllers.TripOfferController.respondToOptions()
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
@@ -25,6 +27,7 @@ GET     /api/trip_request/:id           controllers.TripRequestController.getTri
 PUT     /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
 OPTIONS /api/trip_request               controllers.TripRequestController.respondToOptions()
+OPTIONS /api/trip_request/:id               controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Fallback routes for browser which do not support PUT and DELETE
 POST	/api/trip_request/:id/delete	controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
@@ -45,6 +48,7 @@ POST    /api/trip_match/:id            controllers.MatchController.updateMatch(i
 GET		/api/login						controllers.UserController.doLogin()
 GET		/api/unregister_device			controllers.UserController.doUnregisterDevice()
 POST	/api/login						controllers.UserController.doLoginWithDeviceId()
+OPTIONS		/api/login		 controllers.UserController.respondToOptions()
 
 # Routes for users
 GET     /api/user                       controllers.UserController.getUsers()

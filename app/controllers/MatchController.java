@@ -51,21 +51,19 @@ public class MatchController extends Controller {
 
 	    Notification n = new Notification();
 	    n.setTripMatch(match);
-	    
+	    n.setUser(match.getTripOffer().getUser());
 	    n.save();
 
-	    String deviceId = match.getTripOffer().getUser().getDeviceID();
+	  
 
-	    if (!deviceId.isEmpty()) {
-
-		match.update();
-		User user = null;
 		String message = null;
 		String title = null;
 
 		String offerName = match.getTripOffer().getUser().getFirstName() + " " + match.getTripOffer().getUser().getLastName();
 		String requestName = match.getTripRequest().getUser().getFirstName() + " " + match.getTripRequest().getUser().getLastName();
 
+		User user = null;
+		
 		switch (match.getEnumState()) {
 		case POTENTIAL:
 			user = match.getTripOffer().getUser();
@@ -96,10 +94,10 @@ public class MatchController extends Controller {
 		    break;
 		}
 
-		if (user != null && message != null && title != null) {
+		
+		if (user != null && user.getDeviceID() != null && message != null && title != null) {
 			n.setUser(user);
-		    GCMWorker.sendMessage(deviceId, title, message, Integer.toString(match.getId()));
-		}
+		    GCMWorker.sendMessage(user.getDeviceID(), title, message, Integer.toString(match.getId()));
 	    }
 	}
 

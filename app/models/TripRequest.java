@@ -33,7 +33,7 @@ public class TripRequest extends Trip {
 
     public List<TripMatch> getMatches() {
 	calculateNewMatchingOffers();
-	if (matches.size() == 0 && forceMockMatchesIfNoneAvailable) {
+	while (matches.size() < 5 && forceMockMatchesIfNoneAvailable) {
 	    TripMatch mockMatch = new TripMatch();
 	    mockMatch.setState(TripMatchState.OPEN.ordinal());
 	    mockMatch.setTripRequest(this);
@@ -160,7 +160,7 @@ public class TripRequest extends Trip {
 	return false;
     }
 
-    private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
+    public boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
 	boolean inBoundaries;
 
 	inBoundaries = (northWestBounds.getLongitude() >= getOriginLong());

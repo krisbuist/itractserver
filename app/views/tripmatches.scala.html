@@ -1,4 +1,4 @@
-@(tripRequest: TripRequest)(tripMatches: List[TripOffer])
+@(tripRequest: TripRequest)(tripMatches: List[TripMatch])
 
 <!DOCTYPE html>
 
@@ -42,22 +42,22 @@
 	    		<th>End time</th>
 	    		<th>ApproxDistance</th>
 	    		<th>AproxDuration</th>
-	    		<th>Distance</th>
-	    		<th>Duration</th>
+	    		<th>Bounds</th>
+	    		<th>isBetweenBounds?</th>
     		</tr>
     	</thead>
     	<tbody>
 	    		@for(m <- tripMatches) {
 	    		<tr>
-				    <td>@m.getId()</td>
-				    <td>@m.getOriginAddress()<br/>@m.getOriginLong(), @m.getOriginLat()</td>
-	    			<td>@m.getDestinationAddress()<br/>@m.getDestinationLong(), @m.getDestinationLat()</td>
-	    			<td>@m.getStartTimeWindow()</td>
-	    			<td>@m.getEndTimeWindow()</td>
-	    			<td>@((m.getMetaData().getApproximateDirectionsDistance()/100)/10.0) km</td>
-	    			<td>@((m.getMetaData().getApproximateDuration()/360)/10.0) hours</td>
-	    			<td>@((m.getMetaData().getDirectionsDistance()/100)/10.0) km</td>
-	    			<td>@((m.getMetaData().getCalculatedDuration()/360)/10.0) hours</td>
+				    <td>@m.getTripOffer().getId()</td>
+				    <td>@m.getTripOffer().getOriginAddress()<br/>@m.getTripOffer().getOriginLong(), @m.getTripOffer().getOriginLat()</td>
+	    			<td>@m.getTripOffer().getDestinationAddress()<br/>@m.getTripOffer().getDestinationLong(), @m.getTripOffer().getDestinationLat()</td>
+	    			<td>@m.getTripOffer().getStartTimeWindow()</td>
+	    			<td>@m.getTripOffer().getEndTimeWindow()</td>
+	    			<td>@((m.getTripOffer().getMetaData().getApproximateDirectionsDistance()/100)/10.0) km</td>
+	    			<td>@((m.getTripOffer().getMetaData().getApproximateDuration()/360)/10.0) hours</td>
+	    			<td>@(m.getTripOffer().getNorthWestBounds().getLongLatString())<br/>@(m.getTripOffer().getSouthEastBounds().getLongLatString())</td>
+	    			<td>@(tripRequest.isBetweenBounds(m.getTripOffer().getNorthWestBounds(), m.getTripOffer.getSouthEastBounds()))</td>
 	    		</tr>
 				}
     	</tbody>

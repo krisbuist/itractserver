@@ -30,8 +30,12 @@ public class UserController extends Controller {
 
     @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
-	User user = User.find.byId(id);
-	if (user != null) {
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
 	    return ok(toJson(user));
 	} else {
 	    return notFound();
@@ -94,7 +98,7 @@ public class UserController extends Controller {
 	u.delete();
 	return noContent();
     }
-    
+
     public static Result getRequestsByUser(Integer id) {
 	List<TripRequest> requests = TripRequest.find.where().eq("user.id", id).findList();
 	//TripRequest request = TripRequest.find.where().eq("user.id", id).findList().get(0);
@@ -126,15 +130,29 @@ public class UserController extends Controller {
 
     @With(BasicAuthAction.class)
     public static Result doLogin() {
-	User user = activeUser();
-	return ok(toJson(user));
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
+        User user = activeUser();
+        return ok(toJson(user));
     }
-    
+
     @With(BasicAuthAction.class)
     public static Result searchUserByName(String name)
     {
 	List<User> users = User.find.where().like("email", "%" + name + "%").findList();
 	return ok(toJson(users));
+        User user = activeUser();
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
+    	return ok(toJson(user));
     }
 
     @With(BasicAuthAction.class)
@@ -146,7 +164,7 @@ public class UserController extends Controller {
 	user.update();
 	return ok(toJson(user));
     }
-    
+
     @With(BasicAuthAction.class)
     public static Result doUnregisterDevice()
     {
@@ -158,10 +176,10 @@ public class UserController extends Controller {
 
     @With(BasicAuthAction.class)
     public static Result getNotifications() {
-	List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
+        List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
 
-	JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
-	response().setContentType("application/json");
-	return ok(serializer.serialize(notifications));
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
+        response().setContentType("application/json");
+        return ok(serializer.serialize(notifications));
     }
 }

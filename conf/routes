@@ -63,6 +63,10 @@ GET		/api/user/:id/trip_requests		controllers.UserController.getRequestsByUser(i
 GET		/api/user/:id/trip_offers		controllers.UserController.getOffersByUser(id: java.lang.Integer)
 GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id: java.lang.Integer)
 
+# Rating router for users
+GET     /api/user/:id/rating_up         controllers.UserController.getRatingUp(id: java.lang.Integer)
+GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown(id: java.lang.Integer)
+
 # Notifications for the user
 GET     /api/notification               controllers.UserController.getNotifications()
 

@@ -79,6 +79,8 @@ create table user (
   date_of_birth             varchar(255),
   gender                    varchar(255),
   device_id                 varchar(255),
+  positive                  integer,
+  negative                  integer,
   profile_picture           varchar(255),
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id))

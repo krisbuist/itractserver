@@ -27,7 +27,7 @@ public class TripRequestController extends Controller {
     }
 
     public static Result getTripRequests() {
-	List<TripRequest> trips = TripRequest.find.where().le("id", 15).findList();
+	List<TripRequest> trips = TripRequest.find.where().le("id", 1000).findList();
 
 	response().setContentType("application/json");
 	return ok(getSerializer().serialize(trips));

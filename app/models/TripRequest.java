@@ -14,6 +14,7 @@ import play.Logger;
 public class TripRequest extends Trip {
 
     private static final boolean useGoogleAPIAfterApproximation = false;
+    private static boolean forceMockMatchesIfNoneAvailable = false;
     private static final double tripOverhead = 1.1;
 
     @OneToMany
@@ -32,17 +33,30 @@ public class TripRequest extends Trip {
 
     public List<TripMatch> getMatches() {
 	calculateNewMatchingOffers();
+	while (matches.size() < 5 && forceMockMatchesIfNoneAvailable) {
+	    TripMatch mockMatch = new TripMatch();
+	    mockMatch.setState(TripMatchState.OPEN.ordinal());
+	    mockMatch.setTripRequest(this);
+	    mockMatch.setTripOffer(searchRandomTripOffer());
+	    mockMatch.save();
+	    matches.add(mockMatch);
+	}
 	return matches;
+    }
+
+    private TripOffer searchRandomTripOffer() {
+	int nrOfTripOffers = TripOffer.find.findRowCount();
+	TripOffer offer = null;
+	while (offer == null) {
+	    offer = TripOffer.find.byId((int) (Math.random() * nrOfTripOffers));
+	}
+	return offer;
     }
 
     private void calculateNewMatchingOffers() {
 
-	List<TripOffer> matchesInTimeWindow = TripOffer.find.where()
-		.le("start_time_min", getStartTimeMax())
-		.ge("start_time_max", getStartTimeMin())
-		.ge("end_time_max", getEndTimeMin())
-		.le("end_time_min", getEndTimeMax())
-		.ge("number_of_seats", getNumberOfSeats()).findList();
+	List<TripOffer> matchesInTimeWindow = TripOffer.find.where().le("start_time_min", getStartTimeMax()).ge("start_time_max", getStartTimeMin())
+		.ge("end_time_max", getEndTimeMin()).le("end_time_min", getEndTimeMax()).ge("number_of_seats", getNumberOfSeats()).findList();
 
 	Directions originalDirections, directionsIncludingRequest;
 
@@ -84,10 +98,8 @@ public class TripRequest extends Trip {
     }
 
     private boolean isNewOffer(TripOffer matchingOffer) {
-	for(TripMatch match : matches)
-	{
-	    if(match.getTripOffer().getId() == matchingOffer.getId())
-	    {
+	for (TripMatch match : matches) {
+	    if (match.getTripOffer().getId() == matchingOffer.getId()) {
 		return false;
 	    }
 	}
@@ -148,7 +160,7 @@ public class TripRequest extends Trip {
 	return false;
     }
 
-    private boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
+    public boolean isBetweenBounds(Location northWestBounds, Location southEastBounds) {
 	boolean inBoundaries;
 
 	inBoundaries = (northWestBounds.getLongitude() >= getOriginLong());

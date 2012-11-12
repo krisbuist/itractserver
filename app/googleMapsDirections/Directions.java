@@ -169,7 +169,7 @@ public class Directions {
 	double dx = distance * Math.cos(bearing);
 	double dy = distance * Math.sin(bearing);
 
-	double delta_longitude = dx / (111320 * Math.cos(getDirectionsCenter().getLatitude()));
+	double delta_longitude = dx / (111320 * Math.cos(getDirectionsCenter().getLongitude()));
 	double delta_latitude = dy / 110540;
 
 	double latitude = getDirectionsCenter().getLatitude() + delta_latitude;

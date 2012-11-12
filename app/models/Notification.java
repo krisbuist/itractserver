@@ -9,7 +9,10 @@ import play.db.ebean.Model;
 
 @Entity
 public class Notification extends Model {
-
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5525198001992977678L;
 
     public static Finder<Integer, Notification> find = new Finder<Integer, Notification>(Integer.class, Notification.class);
 

@@ -7,6 +7,8 @@ create table notification (
   id                        integer auto_increment not null,
   user_id                   integer,
   trip_match_id             integer,
+  title                     varchar(255),
+  message                   varchar(255),
   state                     integer,
   constraint pk_notification primary key (id))
 ;

@@ -3,6 +3,7 @@ package controllers;
 import models.Notification;
 import models.TripMatch;
 import models.TripRequest;
+import models.User;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -50,7 +51,7 @@ public class MatchController extends Controller {
 
 	    Notification n = new Notification();
 	    n.setTripMatch(match);
-	    n.setUser(match.getTripOffer().getUser());
+	    
 	    n.save();
 
 	    String deviceId = match.getTripOffer().getUser().getDeviceID();
@@ -58,7 +59,7 @@ public class MatchController extends Controller {
 	    if (!deviceId.isEmpty()) {
 
 		match.update();
-
+		User user = null;
 		String message = null;
 		String title = null;
 
@@ -67,22 +68,27 @@ public class MatchController extends Controller {
 
 		switch (match.getEnumState()) {
 		case POTENTIAL:
+			user = match.getTripOffer().getUser();
 		    title = "New trip request";
 		    message = "You have received an request from " + requestName;
 		    break;
 		case CONFIRMED_POTENTIAL:
+			user = match.getTripRequest().getUser();
 		    title = "Trip confirmed";
 		    message = offerName + " accepted your request.";
 		    break;
 		case DECLINED_POTENTIAL:
+			user = match.getTripRequest().getUser();
 		    title = "Trip declined";
 		    message = offerName + " declined your request.";
 		    break;
 		case CONFIRMED_MATCH:
+			user = match.getTripOffer().getUser();
 		    title = "Match confirmed";
 		    message = requestName + " confirmed the match";
 		    break;
 		case DECLINED_MATCH:
+			user = match.getTripOffer().getUser();
 		    title = "Match declined";
 		    message = requestName + " declined the match";
 		default:
@@ -90,7 +96,8 @@ public class MatchController extends Controller {
 		    break;
 		}
 
-		if (message != null && title != null) {
+		if (user != null && message != null && title != null) {
+			n.setUser(user);
 		    GCMWorker.sendMessage(deviceId, title, message, Integer.toString(match.getId()));
 		}
 	    }

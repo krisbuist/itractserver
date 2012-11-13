@@ -101,7 +101,12 @@ public class UserController extends Controller {
 
 	JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-	response().setContentType("application/json");
+    response().setContentType("application/json");
+    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    response().setHeader("Access-Control-Allow-Origin", "*");
+    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+    response().setHeader("Access-Control-Max-Age", "60");
 	return ok(serializer.serialize(requests));
     }
 
@@ -111,7 +116,12 @@ public class UserController extends Controller {
 
 	JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-	response().setContentType("application/json");
+    response().setContentType("application/json");
+    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    response().setHeader("Access-Control-Allow-Origin", "*");
+    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+    response().setHeader("Access-Control-Max-Age", "60");
 	return ok(serializer.serialize(offers));
     }
 
@@ -121,6 +131,11 @@ public class UserController extends Controller {
 	JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password");
 
 	response().setContentType("application/json");
+    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    response().setHeader("Access-Control-Allow-Origin", "*");
+    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+    response().setHeader("Access-Control-Max-Age", "60");
 	return ok(serializer.serialize(matches));
     }
 
@@ -163,5 +178,14 @@ public class UserController extends Controller {
 	JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
 	response().setContentType("application/json");
 	return ok(serializer.serialize(notifications));
+    }
+    public static Result respondToOptionsWithId(int id) {
+    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+    response().setHeader("Access-Control-Allow-Origin", "*");
+    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+    response().setHeader("Access-Control-Max-Age", "60");
+
+    return ok();
     }
 }

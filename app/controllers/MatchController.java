@@ -15,6 +15,10 @@ import flexjson.JSONSerializer;
 
 public class MatchController extends Controller {
 
+    private static JSONSerializer getSerializer() {
+        return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches", "*.password").include("*");
+    }
+
     @With(BasicAuthAction.class)
     public static Result getMatch(Integer id) {
         TripMatch match = TripMatch.find.byId(id);
@@ -22,8 +26,6 @@ public class MatchController extends Controller {
         if (match == null) {
             return notFound();
         }
-
-        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches").include("*");
 
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -42,10 +44,6 @@ public class MatchController extends Controller {
         } else {
             return ok(tripmatches.render(trip, trip.getMatches()));
         }
-    }
-
-    private static JSONSerializer getSerializer() {
-        return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
     }
 
     @With(BasicAuthAction.class)
@@ -111,7 +109,7 @@ public class MatchController extends Controller {
             }
         }
 
-        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches").include("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password").include("*");
 
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");

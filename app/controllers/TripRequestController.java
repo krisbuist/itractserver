@@ -66,7 +66,7 @@ public class TripRequestController extends Controller {
         return created(getSerializer().serialize(newTripRequest));
     }
 
-    //@With(BasicAuthAction.class)
+    @With(BasicAuthAction.class)
     public static Result getTripRequest(Integer id) {
         TripRequest trip = TripRequest.find.byId(id);
 

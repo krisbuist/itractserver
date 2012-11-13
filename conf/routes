@@ -14,7 +14,7 @@ GET     /api/trip_offer/:id				controllers.TripOfferController.getTripOffer(id: 
 PUT     /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
 DELETE	/api/trip_offer/:id				controllers.TripOfferController.deleteTripOffer(id: java.lang.Integer)
 OPTIONS /api/trip_offer                 controllers.TripOfferController.respondToOptions()
-OPTIONS /api/trip_offer/                 controllers.TripOfferController.respondToOptions()
+OPTIONS /api/trip_offer/:id             controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/trip_offer/:id             controllers.TripOfferController.updateTripOffer(id: java.lang.Integer)
@@ -26,9 +26,8 @@ POST    /api/trip_request               controllers.TripRequestController.newTri
 GET     /api/trip_request/:id           controllers.TripRequestController.getTripRequest(id: java.lang.Integer)
 PUT     /api/trip_request/:id           controllers.TripRequestController.updateTripRequest(id: java.lang.Integer)
 DELETE	/api/trip_request/:id			controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
-OPTIONS  /api/trip_request/:id           controllers.UserController.respondToOptionsWithId(id: java.lang.Integer)
 OPTIONS /api/trip_request               controllers.TripRequestController.respondToOptions()
-OPTIONS /api/trip_request/:id            controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
+OPTIONS /api/trip_request/:id           controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Fallback routes for browser which do not support PUT and DELETE
 POST	/api/trip_request/:id/delete	controllers.TripRequestController.deleteTripRequest(id: java.lang.Integer)
@@ -82,9 +81,8 @@ GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown
 # Notifications for the user
 GET     /api/notification               controllers.UserController.getNotifications()
 DELETE  /api/notification/:id        	controllers.UserController.deleteNotification(id: java.lang.Integer)
-OPTIONS /api/notification		controllers.UserController.respondToOptions()
+OPTIONS /api/notification		        controllers.UserController.respondToOptions()
 OPTIONS /api/notification/:id           controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
-OPTIONS /api/notification               controllers.TripRequestController.respondToOptions()
 
 # Routes for the data generator
 GET		/generate/offers/:number		controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)

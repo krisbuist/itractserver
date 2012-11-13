@@ -35,6 +35,7 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
         User user = User.find.byId(id);
+        response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
@@ -118,13 +119,13 @@ public class UserController extends Controller {
 
         JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-    response().setContentType("application/json");
-    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
-    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-    response().setHeader("Access-Control-Allow-Origin", "*");
-    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
-    response().setHeader("Access-Control-Max-Age", "60");
-	return ok(serializer.serialize(requests));
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(serializer.serialize(requests));
     }
 
     public static Result getOffersByUser(Integer id) {
@@ -133,26 +134,27 @@ public class UserController extends Controller {
 
         JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
-    response().setContentType("application/json");
-    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
-    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-    response().setHeader("Access-Control-Allow-Origin", "*");
-    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
-    response().setHeader("Access-Control-Max-Age", "60");
-	return ok(serializer.serialize(offers));
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(serializer.serialize(offers));
     }
 
     public static Result getMatchesByUser(Integer id) {
 
         List<TripMatch> matches = TripMatch.find.where().eq("tripOffer.user.id", id).findList();
+        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password");
 
-	response().setContentType("application/json");
-    response().setHeader("Access-Control-Allow-Headers", "Content-Type");
-    response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-    response().setHeader("Access-Control-Allow-Origin", "*");
-    response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
-    response().setHeader("Access-Control-Max-Age", "60");
-	return ok(serializer.serialize(matches));
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(serializer.serialize(matches));
     }
 
     @With(BasicAuthAction.class)

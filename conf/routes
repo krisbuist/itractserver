@@ -58,6 +58,7 @@ DELETE	/api/user/:id					controllers.UserController.deleteUser(id: java.lang.Int
 PUT     /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
 GET		/api/search/user/:name			controllers.UserController.searchUserByName(name: java.lang.String)
 OPTIONS /api/user			controllers.UserController.respondToOptions()
+OPTIONS /api/user/:id			controllers.UserController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Fallback routes for browsers which do not support PUT and/or DELETE
 POST    /api/user/:id                   controllers.UserController.updateUser(id: java.lang.Integer)
@@ -71,6 +72,7 @@ GET		/api/user/:id/trip_matches		controllers.UserController.getMatchesByUser(id:
 # Rating router for users
 GET     /api/user/:id/rating_up         controllers.UserController.getRatingUp(id: java.lang.Integer)
 GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown(id: java.lang.Integer)
+
 
 # Notifications for the user
 GET     /api/notification               controllers.UserController.getNotifications()

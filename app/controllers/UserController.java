@@ -246,6 +246,17 @@ public class UserController extends Controller {
 	return ok(serializer.serialize(u));
     }
 
+	public static Result respondToOptionsWithId(int id) {
+	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+	response().setHeader("Access-Control-Max-Age", "60");
+
+	return ok();
+    }
+
     public static Result respondToOptions() {
 	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
 	response().setHeader("Access-Control-Allow-Credentials", "true");

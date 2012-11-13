@@ -70,33 +70,33 @@ public class MatchController extends Controller {
             User user = null;
 
             switch (match.getEnumState()) {
-            case POTENTIAL:
-                user = match.getTripOffer().getUser();
-                title = "New trip request";
-                message = "You have received an request from " + requestName;
-                break;
-            case CONFIRMED_POTENTIAL:
-                user = match.getTripRequest().getUser();
-                title = "Trip confirmed";
-                message = offerName + " accepted your request.";
-                break;
-            case DECLINED_POTENTIAL:
-                user = match.getTripRequest().getUser();
-                title = "Trip declined";
-                message = offerName + " declined your request.";
-                break;
-            case CONFIRMED_MATCH:
-                user = match.getTripOffer().getUser();
-                title = "Match confirmed";
-                message = requestName + " confirmed the match";
-                break;
-            case DECLINED_MATCH:
-                user = match.getTripOffer().getUser();
-                title = "Match declined";
-                message = requestName + " declined the match";
-            default:
-                // keep message null
-                break;
+                case POTENTIAL:
+                    user = match.getTripOffer().getUser();
+                    title = "New trip request";
+                    message = "You have received an request from " + requestName;
+                    break;
+                case CONFIRMED_POTENTIAL:
+                    user = match.getTripRequest().getUser();
+                    title = "Trip confirmed";
+                    message = offerName + " accepted your request.";
+                    break;
+                case DECLINED_POTENTIAL:
+                    user = match.getTripRequest().getUser();
+                    title = "Trip declined";
+                    message = offerName + " declined your request.";
+                    break;
+                case CONFIRMED_MATCH:
+                    user = match.getTripOffer().getUser();
+                    title = "Match confirmed";
+                    message = requestName + " confirmed the match";
+                    break;
+                case DECLINED_MATCH:
+                    user = match.getTripOffer().getUser();
+                    title = "Match declined";
+                    message = requestName + " declined the match";
+                default:
+                    // keep message null
+                    break;
             }
 
             n.setUser(user);

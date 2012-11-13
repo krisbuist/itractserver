@@ -50,6 +50,10 @@ public class User extends Model {
     
     private String deviceID;
 
+    //Ratings ...
+    private int positive;
+    private int negative;
+
     public String getDeviceID() {
         return deviceID;
     }
@@ -179,5 +183,37 @@ public class User extends Model {
 
     public static User authenticate(String username, String password) {
 	return find.where().eq("email", username).eq("password", password).findUnique();
+    }
+
+    public int getPositive() {
+        return positive;
+    }
+
+    public void setPositive(int positive) {
+        this.positive = positive;
+    }
+
+    public int getNegative() {
+        return negative;
+    }
+
+    public void setNegative(int negative) {
+        this.negative = negative;
+    }
+
+    public void addPositive(){
+        this.positive += 1;
+    }
+
+    public void addNegative(){
+        this.negative += 1;
+    }
+
+    public int getRating(){
+        return (this.positive - this.negative);
+    }
+
+    public int getVoters(){
+        return (this.positive + this.negative);
     }
 }

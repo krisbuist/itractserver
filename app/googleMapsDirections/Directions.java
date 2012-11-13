@@ -128,18 +128,18 @@ public class Directions {
     private String getWaypointsLocationsAsURLParameter() {
 	StringBuilder res = new StringBuilder();
 	for (Location loc : route.subList(1, route.size() - 1)) {
-	    res.append(loc.getLongLatString());
+	    res.append(loc.getLatLongString());
 	    res.append("|");
 	}
 	return res.toString();
     }
 
     private String getDestinationLocation() {
-	return route.get(route.size() - 1).getLongLatString();
+	return route.get(route.size() - 1).getLatLongString();
     }
 
     private String getOriginLocation() {
-	return route.get(0).getLongLatString();
+	return route.get(0).getLatLongString();
     }
 
     public Location getDirectionsCenter() {

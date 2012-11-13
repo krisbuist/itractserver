@@ -32,8 +32,8 @@ public class DirectionsTest {
 	directions.addWaypoint(north);
 	directions.addWaypoint(south);
 
-	System.out.println(directions.getNorthWestBounds().getLongLatString());
-	System.out.println(directions.getSouthEastBounds().getLongLatString());
+	System.out.println(directions.getNorthWestBounds().getLatLongString());
+	System.out.println(directions.getSouthEastBounds().getLatLongString());
 
 	assert (northWestBounds.equals(directions.getNorthWestBounds()));
 	assert (southEastBounds.equals(directions.getSouthEastBounds()));
@@ -50,8 +50,8 @@ public class DirectionsTest {
 	directions.addWaypoint(east);
 	directions.addWaypoint(west);
 
-	System.out.println(directions.getNorthWestBounds().getLongLatString());
-	System.out.println(directions.getSouthEastBounds().getLongLatString());
+	System.out.println(directions.getNorthWestBounds().getLatLongString());
+	System.out.println(directions.getSouthEastBounds().getLatLongString());
 
 	assert (northWestBounds.equals(directions.getNorthWestBounds()));
 	assert (southEastBounds.equals(directions.getSouthEastBounds()));

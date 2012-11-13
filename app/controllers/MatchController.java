@@ -8,6 +8,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
+import views.html.tripmatches;
 import workers.GCMWorker;
 import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
@@ -16,32 +17,35 @@ public class MatchController extends Controller {
 
     @With(BasicAuthAction.class)
     public static Result getMatch(Integer id) {
-		TripMatch match = TripMatch.find.byId(id);
+        TripMatch match = TripMatch.find.byId(id);
 
         if (match == null) {
             return notFound();
         }
 
-		JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches").include("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches").include("*");
 
-		response().setContentType("application/json");
-		response().setHeader("Access-Control-Allow-Headers", "Content-Type");
-		response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
-		response().setHeader("Access-Control-Max-Age", "60");
-		    	
-		return ok(getSerializer().serialize(match));
+        response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
+
+        return ok(getSerializer().serialize(match));
     }
 
     public static Result displayMatches(Integer id) {
-	TripRequest trip = TripRequest.find.byId(id);
-        return noContent();
-	//return ok(tripmatches.render(trip, trip.getMatches()));
+        TripRequest trip = TripRequest.find.byId(id);
+        if (trip == null) {
+            return notFound();
+        } else {
+            return ok(tripmatches.render(trip, trip.getMatches()));
+        }
     }
 
     private static JSONSerializer getSerializer() {
-	return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
+        return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
     }
 
     @With(BasicAuthAction.class)
@@ -50,7 +54,6 @@ public class MatchController extends Controller {
         TripMatch match = TripMatch.find.byId(id);
 
         int newState = request().body().asJson().get("state").asInt();
-
 
         if (match.getState() != newState) {
             match.setState(newState);
@@ -99,25 +102,24 @@ public class MatchController extends Controller {
             }
 
             n.setUser(user);
-        	n.setTitle(title);
-        	n.setMessage(message);
-        	n.save();
+            n.setTitle(title);
+            n.setMessage(message);
+            n.save();
 
             if (user != null && user.getDeviceID() != null && message != null && title != null) {
                 GCMWorker.sendMessage(user.getDeviceID(), String.valueOf(n.getId()), title, message, Integer.toString(match.getId()));
             }
         }
 
-
         JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches").include("*");
 
-	    response().setContentType("application/json");
+        response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
         response().setHeader("Access-Control-Max-Age", "60");
-	return ok(serializer.serialize(match));
+        return ok(serializer.serialize(match));
     }
 
 }

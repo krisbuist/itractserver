@@ -71,7 +71,16 @@ public class TripOfferController extends Controller {
 
         newTripOffer.setId(0);
         newTripOffer.setUser(activeUser());
-        newTripOffer.save();
+        newTripOffer.save();    
+        
+        if (newTripOffer.getStartTimeMin() == 0 && newTripOffer.getStartTimeMax() == 0) {
+            newTripOffer.setStartTimeMin(newTripOffer.getEndTimeMin() - newTripOffer.getMetaData().getApproximateDuration());
+            newTripOffer.setStartTimeMax(newTripOffer.getStartTimeMin() + 60 * 60 * 2);
+        } else {
+            newTripOffer.setEndTimeMin(newTripOffer.getStartTimeMin() + newTripOffer.getMetaData().getApproximateDuration());
+            newTripOffer.setEndTimeMax(newTripOffer.getEndTimeMin() + 60 * 60 * 2);
+        }
+        newTripOffer.update();
 
         JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
         response().setContentType("application/json");

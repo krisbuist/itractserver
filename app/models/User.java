@@ -134,12 +134,7 @@ public class User extends Model {
         try {
             date = format.parse(dateOfBirth);
         } catch (ParseException e) {
-            format = new SimpleDateFormat("yyyy/MM/dd");
-            try {
-                date = format.parse(dateOfBirth);
-            } catch (ParseException e1) {
-                return 0;
-            }
+            return 0;
         }
 
         GregorianCalendar birthDate = new GregorianCalendar();

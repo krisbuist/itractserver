@@ -1,5 +1,7 @@
 package models;
 
+import googleMapsDirections.Directions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,20 @@ public class TripOffer extends Trip {
 
     public List<TripMatch> getMatches() {
 	return TripMatch.find.where().eq("tripOffer.id", this.getId()).findList();
+    }
+    
+    public Location getSouthEastBounds() {
+        Directions d = new Directions();
+        d.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getOriginAddress(), getStartTimeMin(), getStartTimeMax()));
+        d.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getDestinationAddress(), getEndTimeMin(), getEndTimeMax()));
+        return d.getSouthEastBounds();
+    }
+
+    public Location getNorthWestBounds() {
+        Directions d = new Directions();
+        d.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getOriginAddress(), getStartTimeMin(), getStartTimeMax()));
+        d.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getDestinationAddress(), getEndTimeMin(), getEndTimeMax()));
+        return d.getNorthWestBounds();
     }
 
 }

@@ -37,7 +37,7 @@ public class User extends Model {
     @Constraints.Required
     private String email;
 
-    @Constraints.Required
+//    @Constraints.Required // this will never work for put requests!
     private String password;
 
     private String telephoneNr;

@@ -81,7 +81,12 @@ public class UserController extends Controller {
         if (userToEdit.getId() != activeUser().getId()) {
             return unauthorized();
         }
-
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
         Form<User> userForm = form(User.class).bindFromRequest();
 
         if (userForm.hasErrors()) {
@@ -241,7 +246,7 @@ public class UserController extends Controller {
         return ok();
     }
 
-    @With(BasicAuthAction.class)
+    //@With(BasicAuthAction.class)
     public static Result getRatingUp(Integer id) {
         User u = User.find.byId(id);
         u.addPositive();
@@ -257,7 +262,7 @@ public class UserController extends Controller {
         return ok(serializer.serialize(u));
     }
 
-    @With(BasicAuthAction.class)
+    //@With(BasicAuthAction.class)
     public static Result getRatingDown(Integer id) {
         User u = User.find.byId(id);
         u.addNegative();

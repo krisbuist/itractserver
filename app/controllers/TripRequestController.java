@@ -61,6 +61,7 @@ public class TripRequestController extends Controller {
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
         response().setHeader("Access-Control-Max-Age", "60");
         return created(getSerializer().serialize(newTripRequest));
@@ -77,6 +78,7 @@ public class TripRequestController extends Controller {
             response().setHeader("Access-Control-Allow-Headers", "Content-Type");
             response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
             response().setHeader("Access-Control-Allow-Origin", "*");
+            response().setHeader("Access-Control-Allow-Credentials", "true");
             response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
             response().setHeader("Access-Control-Max-Age", "60");
             return ok(getSerializer().serialize(trip));

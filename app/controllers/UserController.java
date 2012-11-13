@@ -27,12 +27,14 @@ public class UserController extends Controller {
 
     public static Result getUsers() {
 	List<User> users = User.find.where().le("id", 20).findList();
+        response().setContentType("application/json");
 	return ok(getSerializer().serialize(users));
     }
 
     @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
 	User user = User.find.byId(id);
+        response().setContentType("application/json");
 	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
 	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 	response().setHeader("Access-Control-Allow-Origin", "*");
@@ -90,6 +92,7 @@ public class UserController extends Controller {
         editedUser.setId(userToEdit.getId());
         editedUser.update();
 
+        response().setContentType("application/json");
 	return ok(getSerializer().serialize(editedUser));
     }
 

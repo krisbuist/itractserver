@@ -1,5 +1,11 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,16 +32,16 @@ public class User extends Model {
 
     @Constraints.Required
     private String lastName;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     @Constraints.Required
     private String email;
 
     @Constraints.Required
     private String password;
-    
+
     private String telephoneNr;
-    
+
     private String address;
 
     private String postalCode;
@@ -47,10 +53,10 @@ public class User extends Model {
     private String dateOfBirth;
 
     private String gender;
-    
+
     private String deviceID;
 
-    //Ratings ...
+    // Ratings ...
     private int positive;
     private int negative;
 
@@ -67,107 +73,138 @@ public class User extends Model {
     }
 
     public String getFirstName() {
-	return firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-	this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-	return lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-	this.lastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getAddress() {
-	return address;
+        return address;
     }
 
     public void setAddress(String address) {
-	this.address = address;
+        this.address = address;
     }
 
     public String getPostalCode() {
-	return postalCode;
+        return postalCode;
     }
 
     public void setPostalCode(String postalCode) {
-	this.postalCode = postalCode;
+        this.postalCode = postalCode;
     }
 
     public String getCity() {
-	return city;
+        return city;
     }
 
     public void setCity(String city) {
-	this.city = city;
+        this.city = city;
     }
 
     public String getCountryCode() {
-	return countryCode;
+        return countryCode;
     }
 
     public void setCountryCode(String countryCode) {
-	this.countryCode = countryCode;
+        this.countryCode = countryCode;
     }
 
     public String getDateOfBirth() {
-	return dateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-	this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getAge() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(dateOfBirth);
+        } catch (ParseException e) {
+            format = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                date = format.parse(dateOfBirth);
+            } catch (ParseException e1) {
+                return 0;
+            }
+        }
+
+        GregorianCalendar birthDate = new GregorianCalendar();
+        birthDate.setTime(date);
+
+        return calculateAge(birthDate.get(Calendar.YEAR), birthDate.get(Calendar.MONTH), birthDate.get(Calendar.DATE));
+    }
+
+    private int calculateAge(int y, int m, int d) {
+        Calendar cal = new GregorianCalendar(y, m, d);
+        Calendar now = new GregorianCalendar();
+        int res = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+        if ((cal.get(Calendar.MONTH) > now.get(Calendar.MONTH))
+                || (cal.get(Calendar.MONTH) == now.get(Calendar.MONTH) && cal.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH))) {
+            res--;
+        }
+        return res;
     }
 
     public String getGender() {
-	return gender;
+        return gender;
     }
 
     public void setGender(String gender) {
-	this.gender = gender;
+        this.gender = gender;
     }
 
     public String getPassword() {
-	return password;
+        return password;
     }
 
     public void setPassword(String password) {
-	this.password = password;
+        this.password = password;
     }
 
     public String getProfilePicture() {
-	return profilePicture;
+        return profilePicture;
     }
 
     public void setProfilePicture(String profilePicture) {
-	this.profilePicture = profilePicture;
+        this.profilePicture = profilePicture;
     }
 
     private String profilePicture;
 
     public String getEmail() {
-	return email;
+        return email;
     }
 
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public String getMiddleName() {
-	return middleName;
+        return middleName;
     }
 
     public void setMiddleName(String middleName) {
-	this.middleName = middleName;
+        this.middleName = middleName;
     }
-    
+
     public String getTelephoneNr() {
         return telephoneNr;
     }
@@ -176,13 +213,12 @@ public class User extends Model {
         this.telephoneNr = telephoneNr;
     }
 
-
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public static User authenticate(String username, String password) {
-	return find.where().eq("email", username).eq("password", password).findUnique();
+        return find.where().eq("email", username).eq("password", password).findUnique();
     }
 
     public int getPositive() {
@@ -201,19 +237,19 @@ public class User extends Model {
         this.negative = negative;
     }
 
-    public void addPositive(){
+    public void addPositive() {
         this.positive += 1;
     }
 
-    public void addNegative(){
+    public void addNegative() {
         this.negative += 1;
     }
 
-    public int getRating(){
+    public int getRating() {
         return (this.positive - this.negative);
     }
 
-    public int getVoters(){
+    public int getVoters() {
         return (this.positive + this.negative);
     }
 }

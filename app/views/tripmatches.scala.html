@@ -42,8 +42,6 @@
 	    		<th>End time</th>
 	    		<th>ApproxDistance</th>
 	    		<th>AproxDuration</th>
-	    		<th>Bounds</th>
-	    		<th>isBetweenBounds?</th>
     		</tr>
     	</thead>
     	<tbody>
@@ -56,8 +54,6 @@
 	    			<td>@m.getTripOffer().getEndTimeWindow()</td>
 	    			<td>@((m.getTripOffer().getMetaData().getApproximateDirectionsDistance()/100)/10.0) km</td>
 	    			<td>@((m.getTripOffer().getMetaData().getApproximateDuration()/360)/10.0) hours</td>
-	    			<td>@(m.getTripOffer().getNorthWestBounds().getLongLatString())<br/>@(m.getTripOffer().getSouthEastBounds().getLongLatString())</td>
-	    			<td>@(tripRequest.isBetweenBounds(m.getTripOffer().getNorthWestBounds(), m.getTripOffer.getSouthEastBounds()))</td>
 	    		</tr>
 				}
     	</tbody>

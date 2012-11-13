@@ -25,6 +25,18 @@ public class Notification extends Model {
     @OneToOne
     private TripMatch tripMatch;
 
+    private String title;
+    private String message;
+    private int state;
+
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public User getUser() {
         return user;
@@ -49,4 +61,20 @@ public class Notification extends Model {
     public void setId(int id) {
         this.id = id;
     }
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

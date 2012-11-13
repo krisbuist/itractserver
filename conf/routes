@@ -39,6 +39,7 @@ GET     /api/match/:id             	   	controllers.MatchController.getMatch(id:
 PUT     /api/match/:id                  controllers.MatchController.updateMatch(id: java.lang.Integer)
 GET     /api/trip_match/:id             controllers.MatchController.getMatch(id: java.lang.Integer)
 PUT     /api/trip_match/:id             controllers.MatchController.updateMatch(id: java.lang.Integer)
+OPTIONS /api/trip_match/:id             controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 #Fallback routes for incompetent browsers
 POST    /api/match/:id                 controllers.MatchController.updateMatch(id: java.lang.Integer)
@@ -78,6 +79,7 @@ GET     /api/user/:id/rating_down       controllers.UserController.getRatingDown
 GET     /api/notification               controllers.UserController.getNotifications()
 DELETE  /api/notification/:id        	controllers.UserController.deleteNotification(id: java.lang.Integer)
 OPTIONS /api/notification		controllers.UserController.respondToOptions()
+OPTIONS /api/notification/:id           controllers.TripRequestController.respondToOptionsWithId(id: java.lang.Integer)
 
 # Routes for the data generator
 GET		/generate/offers/:number		controllers.GeneratorController.generateTripOffers(number: java.lang.Integer)

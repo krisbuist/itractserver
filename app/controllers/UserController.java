@@ -47,7 +47,8 @@ public class UserController extends Controller {
 	    return notFound();
 	}
     }
-
+    
+	
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result newUser() {
 	Form<User> userForm = form(User.class).bindFromRequest();
@@ -55,7 +56,12 @@ public class UserController extends Controller {
 	if (userForm.hasErrors()) {
 	    return badRequest();
 	}
-
+	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+	response().setHeader("Access-Control-Max-Age", "60");
 	User newUser = userForm.get();
 	newUser.setId(0);
 	newUser.save();
@@ -128,7 +134,7 @@ public class UserController extends Controller {
 
     public static Result getMatchesByUser(Integer id) {
 	List<TripMatch> matches = TripMatch.find.where().eq("tripOffer.user.id", id).findList();
-
+	
 	JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password");
 
 	response().setContentType("application/json");
@@ -181,7 +187,12 @@ public class UserController extends Controller {
     @With(BasicAuthAction.class)
     public static Result getNotifications() {
 	List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
-
+	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+	response().setHeader("Access-Control-Allow-Credentials", "true");
+	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+	response().setHeader("Access-Control-Allow-Origin", "*");
+	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+	response().setHeader("Access-Control-Max-Age", "60");
 	JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("*.password").include("*");
 	response().setContentType("application/json");
 	return ok(serializer.serialize(notifications));

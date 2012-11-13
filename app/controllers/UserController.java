@@ -120,6 +120,11 @@ public class UserController extends Controller {
         JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
         response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
         return ok(serializer.serialize(requests));
     }
 
@@ -130,42 +135,51 @@ public class UserController extends Controller {
         JSONSerializer serializer = new JSONSerializer().exclude("matches.tripRequest.matches", "matches.tripOffer.matches", "*.password");
 
         response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
         return ok(serializer.serialize(offers));
     }
 
     public static Result getMatchesByUser(Integer id) {
 
         List<TripMatch> matches = TripMatch.find.where().eq("tripOffer.user.id", id).findList();
-
         JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password");
 
         response().setContentType("application/json");
+        response().setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept");
+        response().setHeader("Access-Control-Max-Age", "60");
         return ok(serializer.serialize(matches));
     }
 
     @With(BasicAuthAction.class)
     public static Result doLogin() {
-	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
-	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-	response().setHeader("Access-Control-Allow-Origin", "*");
-	response().setHeader("Access-Control-Allow-Credentials", "true");
-	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
-	response().setHeader("Access-Control-Max-Age", "60");
-	User user = activeUser();
-	return ok(getSerializer().serialize(user));
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
+        User user = activeUser();
+        return ok(getSerializer().serialize(user));
     }
 
     @With(BasicAuthAction.class)
     public static Result searchUserByName(String name) {
-	List<User> users = User.find.where().like("email", "%" + name + "%").findList();
+        List<User> users = User.find.where().like("email", "%" + name + "%").findList();
 
-	response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
-	response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-	response().setHeader("Access-Control-Allow-Origin", "*");
-	response().setHeader("Access-Control-Allow-Credentials", "true");
-	response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
-	response().setHeader("Access-Control-Max-Age", "60");
-	return ok(getSerializer().serialize(users));
+        response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+        response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
+        response().setHeader("Access-Control-Max-Age", "60");
+        return ok(getSerializer().serialize(users));
     }
 
     @With(BasicAuthAction.class)
@@ -173,9 +187,9 @@ public class UserController extends Controller {
     public static Result doLoginWithDeviceId() {
         User user = activeUser();
 
-	user.setDeviceID(request().body().asJson().get("deviceID").asText());
-	user.update();
-	return ok(getSerializer().serialize(user));
+        user.setDeviceID(request().body().asJson().get("deviceID").asText());
+        user.update();
+        return ok(getSerializer().serialize(user));
     }
 
     @With(BasicAuthAction.class)
@@ -190,7 +204,7 @@ public class UserController extends Controller {
     public static Result getNotifications() {
         List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
 
-	JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches", "*.password").include("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches", "*.password").include("*");
 //        // temporary hack while auth hasn't been merged into notifications
 //        List<Notification> notifications = Notification.find.findList();
 
@@ -279,7 +293,6 @@ public class UserController extends Controller {
 
         return ok();
     }
-    
 
 
     private static JSONSerializer getSerializer() {

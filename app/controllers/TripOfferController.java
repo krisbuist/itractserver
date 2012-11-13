@@ -44,7 +44,7 @@ public class TripOfferController extends Controller {
     public static Result getTripOffer(Integer id) {
         TripOffer trip = TripOffer.find.byId(id);
 
-        JSONSerializer serializer = new JSONSerializer().include("*").exclude("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("matches.tripOffer", "matches.tripRequest.matches");
 
         if (trip != null) {
             response().setContentType("application/json");

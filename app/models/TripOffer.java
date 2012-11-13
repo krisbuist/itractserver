@@ -25,14 +25,14 @@ public class TripOffer extends Trip {
 	return TripMatch.find.where().eq("tripOffer.id", this.getId()).findList();
     }
     
-    public Location getSouthEastBounds() {
+    public Location southEastBounds() {
         Directions d = new Directions();
         d.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getOriginAddress(), getStartTimeMin(), getStartTimeMax()));
         d.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getDestinationAddress(), getEndTimeMin(), getEndTimeMax()));
         return d.getSouthEastBounds();
     }
 
-    public Location getNorthWestBounds() {
+    public Location northWestBounds() {
         Directions d = new Directions();
         d.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getOriginAddress(), getStartTimeMin(), getStartTimeMax()));
         d.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getDestinationAddress(), getEndTimeMin(), getEndTimeMax()));

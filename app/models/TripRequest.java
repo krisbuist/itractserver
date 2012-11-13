@@ -62,7 +62,7 @@ public class TripRequest extends Trip {
 
 	for (TripOffer matchingOffer : matchesInTimeWindow) {
 
-	    if ((matchingOffer.getId() == 1014 && this.getId() == 140) || isNewOffer(matchingOffer)) {
+	    if (isNewOffer(matchingOffer)) {
 
 		Waypoint offerOrigin = new Waypoint(matchingOffer.getOriginLong(), matchingOffer.getOriginLat(), matchingOffer.getStartTimeMin(),
 			matchingOffer.getStartTimeMax());
@@ -81,7 +81,7 @@ public class TripRequest extends Trip {
 		directionsIncludingRequest.addWaypoint(requestDestination);
 		directionsIncludingRequest.addWaypoint(offerDestination);
 
-		if ((matchingOffer.getId() == 1014 && this.getId() == 140) || (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
+		if ((this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
 			&& isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest))) {
 		    // TODO: Add
 		    // isPossibleMatchOnTravelTime(directionsIncludingRequest)

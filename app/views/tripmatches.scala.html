@@ -41,7 +41,8 @@
 	    		<th>Start time</th>
 	    		<th>End time</th>
 	    		<th>ApproxDistance</th>
-	    		<th>AproxDuration</th>
+	    		<th>ApproxDuration</th>
+	    		<th>Bounds</th>
     		</tr>
     	</thead>
     	<tbody>
@@ -54,6 +55,7 @@
 	    			<td>@m.getTripOffer().getEndTimeWindow()</td>
 	    			<td>@((m.getTripOffer().getMetaData().getApproximateDirectionsDistance()/100)/10.0) km</td>
 	    			<td>@((m.getTripOffer().getMetaData().getApproximateDuration()/360)/10.0) hours</td>
+	    			<td>@m.getTripOffer().northWestBounds().getLatLongString() <br /> @m.getTripOffer.southEastBounds.getLatLongString </td>
 	    		</tr>
 				}
     	</tbody>

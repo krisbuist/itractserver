@@ -81,8 +81,8 @@ public class TripRequest extends Trip {
 		directionsIncludingRequest.addWaypoint(requestDestination);
 		directionsIncludingRequest.addWaypoint(offerDestination);
 
-		if (this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
-			&& isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest)) {
+		if ((this.isBetweenBounds(originalDirections.getNorthWestBounds(), originalDirections.getSouthEastBounds())
+			&& isPossibleMatchOnTravelDistance(matchingOffer, originalDirections, directionsIncludingRequest))) {
 		    // TODO: Add
 		    // isPossibleMatchOnTravelTime(directionsIncludingRequest)
 

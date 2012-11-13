@@ -46,7 +46,7 @@ public class Location {
         this.address = address;
     }
 
-    public String getLongLatString() {
+    public String getLatLongString() {
         return latitude + "," + longitude;
     }
 

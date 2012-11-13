@@ -1,7 +1,5 @@
 package controllers;
 
-import static play.libs.Json.toJson;
-
 import java.util.List;
 
 import models.Notification;
@@ -29,13 +27,12 @@ public class UserController extends Controller {
 
     public static Result getUsers() {
         List<User> users = User.find.where().le("id", 20).findList();
-        return ok(toJson(users));
+        return ok(getSerializer().serialize(users));
     }
 
     @With(BasicAuthAction.class)
     public static Result getUser(Integer id) {
         User user = User.find.byId(id);
-        response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Authorization, content-type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         response().setHeader("Access-Control-Allow-Origin", "*");
@@ -43,7 +40,7 @@ public class UserController extends Controller {
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
         response().setHeader("Access-Control-Max-Age", "60");
         if (user != null) {
-            return ok(toJson(user));
+            return ok(getSerializer().serialize(user));
         } else {
             return notFound();
         }
@@ -67,7 +64,7 @@ public class UserController extends Controller {
         newUser.setId(0);
         newUser.save();
         response().setContentType("application/json");
-        return status(201, toJson(newUser));
+        return created(getSerializer().serialize(newUser));
     }
 
     @With(BasicAuthAction.class)
@@ -93,7 +90,7 @@ public class UserController extends Controller {
         editedUser.setId(userToEdit.getId());
         editedUser.update();
 
-        return status(200, toJson(editedUser));
+        return ok(getSerializer().serialize(editedUser));
     }
 
     @With(BasicAuthAction.class)
@@ -166,7 +163,7 @@ public class UserController extends Controller {
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
         response().setHeader("Access-Control-Max-Age", "60");
         User user = activeUser();
-        return ok(toJson(user));
+        return ok(getSerializer().serialize(user));
     }
 
     @With(BasicAuthAction.class)
@@ -179,7 +176,7 @@ public class UserController extends Controller {
         response().setHeader("Access-Control-Allow-Credentials", "true");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
         response().setHeader("Access-Control-Max-Age", "60");
-        return ok(toJson(users));
+        return ok(getSerializer().serialize(users));
     }
 
     @With(BasicAuthAction.class)
@@ -189,7 +186,7 @@ public class UserController extends Controller {
 
         user.setDeviceID(request().body().asJson().get("deviceID").asText());
         user.update();
-        return ok(toJson(user));
+        return ok(getSerializer().serialize(user));
     }
 
     @With(BasicAuthAction.class)
@@ -204,11 +201,10 @@ public class UserController extends Controller {
     public static Result getNotifications() {
         List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
 
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches", "*.password").include("*");
 //        // temporary hack while auth hasn't been merged into notifications
 //        List<Notification> notifications = Notification.find.findList();
 
-
-        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches").exclude("tripMatch.tripOffer.matches").exclude("*.password").include("*");
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
         response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
@@ -281,7 +277,6 @@ public class UserController extends Controller {
         response().setHeader("Access-Control-Allow-Origin", "*");
         response().setHeader("Access-Control-Request-Headers", "origin, content-type, accept, authorization");
         response().setHeader("Access-Control-Max-Age", "60");
-
         return ok();
     }
 
@@ -295,4 +290,10 @@ public class UserController extends Controller {
 
         return ok();
     }
+
+
+    private static JSONSerializer getSerializer() {
+        return new JSONSerializer().exclude("*.password", "*.class").include("*");
+    }
+
 }

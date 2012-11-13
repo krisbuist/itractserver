@@ -8,11 +8,16 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
+import views.html.tripmatches;
 import workers.GCMWorker;
 import actions.BasicAuthAction;
 import flexjson.JSONSerializer;
 
 public class MatchController extends Controller {
+
+    private static JSONSerializer getSerializer() {
+        return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches", "*.password").include("*");
+    }
 
     @With(BasicAuthAction.class)
     public static Result getMatch(Integer id) {
@@ -21,8 +26,6 @@ public class MatchController extends Controller {
         if (match == null) {
             return notFound();
         }
-
-        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches").include("*");
 
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -36,21 +39,19 @@ public class MatchController extends Controller {
 
     public static Result displayMatches(Integer id) {
         TripRequest trip = TripRequest.find.byId(id);
-        return noContent();
-        //return ok(tripmatches.render(trip, trip.getMatches()));
+        if (trip == null) {
+            return notFound();
+        } else {
+            return ok(tripmatches.render(trip, trip.getMatches()));
+        }
     }
 
-    private static JSONSerializer getSerializer() {
-        return new JSONSerializer().exclude("tripOffer.matches", "tripRequest.matches").include("*");
-    }
-
-//    @With(BasicAuthAction.class)
+    @With(BasicAuthAction.class)
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result updateMatch(Integer id) {
         TripMatch match = TripMatch.find.byId(id);
 
         int newState = request().body().asJson().get("state").asInt();
-
 
         if (match.getState() != newState) {
             match.setState(newState);
@@ -108,8 +109,7 @@ public class MatchController extends Controller {
             }
         }
 
-
-        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches").include("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripRequest.matches", "tripOffer.matches", "*.password").include("*");
 
         response().setContentType("application/json");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");

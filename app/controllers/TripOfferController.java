@@ -69,7 +69,7 @@ public class TripOfferController extends Controller {
         newTripOffer.setUser(activeUser());
         newTripOffer.save();    
         
-        newTripOffer.updateMetaDataWithAPIResults();
+//        newTripOffer.updateMetaDataWithAPIResults();
         
         if (newTripOffer.getStartTimeMin() == 0 && newTripOffer.getStartTimeMax() == 0) {
             newTripOffer.setStartTimeMin(newTripOffer.getEndTimeMin() - newTripOffer.getMetaData().getApproximateDuration());

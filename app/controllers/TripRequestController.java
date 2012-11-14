@@ -47,7 +47,7 @@ public class TripRequestController extends Controller {
         newTripRequest.setUser(activeUser());
 
         newTripRequest.save();
-        newTripRequest.updateMetaDataWithAPIResults();
+//        newTripRequest.updateMetaDataWithAPIResults();
 
         if (newTripRequest.getStartTimeMin() == 0 && newTripRequest.getStartTimeMax() == 0) {
             newTripRequest.setStartTimeMin(newTripRequest.getEndTimeMin() - newTripRequest.getMetaData().getApproximateDuration());

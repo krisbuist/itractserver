@@ -46,7 +46,7 @@ public abstract class Trip extends Model {
     @Required
     protected long endTimeMax;
     @Required
-    @Range(min=1, max=7)
+    @Range(min = 1, max = 7)
     protected int numberOfSeats;
     @OneToOne
     protected TripMetaData metaData;
@@ -58,164 +58,162 @@ public abstract class Trip extends Model {
     }
 
     public long getStartTimeMin() {
-	return startTimeMin;
+        return startTimeMin;
     }
 
     public void setStartTimeMin(long startTimeMin) {
-	this.startTimeMin = startTimeMin;
+        this.startTimeMin = startTimeMin;
     }
 
     public long getStartTimeMax() {
-	return startTimeMax;
+        return startTimeMax;
     }
 
     public void setStartTimeMax(long startTimeMax) {
-	this.startTimeMax = startTimeMax;
+        this.startTimeMax = startTimeMax;
     }
 
     public long getEndTimeMin() {
-	return endTimeMin;
+        return endTimeMin;
     }
 
     public void setEndTimeMin(long endTimeMin) {
-	this.endTimeMin = endTimeMin;
+        this.endTimeMin = endTimeMin;
     }
 
     public long getEndTimeMax() {
-	return endTimeMax;
+        return endTimeMax;
     }
 
     public void setEndTimeMax(long endTimeMax) {
-	this.endTimeMax = endTimeMax;
+        this.endTimeMax = endTimeMax;
     }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public double getOriginLong() {
-	return originLong;
+        return originLong;
     }
 
     public void setOriginLong(double originLong) {
-	this.originLong = originLong;
+        this.originLong = originLong;
     }
 
     public double getOriginLat() {
-	return originLat;
+        return originLat;
     }
 
     public void setOriginLat(double originLat) {
-	this.originLat = originLat;
+        this.originLat = originLat;
     }
 
     public double getDestinationLong() {
-	return destinationLong;
+        return destinationLong;
     }
 
     public void setDestinationLong(double destinationLong) {
-	this.destinationLong = destinationLong;
+        this.destinationLong = destinationLong;
     }
 
     public double getDestinationLat() {
-	return destinationLat;
+        return destinationLat;
     }
 
     public void setDestinationLat(double destinationLat) {
-	this.destinationLat = destinationLat;
+        this.destinationLat = destinationLat;
     }
 
     public int getNumberOfSeats() {
-	return numberOfSeats;
+        return numberOfSeats;
     }
 
     public void setNumberOfSeats(int numberOfSeats) {
-	this.numberOfSeats = numberOfSeats;
+        this.numberOfSeats = numberOfSeats;
     }
 
     public void setOriginAddress(String originAddress) {
-	this.originAddress = originAddress;
+        this.originAddress = originAddress;
     }
 
     public void setDestinationAddress(String destinationAddress) {
-	this.destinationAddress = destinationAddress;
+        this.destinationAddress = destinationAddress;
     }
 
     public TripMetaData getMetaData() {
-	return metaData;
+        return metaData;
     }
 
     public void setMetaData(TripMetaData metaData) {
-	this.metaData = metaData;
+        this.metaData = metaData;
     }
 
     public String getOriginAddress() {
-	return originAddress;
+        return originAddress;
     }
 
     public String getDestinationAddress() {
-	return destinationAddress;
+        return destinationAddress;
     }
 
     public String getStartTimeWindow() {
-	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	Date begin = new Date(getStartTimeMin() * 1000);
-	Date end = new Date(getStartTimeMax() * 1000);
-	return format.format(begin) + " - " + format.format(end);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date begin = new Date(getStartTimeMin() * 1000);
+        Date end = new Date(getStartTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
     }
 
     public String getEndTimeWindow() {
-	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	Date begin = new Date(getEndTimeMin() * 1000);
-	Date end = new Date(getEndTimeMax() * 1000);
-	return format.format(begin) + " - " + format.format(end);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date begin = new Date(getEndTimeMin() * 1000);
+        Date end = new Date(getEndTimeMax() * 1000);
+        return format.format(begin) + " - " + format.format(end);
     }
 
     @Override
     public void save() {
-	try {
-	    validate();
-	} catch (ItractDataException e) {
-	    return;
-	}
-	super.save();
+        try {
+            validate();
+        } catch (ItractDataException e) {
+            return;
+        }
+        super.save();
     }
 
     private void validate() throws ItractDataException {
-	Validator.validateLongitude(originLong);
-	Validator.validateLatitude(originLat);
-	Validator.validateLongitude(destinationLong);
-	Validator.validateLatitude(destinationLat);
-	Validator.validateNumberofSeats(numberOfSeats);
-	this.calculateMetaData();
+        Validator.validateLongitude(originLong);
+        Validator.validateLatitude(originLat);
+        Validator.validateLongitude(destinationLong);
+        Validator.validateLatitude(destinationLat);
+        Validator.validateNumberofSeats(numberOfSeats);
+        this.calculateMetaData();
     }
-    
+
     @Override
     public void update() {
-	try {
-	    validate();
-	} catch (ItractDataException e) {
-	    return;
-	}
-	super.update();
+        try {
+            validate();
+        } catch (ItractDataException e) {
+            return;
+        }
+        super.update();
     }
-    
-    public void updateMetaDataWithAPIResults()
-    {
-        if(metaData != null && !metaData.hasResultsFromAPI())
-        {
+
+    public void updateMetaDataWithAPIResults() {
+        if (metaData != null && !metaData.hasResultsFromAPI()) {
             Directions dir = new Directions();
             dir.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax()));
             dir.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax()));
@@ -228,14 +226,19 @@ public abstract class Trip extends Model {
     }
 
     private void calculateMetaData() {
-	metaData = new TripMetaData();
-	Directions dir = new Directions();
-	dir.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax()));
-	dir.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax()));
+        metaData = new TripMetaData();
+        Directions dir = new Directions();
+        dir.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax()));
+        dir.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax()));
         dir.retrieveGoogleAPICalculations();
-	metaData.setCrowFliesDistance(dir.getTotalLinearDistance());
-	metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
-	metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
-	metaData.save();
+        metaData.setCrowFliesDistance(dir.getTotalLinearDistance());
+        metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
+        metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
+
+        if (metaData.getId() > 0) {
+            metaData.update();
+        } else {
+            metaData.save();
+        }
     }
 }

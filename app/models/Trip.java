@@ -212,6 +212,20 @@ public abstract class Trip extends Model {
 	super.update();
     }
     
+    public void updateMetaDataWithAPIResults()
+    {
+        if(metaData != null && !metaData.hasResultsFromAPI())
+        {
+            Directions dir = new Directions();
+            dir.addWaypoint(new Waypoint(getOriginLong(), getOriginLat(), getStartTimeMin(), getStartTimeMax()));
+            dir.addWaypoint(new Waypoint(getDestinationLong(), getDestinationLat(), getEndTimeMin(), getEndTimeMax()));
+            dir.retrieveGoogleAPICalculations();
+            metaData.setCrowFliesDistance(dir.getTotalLinearDistance());
+            metaData.setCalculatedDuration(dir.getCalculatedTravelTimeInSeconds());
+            metaData.setDirectionsDistance(dir.getTotalDirectionDistance());
+            metaData.update();
+        }
+    }
 
     private void calculateMetaData() {
 	metaData = new TripMetaData();

@@ -209,7 +209,7 @@ public class UserController extends Controller {
     public static Result getNotifications() {
         List<Notification> notifications = Notification.find.where().eq("user", activeUser()).findList();
 
-        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches", "*.password").include("*");
+        JSONSerializer serializer = new JSONSerializer().exclude("tripMatch.tripRequest.matches", "tripMathc.tripOffer.matches", "*.password").include("*");
 //        // temporary hack while auth hasn't been merged into notifications
 //        List<Notification> notifications = Notification.find.findList();
 
